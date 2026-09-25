@@ -17,12 +17,18 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
   const discountCodeInputId = useId();
   const giftCardHeadingId = useId();
   const giftCardInputId = useId();
+  const subtotal = Number(cart.cost?.subtotalAmount?.amount ?? 0);
 
   return (
     <div aria-labelledby={summaryId} className={className}>
-      <h4 id={summaryId}>Totals</h4>
+      <h2 id={summaryId}>
+        {layout === 'page' ? 'Order Summary' : 'Cart total'}
+      </h2>
       <dl role="group" className="cart-subtotal">
-        <dt>Subtotal</dt>
+        <dt>
+          Subtotal ({cart.totalQuantity}{' '}
+          {cart.totalQuantity === 1 ? 'item' : 'items'})
+        </dt>
         <dd>
           {cart?.cost?.subtotalAmount?.amount ? (
             <Money data={cart?.cost?.subtotalAmount} />
@@ -31,17 +37,66 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
           )}
         </dd>
       </dl>
+      {layout === 'page' && (
+        <>
+          <dl className="cart-shipping-row">
+            <dt>Shipping</dt>
+            <dd className={subtotal >= 999 ? '' : 'pending'}>
+              {subtotal >= 999 ? 'Free' : 'Calculated at checkout'}
+            </dd>
+          </dl>
+          <div className="cart-summary-total">
+            <span>Total</span>
+            <strong>
+              {cart.cost?.totalAmount ? (
+                <Money data={cart.cost.totalAmount} />
+              ) : (
+                '-'
+              )}
+            </strong>
+            <small>Incl. all taxes</small>
+          </div>
+          <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+          <ShippingProgress subtotal={subtotal} />
+        </>
+      )}
       <CartDiscounts
         discountCodes={cart?.discountCodes}
         discountsHeadingId={discountsHeadingId}
         discountCodeInputId={discountCodeInputId}
       />
-      <CartGiftCard
-        giftCardCodes={cart?.appliedGiftCards}
-        giftCardHeadingId={giftCardHeadingId}
-        giftCardInputId={giftCardInputId}
-      />
-      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+      {layout === 'aside' && (
+        <CartGiftCard
+          giftCardCodes={cart?.appliedGiftCards}
+          giftCardHeadingId={giftCardHeadingId}
+          giftCardInputId={giftCardInputId}
+        />
+      )}
+      {layout === 'aside' && <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />}
+    </div>
+  );
+}
+
+function ShippingProgress({subtotal}: {subtotal: number}) {
+  const threshold = 999;
+  const remaining = Math.max(0, threshold - subtotal);
+  const progress = Math.min(100, (subtotal / threshold) * 100);
+  return (
+    <div className="cart-shipping-progress">
+      <strong>
+        {remaining === 0
+          ? 'You’re eligible for FREE shipping!'
+          : `Add ₹${Math.ceil(remaining)} for FREE shipping`}
+      </strong>
+      <div
+        role="progressbar"
+        aria-label="Free shipping progress"
+        aria-valuemin={0}
+        aria-valuemax={threshold}
+        aria-valuenow={Math.min(subtotal, threshold)}
+      >
+        <span style={{width: `${progress}%`}} />
+      </div>
     </div>
   );
 }
@@ -50,11 +105,10 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
+    <div className="cart-checkout-actions">
       <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+        Proceed to Checkout <span aria-hidden="true">→</span>
       </a>
-      <br />
     </div>
   );
 }
@@ -74,7 +128,7 @@ function CartDiscounts({
       ?.map(({code}) => code) || [];
 
   return (
-    <section aria-label="Discounts">
+    <section aria-label="Discounts" className="cart-coupon">
       {/* Have existing discount, display it with a remove option */}
       <dl hidden={!codes.length}>
         <div>
@@ -101,16 +155,18 @@ function CartDiscounts({
           <label htmlFor={discountCodeInputId} className="sr-only">
             Discount code
           </label>
-          <input
-            id={discountCodeInputId}
-            type="text"
-            name="discountCode"
-            placeholder="Discount code"
-          />
-          &nbsp;
-          <button type="submit" aria-label="Apply discount code">
-            Apply
-          </button>
+          <strong>Have a coupon code?</strong>
+          <div className="cart-coupon-row">
+            <input
+              id={discountCodeInputId}
+              type="text"
+              name="discountCode"
+              placeholder="Discount code"
+            />
+            <button type="submit" aria-label="Apply discount code">
+              Apply
+            </button>
+          </div>
         </div>
       </UpdateDiscountForm>
     </section>

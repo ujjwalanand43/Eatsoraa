@@ -7,7 +7,7 @@ import type {BlogsQuery} from 'storefrontapi.generated';
 type BlogNode = BlogsQuery['blogs']['nodes'][0];
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Hydrogen | Blogs`}];
+  return [{title: `Stories | SORAA`}];
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -55,7 +55,11 @@ export default function Blogs() {
 
   return (
     <div className="blogs">
-      <h1>Blogs</h1>
+      <header className="store-page-header">
+        <p>THE SNACK EDIT</p>
+        <h1>Stories from SORAA</h1>
+        <p>Fresh ideas, ingredient stories and happier ways to snack.</p>
+      </header>
       <div className="blogs-grid">
         <PaginatedResourceSection<BlogNode> connection={blogs}>
           {({node: blog}) => (

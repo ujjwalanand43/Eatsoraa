@@ -4,6 +4,7 @@ import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {CartLineItem, type CartLine} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
+import {CartIcon} from './CartArtwork';
 
 export type CartLayout = 'page' | 'aside';
 
@@ -55,11 +56,19 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
       aria-label={layout === 'page' ? 'Cart page' : 'Cart drawer'}
     >
       <CartEmpty hidden={linesCount} layout={layout} />
-      <div className="cart-details">
+      <div className="cart-details" hidden={!cartHasItems}>
         <p id="cart-lines" className="sr-only">
           Line items
         </p>
-        <div>
+        <div className="cart-lines-panel">
+          {layout === 'page' && (
+            <div className="cart-table-head" aria-hidden="true">
+              <span>Product</span>
+              <span>Price</span>
+              <span>Quantity</span>
+              <span>Total</span>
+            </div>
+          )}
           <ul aria-labelledby="cart-lines">
             {(cart?.lines?.nodes ?? []).map((line) => {
               // we do not render non-parent lines at the root of the cart
@@ -81,6 +90,22 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
           </ul>
         </div>
         {cartHasItems && <CartSummary cart={cart} layout={layout} />}
+        {cartHasItems && layout === 'page' && (
+          <div className="cart-trust-row" aria-label="Shopping benefits">
+            <span>
+              <CartIcon kind="leaf" />Good ingredients
+            </span>
+            <span>
+              <CartIcon kind="shield" />Secure Payments
+            </span>
+            <span>
+              <CartIcon kind="truck" />Free Shipping above ₹999
+            </span>
+            <span>
+              <CartIcon kind="return" />Returns & refunds
+            </span>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -88,21 +113,19 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
 
 function CartEmpty({
   hidden = false,
+  layout,
 }: {
   hidden: boolean;
   layout?: CartMainProps['layout'];
 }) {
   const {close} = useAside();
   return (
-    <div hidden={hidden}>
-      <br />
-      <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
-      </p>
-      <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
-        Continue shopping →
+    <div className={`cart-empty cart-empty--${layout}`} hidden={hidden}>
+      <span aria-hidden="true">♡</span>
+      <h2>Your cart is ready for something good.</h2>
+      <p>Add your favourite SORAA snacks and come back here to check out.</p>
+      <Link to="/collections/all" onClick={close} prefetch="viewport">
+        Explore all products →
       </Link>
     </div>
   );

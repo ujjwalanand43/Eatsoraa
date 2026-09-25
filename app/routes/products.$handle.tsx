@@ -1,4 +1,4 @@
-import {redirect, useLoaderData} from 'react-router';
+import {useLoaderData} from 'react-router';
 import type {Route} from './+types/products.$handle';
 import {
   getSelectedProductOptions,
@@ -8,118 +8,54 @@ import {
   getAdjacentAndFirstAvailableVariants,
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
-import {ProductPrice} from '~/components/ProductPrice';
-import {ProductImage} from '~/components/ProductImage';
-import {ProductForm} from '~/components/ProductForm';
+import {ProductPage} from '~/components/ProductPage';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
-export const meta: Route.MetaFunction = ({data}) => {
-  return [
-    {title: `Hydrogen | ${data?.product.title ?? ''}`},
-    {
-      rel: 'canonical',
-      href: `/products/${data?.product.handle}`,
+export const meta: Route.MetaFunction = ({data}) => [
+  {title: `${data?.product.title ?? 'Shop'} | SORAA`},
+  {
+    name: 'description',
+    content: data?.product.seo.description || data?.product.description,
+  },
+  {rel: 'canonical', href: `/products/${data?.product.handle}`},
+];
+
+export async function loader({context, params, request}: Route.LoaderArgs) {
+  if (!params.handle) throw new Response('Product not found', {status: 404});
+  const {product} = await context.storefront.query(PRODUCT_QUERY, {
+    variables: {
+      handle: params.handle,
+      selectedOptions: getSelectedProductOptions(request),
     },
-  ];
-};
-
-export async function loader(args: Route.LoaderArgs) {
-  // Start fetching non-critical data without blocking time to first byte
-  const deferredData = loadDeferredData(args);
-
-  // Await the critical data required to render initial state of the page
-  const criticalData = await loadCriticalData(args);
-
-  return {...deferredData, ...criticalData};
-}
-
-/**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- */
-async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
-  const {handle} = params;
-  const {storefront} = context;
-
-  if (!handle) {
-    throw new Error('Expected product handle to be defined');
-  }
-
-  const [{product}] = await Promise.all([
-    storefront.query(PRODUCT_QUERY, {
-      variables: {handle, selectedOptions: getSelectedProductOptions(request)},
-    }),
-    // Add other queries here, so that they are loaded in parallel
-  ]);
-
-  if (!product?.id) {
-    throw new Response(null, {status: 404});
-  }
-
-  // The API handle might be localized, so redirect to the localized handle
-  redirectIfHandleIsLocalized(request, {handle, data: product});
-
-  return {
-    product,
-  };
-}
-
-/**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- */
-function loadDeferredData({context, params}: Route.LoaderArgs) {
-  // Put any API calls that is not critical to be available on first page render
-  // For example: product reviews, product recommendations, social feeds.
-
-  return {};
+  });
+  if (!product?.id) throw new Response('Product not found', {status: 404});
+  redirectIfHandleIsLocalized(request, {handle: params.handle, data: product});
+  const recommendations = context.storefront
+    .query(PDP_RECOMMENDATIONS_QUERY, {variables: {productId: product.id}})
+    .catch(() => null);
+  return {product, recommendations};
 }
 
 export default function Product() {
-  const {product} = useLoaderData<typeof loader>();
-
-  // Optimistically selects a variant with given available variant information
+  const {product, recommendations} = useLoaderData<typeof loader>();
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
     getAdjacentAndFirstAvailableVariants(product),
   );
-
-  // Sets the search param to the selected variant without navigation
-  // only when no search params are set in the url
-  useSelectedOptionInUrlParam(selectedVariant.selectedOptions);
-
-  // Get the product options array
+  useSelectedOptionInUrlParam(selectedVariant?.selectedOptions ?? []);
   const productOptions = getProductOptions({
     ...product,
     selectedOrFirstAvailableVariant: selectedVariant,
   });
-
-  const {title, descriptionHtml} = product;
-
   return (
-    <div className="product">
-      <ProductImage image={selectedVariant?.image} />
-      <div className="product-main">
-        <h1>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
-        <br />
-        <ProductForm
-          productOptions={productOptions}
-          selectedVariant={selectedVariant}
-        />
-        <br />
-        <br />
-        <p>
-          <strong>Description</strong>
-        </p>
-        <br />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-        <br />
-      </div>
+    <>
+      <ProductPage
+        key={product.id}
+        product={product}
+        selectedVariant={selectedVariant}
+        productOptions={productOptions}
+        recommendations={recommendations}
+      />
       <Analytics.ProductView
         data={{
           products: [
@@ -135,7 +71,7 @@ export default function Product() {
           ],
         }}
       />
-    </div>
+    </>
   );
 }
 
@@ -173,6 +109,22 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
       amount
       currencyCode
     }
+    sellingPlanAllocations(first: 10) {
+      nodes {
+        sellingPlan {
+          id
+          name
+          description
+          recurringDeliveries
+          options { name value }
+        }
+        priceAdjustments {
+          price { amount currencyCode }
+          compareAtPrice { amount currencyCode }
+          perDeliveryPrice { amount currencyCode }
+        }
+      }
+    }
   }
 ` as const;
 
@@ -182,6 +134,13 @@ const PRODUCT_FRAGMENT = `#graphql
     title
     vendor
     handle
+    productType
+    images(first: 12) { nodes { id url altText width height } }
+    collections(first: 1) { nodes { title handle } }
+    ingredients: metafield(namespace: "custom", key: "ingredients") { value type }
+    nutrition: metafield(namespace: "custom", key: "nutrition_facts") { value type }
+    highlights: metafield(namespace: "custom", key: "highlights") { value type }
+    reviews: metafield(namespace: "custom", key: "reviews") { value type }
     descriptionHtml
     description
     encodedVariantExistence
@@ -229,4 +188,25 @@ const PRODUCT_QUERY = `#graphql
     }
   }
   ${PRODUCT_FRAGMENT}
+` as const;
+
+const PDP_RECOMMENDATIONS_QUERY = `#graphql
+  query PdpRecommendations($productId: ID!, $country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    productRecommendations(productId: $productId) { ...PdpCard }
+    products(first: 6, sortKey: BEST_SELLING) { nodes { ...PdpCard } }
+  }
+  fragment PdpCard on Product {
+    id title handle
+    featuredImage { id url altText width height }
+    reviews: metafield(namespace: "custom", key: "reviews") { value }
+    priceRange { minVariantPrice { amount currencyCode } }
+    selectedOrFirstAvailableVariant {
+      id availableForSale title
+      selectedOptions { name value }
+      image { id url altText width height }
+      product { id handle title }
+      price { amount currencyCode }
+    }
+  }
 ` as const;

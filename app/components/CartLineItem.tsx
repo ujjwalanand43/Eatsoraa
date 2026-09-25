@@ -5,6 +5,7 @@ import {useVariantUrl} from '~/lib/variants';
 import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
+import {CartIcon} from './CartArtwork';
 import type {
   CartApiQueryFragment,
   CartLineFragment,
@@ -48,7 +49,7 @@ export function CartLineItem({
           />
         )}
 
-        <div>
+        <div className="cart-line-copy">
           <Link
             prefetch="intent"
             to={lineItemUrl}
@@ -62,7 +63,6 @@ export function CartLineItem({
               <strong>{product.title}</strong>
             </p>
           </Link>
-          <ProductPrice price={line?.cost?.totalAmount} />
           <ul>
             {selectedOptions.map((option) => (
               <li key={option.name}>
@@ -72,8 +72,22 @@ export function CartLineItem({
               </li>
             ))}
           </ul>
-          <CartLineQuantity line={line} />
+          {layout === 'aside' && (
+            <ProductPrice price={line?.cost?.totalAmount} />
+          )}
+          {layout === 'page' && <CartLineRemoveButton lineIds={[id]} disabled={!!line.isOptimistic} />}
         </div>
+        {layout === 'page' && (
+          <div className="cart-line-unit-price">
+            <ProductPrice price={merchandise.price} />
+          </div>
+        )}
+        <CartLineQuantity line={line} layout={layout} />
+        {layout === 'page' && (
+          <div className="cart-line-total">
+            <ProductPrice price={line?.cost?.totalAmount} />
+          </div>
+        )}
       </div>
 
       {lineItemChildren ? (
@@ -102,7 +116,13 @@ export function CartLineItem({
  * These controls are disabled when the line item is new, and the server
  * hasn't yet responded that it was successfully added to the cart.
  */
-function CartLineQuantity({line}: {line: CartLine}) {
+function CartLineQuantity({
+  line,
+  layout,
+}: {
+  line: CartLine;
+  layout: CartLayout;
+}) {
   if (!line || typeof line?.quantity === 'undefined') return null;
   const {id: lineId, quantity, isOptimistic} = line;
   const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
@@ -110,30 +130,33 @@ function CartLineQuantity({line}: {line: CartLine}) {
 
   return (
     <div className="cart-line-quantity">
-      <small>Quantity: {quantity} &nbsp;&nbsp;</small>
-      <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
-        <button
-          aria-label="Decrease quantity"
-          disabled={quantity <= 1 || !!isOptimistic}
-          name="decrease-quantity"
-          value={prevQuantity}
-        >
-          <span>&#8722; </span>
-        </button>
-      </CartLineUpdateButton>
-      &nbsp;
-      <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
-        <button
-          aria-label="Increase quantity"
-          name="increase-quantity"
-          value={nextQuantity}
-          disabled={!!isOptimistic}
-        >
-          <span>&#43;</span>
-        </button>
-      </CartLineUpdateButton>
-      &nbsp;
-      <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />
+      {layout === 'aside' && <small>Quantity</small>}
+      <div className="cart-quantity-stepper">
+        <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
+          <button
+            aria-label="Decrease quantity"
+            disabled={quantity <= 1 || !!isOptimistic}
+            name="decrease-quantity"
+            value={prevQuantity}
+          >
+            <span>&#8722; </span>
+          </button>
+        </CartLineUpdateButton>
+        <output aria-live="polite" aria-label="Quantity">
+          {quantity}
+        </output>
+        <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
+          <button
+            aria-label="Increase quantity"
+            name="increase-quantity"
+            value={nextQuantity}
+            disabled={!!isOptimistic}
+          >
+            <span>&#43;</span>
+          </button>
+        </CartLineUpdateButton>
+      </div>
+      {layout === 'aside' && <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />}
     </div>
   );
 }
@@ -157,8 +180,8 @@ function CartLineRemoveButton({
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
-      <button disabled={disabled} type="submit">
-        Remove
+      <button className="cart-line-remove" disabled={disabled} type="submit">
+        <CartIcon kind="trash" /> Remove
       </button>
     </CartForm>
   );

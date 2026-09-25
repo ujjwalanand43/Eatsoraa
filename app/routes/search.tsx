@@ -14,7 +14,7 @@ import type {
 } from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Hydrogen | Search`}];
+  return [{title: `Search | SORAA`}];
 };
 
 export async function loader({request, context}: Route.LoaderArgs) {
@@ -42,7 +42,11 @@ export default function SearchPage() {
 
   return (
     <div className="search">
-      <h1>Search</h1>
+      <header className="store-page-header">
+        <p>FIND YOUR SNACK</p>
+        <h1>Search SORAA</h1>
+        <p>Search products, collections and stories.</p>
+      </header>
       <SearchForm>
         {({inputRef}) => (
           <>

@@ -17,14 +17,94 @@ export function Footer({
     <Suspense>
       <Await resolve={footerPromise}>
         {(footer) => (
-          <footer className="footer">
-            {footer?.menu && header.shop.primaryDomain?.url && (
-              <FooterMenu
-                menu={footer.menu}
-                primaryDomainUrl={header.shop.primaryDomain.url}
-                publicStoreDomain={publicStoreDomain}
-              />
-            )}
+          <footer className="footer soraa-footer">
+            <div className="footer-top">
+              <div className="footer-signup">
+                <p>GOOD SNACKS. BETTER DAYS.</p>
+                <h2>Get 15% off your first order.</h2>
+                <p>
+                  Join our community for new launches, snack inspiration and
+                  members-only offers.
+                </p>
+                <form
+                  action={`https://${publicStoreDomain.replace(/^https?:\/\//, '').replace(/\/$/, '')}/contact#contact_form`}
+                  method="post"
+                >
+                  <input type="hidden" name="form_type" value="customer" />
+                  <input type="hidden" name="utf8" value="✓" />
+                  <input
+                    type="hidden"
+                    name="contact[tags]"
+                    value="newsletter"
+                  />
+                  <label
+                    className="hero-accessible-copy"
+                    htmlFor="footer-email"
+                  >
+                    Email address
+                  </label>
+                  <div>
+                    <input
+                      id="footer-email"
+                      name="contact[email]"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      placeholder="Your email address"
+                    />
+                    <button type="submit">Subscribe →</button>
+                  </div>
+                </form>
+                <a
+                  className="footer-social"
+                  href="https://www.instagram.com/eatsoraa/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Instagram ↗
+                </a>
+              </div>
+              <div className="footer-links-grid">
+                <div className="footer-shop">
+                  <h3>Shop</h3>
+                  {footer?.menu && header.shop.primaryDomain?.url && (
+                    <FooterMenu
+                      menu={footer.menu}
+                      primaryDomainUrl={header.shop.primaryDomain.url}
+                      publicStoreDomain={publicStoreDomain}
+                    />
+                  )}
+                </div>
+                <nav className="footer-help" aria-label="Customer care">
+                  <h3>Help</h3>
+                  <NavLink to="/account">My account</NavLink>
+                  <NavLink to="/account/orders">Track your orders</NavLink>
+                  <NavLink to="/policies/shipping-policy">
+                    Shipping &amp; delivery
+                  </NavLink>
+                  <NavLink to="/policies/refund-policy">
+                    Returns &amp; refunds
+                  </NavLink>
+                </nav>
+                <nav className="footer-help" aria-label="Company">
+                  <h3>Company</h3>
+                  <NavLink to="/pages/about">Our story</NavLink>
+                  <NavLink to="/blogs/news">The SORAA journal</NavLink>
+                  <NavLink to="/wishlist">Wishlist</NavLink>
+                  <NavLink to="/collections/all">All products</NavLink>
+                </nav>
+              </div>
+            </div>
+            <div className="footer-bottom">
+              <p>© {new Date().getFullYear()} SORAA. All rights reserved.</p>
+              <nav aria-label="Legal">
+                <NavLink to="/policies/privacy-policy">Privacy policy</NavLink>
+                <NavLink to="/policies/terms-of-service">
+                  Terms of service
+                </NavLink>
+              </nav>
+              <a href="#top">Back to top ↑</a>
+            </div>
           </footer>
         )}
       </Await>
@@ -124,6 +204,6 @@ function activeLinkStyle({
 }) {
   return {
     fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'white',
+    color: isPending ? 'grey' : 'inherit',
   };
 }

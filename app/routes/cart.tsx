@@ -1,11 +1,20 @@
-import {useLoaderData, data, type HeadersFunction} from 'react-router';
+import {
+  Await,
+  Link,
+  useLoaderData,
+  data,
+  type HeadersFunction,
+} from 'react-router';
+import {Suspense, useRef} from 'react';
+import {CartIcon, CartNuts} from '~/components/CartArtwork';
 import type {Route} from './+types/cart';
 import type {CartQueryDataReturn} from '@shopify/hydrogen';
 import {CartForm} from '@shopify/hydrogen';
 import {CartMain} from '~/components/CartMain';
+import {HomeProductCard} from '~/components/HomeProductCard';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Hydrogen | Cart`}];
+  return [{title: `Your Cart | SORAA`}];
 };
 
 export const headers: HeadersFunction = ({actionHeaders}) => actionHeaders;
@@ -98,16 +107,122 @@ export async function action({request, context}: Route.ActionArgs) {
 
 export async function loader({context}: Route.LoaderArgs) {
   const {cart} = context;
-  return await cart.get();
+  const currentCart = await cart.get();
+  const recommendations = context.storefront
+    .query(CART_RECOMMENDATIONS_QUERY)
+    .catch(() => null);
+  return {cart: currentCart, recommendations};
 }
 
 export default function Cart() {
-  const cart = useLoaderData<typeof loader>();
+  const {cart, recommendations} = useLoaderData<typeof loader>();
+  const track = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="cart">
-      <h1>Cart</h1>
+    <div className="cart-page">
+      <nav className="cart-breadcrumb" aria-label="Breadcrumb">
+        <Link to="/">Home</Link>
+        <span>/</span>
+        <span>Cart</span>
+      </nav>
+      <header className="cart-page-header">
+        <div>
+          <h1>Your Cart</h1>
+          <p>
+            Good choice! You’re one step closer to a healthier, happier you. ♡
+          </p>
+        </div>
+        <div className="cart-page-doodle" aria-hidden="true">
+          Snacks
+          <br />
+          That Do
+          <br />
+          Good <CartIcon kind="smile" />
+        </div>
+        <Link className="cart-continue" to="/collections/all">
+          ← Continue shopping
+        </Link>
+      </header>
       <CartMain layout="page" cart={cart} />
+      <section
+        className="cart-recommendations"
+        aria-labelledby="cart-recommendations-title"
+      >
+        <div className="cart-recommendations-head">
+          <CartNuts />
+          <p className="cart-banner-script" aria-hidden="true">
+            Good
+            <br />
+            Food
+            <br />
+            Good People ♡
+          </p>
+          <div>
+            <h2 id="cart-recommendations-title">You might also like</h2>
+            <span>More goodness for your everyday snacking.</span>
+          </div>
+          <Link to="/collections/all">Explore all products →</Link>
+          <CartNuts />
+        </div>
+        <Suspense fallback={<p>Finding more good snacks…</p>}>
+          <Await resolve={recommendations}>
+            {(result) => (
+              <div className="cart-recommendations-carousel">
+                <button
+                  className="cart-carousel-prev"
+                  aria-label="Previous products"
+                  onClick={() =>
+                    track.current?.scrollBy({
+                      left: -(track.current.clientWidth * 0.8),
+                      behavior: 'smooth',
+                    })
+                  }
+                >
+                  ‹
+                </button>
+                <div className="cart-recommendations-track" ref={track}>
+                  {result?.products.nodes.map((product) => (
+                    <HomeProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+                <button
+                  className="cart-carousel-next"
+                  aria-label="Next products"
+                  onClick={() =>
+                    track.current?.scrollBy({
+                      left: track.current.clientWidth * 0.8,
+                      behavior: 'smooth',
+                    })
+                  }
+                >
+                  ›
+                </button>
+              </div>
+            )}
+          </Await>
+        </Suspense>
+      </section>
     </div>
   );
 }
+
+const CART_RECOMMENDATIONS_QUERY = `#graphql
+  query CartRecommendations($country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    products(first: 12, sortKey: BEST_SELLING) {
+      nodes {
+        id title handle
+        featuredImage { id url altText width height }
+        reviews: metafield(namespace: "custom", key: "reviews") { value }
+        priceRange { minVariantPrice { amount currencyCode } }
+        selectedOrFirstAvailableVariant {
+          id availableForSale title
+          selectedOptions { name value }
+          image { id url altText width height }
+          product { id handle title }
+          price { amount currencyCode }
+        }
+      }
+    }
+  }
+` as const;

@@ -5,7 +5,7 @@ import type {
   FooterQuery,
   HeaderQuery,
 } from 'storefrontapi.generated';
-import {Aside} from '~/components/Aside';
+import {Aside, useAside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/CartMain';
@@ -61,11 +61,25 @@ function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
       <Suspense fallback={<p>Loading cart ...</p>}>
         <Await resolve={cart}>
           {(cart) => {
-            return <CartMain cart={cart} layout="aside" />;
+            return (
+              <>
+                <CartMain cart={cart} layout="aside" />
+                {cart?.totalQuantity ? <CartDrawerLink /> : null}
+              </>
+            );
           }}
         </Await>
       </Suspense>
     </Aside>
+  );
+}
+
+function CartDrawerLink() {
+  const {close} = useAside();
+  return (
+    <Link className="cart-drawer-page-link" to="/cart" onClick={close}>
+      Go to cart <span aria-hidden="true">→</span>
+    </Link>
   );
 }
 

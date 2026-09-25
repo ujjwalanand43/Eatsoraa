@@ -47,7 +47,11 @@ export default function Collections() {
 
   return (
     <div className="collections">
-      <h1>Collections</h1>
+      <header className="store-page-header">
+        <p>FIND YOUR FAVOURITE</p>
+        <h1>Shop collections</h1>
+        <p>Good choices for every craving, routine and adventure.</p>
+      </header>
       <PaginatedResourceSection<CollectionFragment>
         connection={collections}
         resourcesClassName="collections-grid"

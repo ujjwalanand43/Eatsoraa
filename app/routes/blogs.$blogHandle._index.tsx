@@ -6,7 +6,7 @@ import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Hydrogen | ${data?.blog.title ?? ''} blog`}];
+  return [{title: `${data?.blog.title ?? 'Stories'} | SORAA`}];
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -25,7 +25,7 @@ export async function loader(args: Route.LoaderArgs) {
  */
 async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 4,
+    pageBy: 8,
   });
 
   if (!params.blogHandle) {
@@ -65,28 +65,48 @@ export default function Blog() {
   const {articles} = blog;
 
   return (
-    <div className="blog">
-      <h1>{blog.title}</h1>
-      <div className="blog-grid">
-        <PaginatedResourceSection<ArticleItemFragment> connection={articles}>
-          {({node: article, index}) => (
-            <ArticleItem
-              article={article}
-              key={article.id}
-              loading={index < 2 ? 'eager' : 'lazy'}
-            />
-          )}
-        </PaginatedResourceSection>
-      </div>
+    <div className="blog soraa-journal">
+      <header className="journal-header">
+        <div>
+          <p>THE SORAA JOURNAL</p>
+          <h1>
+            {blog.title}
+            <span>.</span>
+          </h1>
+          <p>
+            Fresh reads on mindful snacking, honest ingredients and everyday
+            wellness, selected by SORAA.
+          </p>
+        </div>
+        <Link to="/collections/all">
+          Shop healthy snacks <span aria-hidden="true">↗</span>
+        </Link>
+      </header>
+      <PaginatedResourceSection<ArticleItemFragment>
+        connection={articles}
+        ariaLabel={`${blog.title} articles`}
+        resourcesClassName="journal-grid"
+      >
+        {({node: article, index}) => (
+          <ArticleItem
+            article={article}
+            index={index}
+            key={article.id}
+            loading={index < 2 ? 'eager' : 'lazy'}
+          />
+        )}
+      </PaginatedResourceSection>
     </div>
   );
 }
 
 function ArticleItem({
   article,
+  index,
   loading,
 }: {
   article: ArticleItemFragment;
+  index: number;
   loading?: HTMLImageElement['loading'];
 }) {
   const publishedAt = new Intl.DateTimeFormat('en-US', {
@@ -94,29 +114,55 @@ function ArticleItem({
     month: 'long',
     day: 'numeric',
   }).format(new Date(article.publishedAt!));
+  const excerpt = article.contentHtml
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 118);
   return (
-    <div className="blog-article" key={article.id}>
+    <article
+      className={`journal-card journal-card-${(index % 6) + 1}`}
+      key={article.id}
+    >
       <Link to={`/blogs/${article.blog.handle}/${article.handle}`}>
-        {article.image && (
-          <div className="blog-article-image">
+        <div className="journal-card-media">
+          {article.image ? (
             <Image
               alt={article.image.altText || article.title}
-              aspectRatio="3/2"
               data={article.image}
               loading={loading}
-              sizes="(min-width: 768px) 50vw, 100vw"
+              sizes="(min-width: 1000px) 42vw, (min-width: 680px) 50vw, 100vw"
             />
-          </div>
-        )}
-        <h3>{article.title}</h3>
-        <small>{publishedAt}</small>
+          ) : (
+            <span className="journal-card-placeholder" aria-hidden="true">
+              S
+            </span>
+          )}
+        </div>
+        <div className="journal-card-overlay" />
+        <div className="journal-card-copy">
+          <p>{article.author?.name || 'SORAA EDIT'}</p>
+          <h2>{article.title}</h2>
+          {excerpt && (
+            <span>
+              {excerpt}
+              {excerpt.length === 118 ? '…' : ''}
+            </span>
+          )}
+          <footer>
+            <small>{publishedAt}</small>
+            <b>
+              Read story <span aria-hidden="true">↗</span>
+            </b>
+          </footer>
+        </div>
       </Link>
-    </div>
+    </article>
   );
 }
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/objects/blog
-const BLOGS_QUERY = `#graphql
+export const BLOGS_QUERY = `#graphql
   query Blog(
     $language: LanguageCode
     $blogHandle: String!
