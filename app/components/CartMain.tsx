@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {CartLineItem, type CartLine} from '~/components/CartLineItem';
-import {CartSummary} from './CartSummary';
+import {CartSummary, ShippingProgress} from './CartSummary';
 import {CartIcon} from './CartArtwork';
 
 export type CartLayout = 'page' | 'aside';
@@ -60,6 +60,7 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
         <p id="cart-lines" className="sr-only">
           Line items
         </p>
+        {layout === 'aside' && <ShippingProgress subtotal={Number(cart?.cost?.subtotalAmount?.amount || 0)} />}
         <div className="cart-lines-panel">
           {layout === 'page' && (
             <div className="cart-table-head" aria-hidden="true">

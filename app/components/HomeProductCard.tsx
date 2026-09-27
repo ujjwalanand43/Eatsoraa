@@ -8,7 +8,7 @@ type CardProduct = HomeProductsQuery['products']['nodes'][number] & {
   reviews?: {value: string} | null;
 };
 
-function productRating(value?: string) {
+export function productRating(value?: string) {
   if (!value) return null;
   try {
     const reviews = JSON.parse(value) as {rating?: unknown}[];
@@ -61,7 +61,7 @@ function CompactCartButtons({variant, productTitle}: CompactCartProps) {
 
   if (quantity === 0) return <div className="related-cart-control">
     <button className="add-cart-button" type="button" disabled={fetcher.state !== 'idle'} aria-label={`Add ${productTitle} to cart`} onClick={() => {
-      submit(CartForm.ACTIONS.LinesAdd, {lines: [{merchandiseId: variant.id, quantity: 1, selectedVariant: variant}]});
+      void submit(CartForm.ACTIONS.LinesAdd, {lines: [{merchandiseId: variant.id, quantity: 1, selectedVariant: variant}]});
     }}><QuantityIcon kind="plus" /></button>
     <p className="product-cart-status" role="status">{fetcher.state === 'idle' && fetcher.data?.errors?.map(error => error.message).join(' ')}</p>
   </div>;
@@ -71,14 +71,14 @@ function CompactCartButtons({variant, productTitle}: CompactCartProps) {
     <button type="button" disabled={busy} aria-label={decrease === 0 ? `Remove ${productTitle} from cart` : `Decrease ${productTitle} quantity`} onClick={() => {
       if (!line) return;
       if (decrease === 0) {
-        submit(CartForm.ACTIONS.LinesRemove, {lineIds: [line.id]});
-      } else submit(CartForm.ACTIONS.LinesUpdate, {lines: [{id: line.id, quantity: decrease}]});
+        void submit(CartForm.ACTIONS.LinesRemove, {lineIds: [line.id]});
+      } else void submit(CartForm.ACTIONS.LinesUpdate, {lines: [{id: line.id, quantity: decrease}]});
     }}><QuantityIcon kind="minus" /></button>
     <output aria-live="polite">{quantity}</output>
     <button type="button" disabled={busy} aria-label={`Increase ${productTitle} quantity`} onClick={() => {
       if (!line) return;
       const next = quantity + 1;
-      submit(CartForm.ACTIONS.LinesUpdate, {lines: [{id: line.id, quantity: next}]});
+      void submit(CartForm.ACTIONS.LinesUpdate, {lines: [{id: line.id, quantity: next}]});
     }}><QuantityIcon kind="plus" /></button>
     <p className="product-cart-status" role="status">{fetcher.state === 'idle' && fetcher.data?.errors?.map(error => error.message).join(' ')}</p>
   </div>;

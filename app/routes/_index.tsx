@@ -1,11 +1,13 @@
 import {Await, Link, useLoaderData} from 'react-router';
 import {Suspense} from 'react';
 import {SnackSquad} from '~/components/SnackSquad';
-import {BrandTicker} from '~/components/BrandTicker';
 import {CollectionShowcase} from '~/components/CollectionShowcase';
 import {HomeMotion} from '~/components/HomeMotion';
+import {HeroSlider} from '~/components/HeroSlider';
 import {BetterForYouShowcase} from '~/components/BetterForYouShowcase';
 import {HomeDiscovery} from '~/components/HomeDiscovery';
+import {HomeExplore} from '~/components/HomeExplore';
+import {HomeReviews} from '~/components/HomeReviews';
 import {BLOGS_QUERY} from './blogs.$blogHandle._index';
 
 import type {Route} from './+types/_index';
@@ -66,90 +68,7 @@ export default function Homepage() {
     <div className="soraa-home">
       <HomeMotion />
 
-      {/* Wide artwork includes lettering with space for a real CTA.
-          Keep an accessible heading alongside the image.
-          Mobile uses live copy and the separate product collage. */}
-      <section className="hero-section" aria-label="Good snacks, better days">
-        <div className="hero-desktop">
-          <img
-            className="hero-reference"
-            src="/hero-wide.png"
-            alt="SORAA walnut kernels, roasted super seed mix, dried cranberries, date bites and pistachios. Same snack, different energy. Fuel your fun."
-            width={1881}
-            height={836}
-            fetchPriority="high"
-          />
-          <div className="hero-accessible-copy">
-            <h1>Snack good. Feel good.</h1>
-            <p>Real ingredients. Real good vibes.</p>
-            <p>
-              Premium dry fruits, nuts, seeds, trail mixes, dates, healthy
-              snacks and spice blends — made for your everyday adventures.
-            </p>
-          </div>
-          <Link
-            to="/collections/all"
-            className="hero-artwork-cta"
-            aria-label="Shop now — explore all SORAA snacks"
-            prefetch="intent"
-          >
-            SHOP NOW <span aria-hidden="true">→</span>
-          </Link>
-        </div>
-
-        <div className="hero-content hero-mobile">
-          {/* HERO COPY */}
-
-          <div className="hero-copy">
-            <h1>
-              SNACK
-              <br />
-              GOOD
-              <br />
-              FEEL
-              <br />
-              GOOD
-            </h1>
-
-            <div className="hero-script">
-              Real ingredients.
-              <br />
-              Real good vibes.
-            </div>
-
-            <p>
-              Premium dry fruits, nuts, seeds, trail mixes, dates, healthy
-              snacks and spice blends — made for your everyday adventures.
-            </p>
-
-            <Link to="/collections/all" className="orange-button">
-              SHOP NOW →
-            </Link>
-          </div>
-
-          {/* HERO PRODUCT COLLAGE (static image) */}
-
-          <div className="hero-products">
-            <img
-              src="/hero.png"
-              alt="SORAA snacks — walnut kernels, 5-in-1 roasted super seed mix, dried whole cranberries, premium pistachios and date bites"
-              width={1536}
-              height={1024}
-              loading="lazy"
-            />
-          </div>
-
-          {/* HERO SIDE MESSAGE */}
-
-          <div className="hero-side-message">
-            Healthy
-            <br />
-            Looks Good
-            <br />
-            On You ♡
-          </div>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* =====================================================
           SHOP BY CATEGORY
@@ -264,7 +183,6 @@ export default function Homepage() {
         </div>
       </section>
 
-      <BrandTicker />
 
       <Suspense
         fallback={<p className="collections-loading">Loading collections…</p>}
@@ -282,44 +200,10 @@ export default function Homepage() {
         </Await>
       </Suspense>
 
-      {/* =====================================================
-          LIFESTYLE
-      ===================================================== */}
 
-      <section
-        className="lifestyle-section"
-        aria-labelledby="lifestyle-heading"
-      >
-        <div className="lifestyle-copy">
-          <p className="lifestyle-eyebrow">GOOD SNACKS. EVERYWHERE.</p>
-          <h2 id="lifestyle-heading">
-            More than a snack.
-            <br />
-            <span>It’s a lifestyle.</span>
-          </h2>
-          <p className="lifestyle-intro">
-            A little goodness, wherever your day takes you.
-          </p>
-        </div>
 
-        <div className="lifestyle-cards">
-          {['Work', 'Gym', 'Travel', 'Chill'].map((label, index) => (
-            <Link
-              to="/collections/trail-mixes"
-              className="lifestyle-card"
-              key={label}
-            >
-              <div
-                className="lifestyle-photo"
-                style={{backgroundPosition: `${(index * 100) / 3}% center`}}
-                role="img"
-                aria-label={`Healthy snacks for ${label.toLowerCase()} time`}
-              />
-              <span>{label} ♡</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <HomeExplore />
+      <HomeReviews />
 
       {/* =====================================================
           WHY SORAA

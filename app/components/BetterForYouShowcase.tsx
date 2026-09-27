@@ -4,6 +4,13 @@ import {Link} from 'react-router';
 import type {HomeCollectionsQuery} from 'storefrontapi.generated';
 
 type Collection = HomeCollectionsQuery['collections']['nodes'][number];
+const campaignArt: Record<string, {file: string; alt: string}> = {
+  'best-sellers': {file: 'best-sellers.png', alt: 'SORAA Date Bites snack moment'},
+  'breakfast-mixes': {file: 'breakfast-mixes.png', alt: 'SORAA Morning Energy Breakfast Mix'},
+  'dates-date-bites': {file: 'dates-date-bites.png', alt: 'SORAA Date Bites with nuts and dates'},
+  'dry-fruits': {file: 'dry-fruits.png', alt: 'SORAA Premium Walnut Kernels'},
+  'flavored-nuts': {file: 'flavored-nuts.png', alt: 'SORAA Peri-Peri Roasted Cashews'},
+};
 
 const benefits = [
   {
@@ -63,6 +70,7 @@ export function BetterForYouShowcase({
     available[0];
   const product = active?.products.nodes[0];
   const image = product?.featuredImage || active?.image;
+  const artwork = active && campaignArt[active.handle];
 
   if (!active || !product) return null;
 
@@ -101,8 +109,8 @@ export function BetterForYouShowcase({
           <span className="better-spark better-spark-two" aria-hidden="true">
             ✦
           </span>
-          <div className="better-burst">
-            {image && (
+          <div className={artwork ? 'better-campaign-art' : 'better-burst'}>
+            {artwork ? <img key={artwork.file} src={`/feel-good/${artwork.file}`} alt={artwork.alt} loading="lazy" width="1122" height="1402" /> : image && (
               <Image
                 data={image}
                 alt={image.altText || product.title}
@@ -110,10 +118,15 @@ export function BetterForYouShowcase({
               />
             )}
           </div>
-          <p>{product.title}</p>
+          <p>{artwork ? active.title : product.title}</p>
         </div>
 
         <div className="better-benefits">
+          <div className="better-benefits-intro">
+            <p className="better-benefits-eyebrow">YOUR DAILY DOSE OF DELICIOUS</p>
+            <h3>Little breaks.<br /><span>Big flavour.</span></h3>
+            <p>From your first bite to your next adventure, find a favourite that fits your day.</p>
+          </div>
           {benefits.map((benefit) => (
             <article key={benefit.title}>
               <span className="better-benefit-icon">
@@ -126,7 +139,7 @@ export function BetterForYouShowcase({
             </article>
           ))}
           <Link to={`/collections/${active.handle}`} prefetch="intent">
-            TRY NOW <span aria-hidden="true">→</span>
+            Explore {active.title.toLowerCase()} <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </div>

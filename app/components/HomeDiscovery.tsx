@@ -1,9 +1,10 @@
-import {useRef} from 'react';
+import {useRef, useState} from 'react';
 import {Link} from 'react-router';
 import type {ArticleItemFragment} from 'storefrontapi.generated';
 
-export function HomeDiscovery({articles}: {articles: ArticleItemFragment[]}) {
+export function HomeDiscovery({articles, journalOnly = false}: {articles: ArticleItemFragment[]; journalOnly?: boolean}) {
   const track = useRef<HTMLDivElement>(null);
+  const [logosPaused, setLogosPaused] = useState(false);
   function move(direction: number) {
     const node = track.current;
     if (!node) return;
@@ -16,7 +17,7 @@ export function HomeDiscovery({articles}: {articles: ArticleItemFragment[]}) {
   }
   return (
     <>
-      <section className="home-find" aria-labelledby="home-find-title">
+      {!journalOnly && <section className="home-find" aria-labelledby="home-find-title">
         <div className="home-find-panel">
           <div>
             <p className="discovery-eyebrow">YOUR NEXT SNACK STOP</p>
@@ -27,14 +28,14 @@ export function HomeDiscovery({articles}: {articles: ArticleItemFragment[]}) {
             </h2>
             <p>
               Your favourite snacks, on your favourite apps. Search for SORAA to
-              discover what's available in your area.
+              discover what&apos;s available in your area.
             </p>
             <Link className="orange-button" to="/collections/all">
               SHOP DIRECT <span aria-hidden="true">→</span>
             </Link>
           </div>
           <div
-            className="home-retailers"
+            className={`home-retailers${logosPaused ? ' logos-paused' : ''}`}
             aria-label="Find SORAA on these platforms"
           >
             {[
@@ -62,9 +63,12 @@ export function HomeDiscovery({articles}: {articles: ArticleItemFragment[]}) {
               </div>
             ))}
             <p>Availability varies by location.</p>
+            <button className="retailer-motion-toggle" type="button" aria-pressed={logosPaused} onClick={() => setLogosPaused(!logosPaused)}>
+              {logosPaused ? '▶ Resume animation' : 'Ⅱ Pause animation'}
+            </button>
           </div>
         </div>
-      </section>
+      </section>}
       <section className="home-journal" aria-labelledby="home-journal-title">
         <div className="home-journal-panel">
           <div className="home-journal-intro">
@@ -91,7 +95,6 @@ export function HomeDiscovery({articles}: {articles: ArticleItemFragment[]}) {
             ref={track}
             className="home-journal-track"
             aria-label="Latest SORAA stories"
-            tabIndex={0}
           >
             {articles.map((article) => (
               <article className="home-story" key={article.id}>

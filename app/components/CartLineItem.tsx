@@ -83,6 +83,12 @@ export function CartLineItem({
           </div>
         )}
         <CartLineQuantity line={line} layout={layout} />
+        {layout === 'aside' && (
+          <Link className="cart-subscribe-strip" to={`${lineItemUrl}#subscription-heading`} onClick={close}>
+            <span>Save 10%</span>
+            <strong>Subscribe</strong>
+          </Link>
+        )}
         {layout === 'page' && (
           <div className="cart-line-total">
             <ProductPrice price={line?.cost?.totalAmount} />

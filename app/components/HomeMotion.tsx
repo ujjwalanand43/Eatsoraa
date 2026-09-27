@@ -24,7 +24,7 @@ export function HomeMotion() {
           const context = gsap.context(() => {
             root
               .querySelectorAll<HTMLElement>(
-                '.category-heading-row, .social-header, .collection-showcase > h2, .collection-tabs, .lifestyle-copy, .why-sky-copy, .newsletter-section > *',
+                '.category-heading-row, .social-header, .better-showcase-heading, .better-tabs, .collection-showcase > h2, .collection-tabs, .lifestyle-copy, .home-find-panel > :not(.home-retailers), .home-journal-intro, .why-sky-copy, .newsletter-section > *',
               )
               .forEach((element) => {
                 if (animated.has(element)) return;
@@ -48,7 +48,7 @@ export function HomeMotion() {
 
             root
               .querySelectorAll<HTMLElement>(
-                '.category-grid, .collection-track, .lifestyle-cards',
+                '.category-grid, .better-showcase-content, .collection-track, .lifestyle-cards, .home-retailers, .home-journal-track',
               )
               .forEach((container) => {
                 if (animated.has(container)) return;
@@ -98,39 +98,12 @@ export function HomeMotion() {
           ScrollTrigger.refresh();
         };
 
-        const heroTimeline = gsap.timeline({defaults: {ease: 'power3.out'}});
-        heroTimeline
-          .fromTo(
-            root.querySelector('.hero-reference'),
-            {autoAlpha: 0, scale: 1.025},
-            {autoAlpha: 1, scale: 1, duration: 1},
-          )
-          .fromTo(
-            root.querySelector('.hero-artwork-cta'),
-            {autoAlpha: 0, y: 18},
-            {autoAlpha: 1, y: 0, duration: 0.55},
-            '-=0.4',
-          )
-          .fromTo(
-            root.querySelector('.hero-copy'),
-            {autoAlpha: 0, x: -24},
-            {autoAlpha: 1, x: 0, duration: 0.7},
-            0.15,
-          )
-          .fromTo(
-            root.querySelector('.hero-products'),
-            {autoAlpha: 0, x: 28, scale: 0.98},
-            {autoAlpha: 1, x: 0, scale: 1, duration: 0.8},
-            0.2,
-          );
-
         setup();
         const observer = new MutationObserver(() => setup());
         observer.observe(root, {childList: true, subtree: true});
 
         dispose = () => {
           observer.disconnect();
-          heroTimeline.kill();
           contexts.forEach((context) => context.revert());
         };
       },

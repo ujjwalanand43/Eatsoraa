@@ -1,4 +1,5 @@
 import {Suspense} from 'react';
+import {BrandLogo} from './BrandLogo';
 import {Await, NavLink} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 
@@ -20,6 +21,7 @@ export function Footer({
           <footer className="footer soraa-footer">
             <div className="footer-top">
               <div className="footer-signup">
+                <NavLink to="/" className="footer-logo-link"><BrandLogo /></NavLink>
                 <p>GOOD SNACKS. BETTER DAYS.</p>
                 <h2>Get 15% off your first order.</h2>
                 <p>

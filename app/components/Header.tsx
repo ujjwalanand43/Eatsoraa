@@ -1,4 +1,5 @@
 import {Suspense} from 'react';
+import {BrandLogo} from './BrandLogo';
 import {Await, NavLink, useAsyncValue} from 'react-router';
 import {
   type CartViewPayload,
@@ -31,7 +32,7 @@ export function Header({
 
       <header className="header">
         <NavLink prefetch="intent" to="/" className="header-logo" end>
-          SORAA
+          <BrandLogo />
         </NavLink>
         <HeaderMenu
           menu={menu}

@@ -8,11 +8,12 @@ import type {
 } from 'storefrontapi.generated';
 import {ProductPurchase} from './ProductPurchase';
 import {packSavings} from '~/lib/packSavings';
-import {HomeProductCard} from './HomeProductCard';
+import {RelatedProductCard} from './RelatedProductCard';
 import {WishlistButton} from './WishlistButton';
+import {ProductWorld, ProductFaq, ProductJournal} from './ProductExtras';
 
 type Row = {label: string; value: string};
-type Review = {name: string; rating: number; text: string};
+type Review = {name: string; rating: number; text: string; verified?: boolean; date?: string};
 function json(value?: string) {
   try {
     return JSON.parse(value || 'null') as unknown;
@@ -159,6 +160,28 @@ function Gallery({
           <p>Product photograph coming soon</p>
         )}
       </div>
+      {images.length > 1 && (
+        <div className="pdp-editorial-grid" aria-label="More product moments">
+          {(images.length > 3 ? images.slice(2, 4) : images.slice(1, 3)).map((image, index) => (
+            <button
+              type="button"
+              key={`editorial-${image.id || image.url}`}
+              onClick={() => {
+                setChosen(images.findIndex((item) => item.url === image.url));
+                dialog.current?.showModal();
+              }}
+              aria-label={`Open product lifestyle image ${index + 2}`}
+            >
+              <Image
+                data={image}
+                alt={image.altText || `${product.title} lifestyle`}
+                sizes="(min-width: 900px) 24vw, 46vw"
+                loading="lazy"
+              />
+            </button>
+          ))}
+        </div>
+      )}
       <dialog
         ref={dialog}
         className="pdp-lightbox"
@@ -243,6 +266,17 @@ export function ProductPage({
 }) {
   const [tab, setTab] = useState(0);
   const reviews = reviewRows(product.reviews?.value);
+  const [reviewTopic, setReviewTopic] = useState('All');
+  const [reviewLimit, setReviewLimit] = useState(4);
+  const topics = ['All', 'Flavour', 'Freshness', 'Shipping', 'Price', 'Packaging'];
+  const topicWords: Record<string, RegExp> = {
+    Flavour: /taste|tasty|flavou?r|delicious|crunch/i,
+    Freshness: /fresh|quality/i,
+    Shipping: /ship|delivery|arriv/i,
+    Price: /price|value|cost|afford/i,
+    Packaging: /pack|box|jar|seal/i,
+  };
+  const matchingReviews = reviewTopic === 'All' ? reviews : reviews.filter((review) => topicWords[reviewTopic].test(review.text));
   const nutrition = nutritionRows(product.nutrition?.value);
   const highlights = strings(product.highlights?.value).slice(0, 4);
   const collection = product.collections.nodes.find(
@@ -518,7 +552,7 @@ export function ProductPage({
         id="customer-reviews"
         aria-labelledby="pdp-reviews-heading"
       >
-        <div>
+        <div className="pdp-review-summary">
           <h2 id="pdp-reviews-heading">Customer reviews</h2>
           {rating !== null ? (
             <>
@@ -536,22 +570,29 @@ export function ProductPage({
             <p className="pdp-muted">No reviews yet</p>
           )}
         </div>
+        {reviews.length > 0 && <div className="pdp-review-topics" aria-label="Filter reviews by topic">
+          {topics.map((topic) => <button key={topic} type="button" aria-pressed={reviewTopic === topic} onClick={() => {setReviewTopic(topic); setReviewLimit(4);}}>{topic}</button>)}
+        </div>}
         <div className="pdp-review-cards">
           {reviews.length ? (
-            reviews.map((review) => (
+            matchingReviews.slice(0, reviewLimit).map((review) => (
               <article key={`${review.name}-${review.text}`}>
                 <div className="pdp-review-author">
-                  <span>{review.name.charAt(0)}</span>
                   <strong>{review.name}</strong>
+                  {review.verified === true && <small>Verified Buyer</small>}
                 </div>
-                <p
-                  className="pdp-stars"
-                  aria-label={`${review.rating} out of 5`}
-                >
-                  {'★'.repeat(Math.round(review.rating))}
-                  {'☆'.repeat(5 - Math.round(review.rating))}
-                </p>
-                <p>{review.text}</p>
+                <div className="pdp-review-copy">
+                  <p
+                    className="pdp-stars"
+                    aria-label={`${review.rating} out of 5`}
+                  >
+                    {'★'.repeat(Math.round(review.rating))}
+                    {'☆'.repeat(5 - Math.round(review.rating))}
+                  </p>
+                  <h3>{product.title}</h3>
+                  <p>{review.text}</p>
+                </div>
+                {typeof review.date === 'string' && <time>{review.date}</time>}
               </article>
             ))
           ) : (
@@ -562,10 +603,14 @@ export function ProductPage({
             </div>
           )}
         </div>
+        {reviews.length > 0 && matchingReviews.length === 0 && <p role="status">No reviews mention this topic yet.</p>}
+        {matchingReviews.length > reviewLimit && <button className="pdp-review-load" type="button" onClick={() => setReviewLimit((limit) => limit + 4)}>Load more reviews</button>}
       </section>
+      <ProductWorld product={product} />
+      <ProductFaq product={product} />
       <section className="pdp-related" aria-labelledby="pdp-related-heading">
         <div className="pdp-related-heading">
-          <h2 id="pdp-related-heading">You might also like</h2>
+          <h2 id="pdp-related-heading">Even more<br />for you to<br /><span>snack on.</span></h2>
           <div>
             <button
               type="button"
@@ -600,7 +645,7 @@ export function ProductPage({
               return products.length ? (
                 <div className="pdp-related-track" ref={related}>
                   {products.map((item) => (
-                    <HomeProductCard key={item.id} product={item} compact />
+                    <RelatedProductCard key={item.id} product={item} />
                   ))}
                 </div>
               ) : (
@@ -610,6 +655,7 @@ export function ProductPage({
           </Await>
         </Suspense>
       </section>
+      <ProductJournal />
       <section className="pdp-banner">
         {image && (
           <Image

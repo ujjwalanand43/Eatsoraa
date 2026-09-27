@@ -72,12 +72,21 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
           giftCardInputId={giftCardInputId}
         />
       )}
-      {layout === 'aside' && <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />}
+      {layout === 'aside' && (
+        <CartCheckoutActions
+          checkoutUrl={cart?.checkoutUrl}
+          total={
+            cart?.cost?.totalAmount?.amount ? (
+              <Money data={cart.cost.totalAmount} />
+            ) : undefined
+          }
+        />
+      )}
     </div>
   );
 }
 
-function ShippingProgress({subtotal}: {subtotal: number}) {
+export function ShippingProgress({subtotal}: {subtotal: number}) {
   const threshold = 999;
   const remaining = Math.max(0, threshold - subtotal);
   const progress = Math.min(100, (subtotal / threshold) * 100);
@@ -101,13 +110,26 @@ function ShippingProgress({subtotal}: {subtotal: number}) {
   );
 }
 
-function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
+function CartCheckoutActions({
+  checkoutUrl,
+  total,
+}: {
+  checkoutUrl?: string;
+  total?: React.ReactNode;
+}) {
   if (!checkoutUrl) return null;
 
   return (
     <div className="cart-checkout-actions">
       <a href={checkoutUrl} target="_self">
-        Proceed to Checkout <span aria-hidden="true">→</span>
+        {total ? (
+          <>
+            Checkout — {total}
+          </>
+        ) : (
+          'Proceed to Checkout'
+        )}{' '}
+        <span aria-hidden="true">→</span>
       </a>
     </div>
   );

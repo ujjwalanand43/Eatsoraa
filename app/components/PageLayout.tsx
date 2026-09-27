@@ -1,5 +1,7 @@
-import {Await, Link} from 'react-router';
-import {Suspense, useId} from 'react';
+import {Await, Link, useFetcher} from 'react-router';
+import {Suspense, useEffect, useId} from 'react';
+import type {loader as cartLoader} from '~/routes/cart';
+import {HomeProductCard} from './HomeProductCard';
 import type {
   CartApiQueryFragment,
   FooterQuery,
@@ -62,15 +64,41 @@ function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
         <Await resolve={cart}>
           {(cart) => {
             return (
-              <>
-                <CartMain cart={cart} layout="aside" />
-                {cart?.totalQuantity ? <CartDrawerLink /> : null}
-              </>
+              <div className="cart-drawer-shell">
+                <CartDrawerRecommendations />
+                <div className="cart-drawer-body">
+                  <CartMain cart={cart} layout="aside" />
+                  {cart?.totalQuantity ? <CartDrawerLink /> : null}
+                </div>
+              </div>
             );
           }}
         </Await>
       </Suspense>
     </Aside>
+  );
+}
+
+function CartDrawerRecommendations() {
+  const {close} = useAside();
+  const {type} = useAside();
+  const fetcher = useFetcher<typeof cartLoader>();
+  useEffect(() => {
+    if (type === 'cart' && !fetcher.data && fetcher.state === 'idle') {
+      void fetcher.load('/cart');
+    }
+  }, [type, fetcher]);
+  return (
+    <div className="cart-drawer-recommendations" aria-label="You may also like">
+      <h4>You may also like</h4>
+      <Suspense fallback={<p>Finding your next snack…</p>}>
+        <Await resolve={fetcher.data?.recommendations}>
+          {(result) => result?.products.nodes.length ? result.products.nodes.slice(0, 6).map((product) => (
+            <HomeProductCard key={product.id} product={product} />
+          )) : <Link to="/collections/all" onClick={close}>Explore all snacks →</Link>}
+        </Await>
+      </Suspense>
+    </div>
   );
 }
 
