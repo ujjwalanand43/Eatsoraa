@@ -8,6 +8,8 @@ import {BetterForYouShowcase} from '~/components/BetterForYouShowcase';
 import {HomeDiscovery} from '~/components/HomeDiscovery';
 import {HomeExplore} from '~/components/HomeExplore';
 import {HomeReviews} from '~/components/HomeReviews';
+import {HomeLifestyle} from '~/components/HomeLifestyle';
+import {WelcomeOffer} from '~/components/WelcomeOffer';
 import {BLOGS_QUERY} from './blogs.$blogHandle._index';
 
 import type {Route} from './+types/_index';
@@ -69,6 +71,7 @@ export default function Homepage() {
       <HomeMotion />
 
       <HeroSlider />
+      <WelcomeOffer />
 
       {/* =====================================================
           SHOP BY CATEGORY
@@ -106,24 +109,27 @@ export default function Homepage() {
         </div>
         <div className="category-grid">
           {[
-            {title: 'Dry Fruits', handle: 'dry-fruits'},
+            {title: 'Nuts & Raisins', handle: 'dry-fruits'},
             {title: 'Seeds & Superfoods', handle: 'seed-mixes'},
             {title: 'Trail Mixes', handle: 'trail-mixes'},
             {title: 'Flavoured Nuts & Mixes', handle: 'flavored-nuts'},
             {title: 'Spices & Masalas', handle: 'spice-blends'},
             {title: 'Bundles & Giftpacks', handle: 'combos-gift-boxes'},
-            {title: 'Best Sellers', handle: 'best-sellers'},
+            {title: 'Dry Fruits', handle: 'dry-fruits', id: 'dried-fruit-bowl'},
           ].map((category, index) => (
             <Link
-              key={category.handle}
+              key={category.id ?? category.handle}
               to={`/collections/${category.handle}`}
               className="category-card"
               prefetch="intent"
             >
-              <span
+              <img
                 className="category-image"
-                style={{backgroundPosition: `${(index * 100) / 6}% 50%`}}
-                aria-hidden="true"
+                src={`/categories/category-${String(index + 1).padStart(2, '0')}.jpg`}
+                alt={category.title}
+                width="5001"
+                height="5001"
+                loading="lazy"
               />
               <h3>{category.title}</h3>
               <span className="category-arrow" aria-hidden="true">
@@ -203,6 +209,7 @@ export default function Homepage() {
 
 
       <HomeExplore />
+      <HomeLifestyle />
       <HomeReviews />
 
       {/* =====================================================

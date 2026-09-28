@@ -9,6 +9,7 @@ import type {
 import {ProductPurchase} from './ProductPurchase';
 import {packSavings} from '~/lib/packSavings';
 import {RelatedProductCard} from './RelatedProductCard';
+import {BannerProductArt} from './BannerProductArt';
 import {WishlistButton} from './WishlistButton';
 import {ProductWorld, ProductFaq, ProductJournal} from './ProductExtras';
 
@@ -657,14 +658,7 @@ export function ProductPage({
       </section>
       <ProductJournal />
       <section className="pdp-banner">
-        {image && (
-          <Image
-            data={image}
-            alt=""
-            sizes="(min-width: 768px) 25vw, 40vw"
-            loading="lazy"
-          />
-        )}
+        <BannerProductArt />
         <div>
           <p className="pdp-eyebrow">GOOD FOOD. GOOD MOOD.</p>
           <h2>

@@ -2,6 +2,7 @@ import {Await, Link, useFetcher} from 'react-router';
 import {Suspense, useEffect, useId} from 'react';
 import type {loader as cartLoader} from '~/routes/cart';
 import {HomeProductCard} from './HomeProductCard';
+import {WhatsAppButton} from './WhatsAppButton';
 import type {
   CartApiQueryFragment,
   FooterQuery,
@@ -48,6 +49,7 @@ export function PageLayout({
         />
       )}
       <main>{children}</main>
+      <WhatsAppButton />
       <Footer
         footer={footer}
         header={header}
