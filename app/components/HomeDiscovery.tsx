@@ -38,30 +38,31 @@ export function HomeDiscovery({articles, journalOnly = false}: {articles: Articl
             className={`home-retailers${logosPaused ? ' logos-paused' : ''}`}
             aria-label="Find SORAA on these platforms"
           >
-            {[
-              {name: 'Amazon Now', image: 'amazon-now.jpeg'},
-              {name: 'Flipkart Minutes', image: 'flipkart-minutes.jpeg'},
-              {name: 'Blinkit', image: 'blinkit.svg'},
-              {name: 'Zepto', image: 'zepto.svg'},
-              {name: 'Swiggy Instamart', image: 'instamart.avif'},
-              {name: 'Bigbasket', image: 'bigbasket.png'},
-            ].map(({name, image}) => (
-              <div
-                key={name}
-                className={
-                  name === 'Blinkit' ? 'home-retailer-blinkit' : undefined
-                }
-              >
-                <img
-                  className="home-retailer-logo"
-                  src={`/retailers/${image}`}
-                  alt={name}
-                  loading="lazy"
-                  width="180"
-                  height="100"
-                />
-              </div>
-            ))}
+            <div className="retailer-reels">
+              {[0, 1, 2].map(lane => {
+                const brands = [
+                  {name: 'Amazon Now', image: 'amazon-now.jpeg'},
+                  {name: 'Flipkart Minutes', image: 'flipkart-minutes.jpeg'},
+                  {name: 'Blinkit', image: 'blinkit.svg'},
+                  {name: 'Zepto', image: 'zepto.svg'},
+                  {name: 'Swiggy Instamart', image: 'instamart.avif'},
+                  {name: 'Bigbasket', image: 'bigbasket.png'},
+                ];
+                // Give each lane its own brands so opposite directions never
+                // bring duplicate logos alongside one another.
+                const pair = brands.slice(lane * 2, lane * 2 + 2);
+                const ordered = [...pair, ...pair, ...pair];
+                return <div className="retailer-reel" key={lane}>
+                  <div className="retailer-reel-track">
+                    {[0, 1].map(copy => <div className="retailer-reel-set" key={copy} aria-hidden={copy === 1}>
+                      {ordered.map((brand, index) => <div className="retailer-reel-logo" key={`${brand.name}-${index}`} aria-hidden={index > 1}>
+                        <img src={`/retailers/${brand.image}`} alt={brand.name} width="180" height="100" />
+                      </div>)}
+                    </div>)}
+                  </div>
+                </div>;
+              })}
+            </div>
             <p>Availability varies by location.</p>
             <button className="retailer-motion-toggle" type="button" aria-pressed={logosPaused} onClick={() => setLogosPaused(!logosPaused)}>
               {logosPaused ? '▶ Resume animation' : 'Ⅱ Pause animation'}

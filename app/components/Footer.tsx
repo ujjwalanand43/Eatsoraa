@@ -1,5 +1,6 @@
 import {Suspense} from 'react';
 import {BrandLogo} from './BrandLogo';
+import {FooterSocials} from './FooterSocials';
 import {Await, NavLink} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 
@@ -11,17 +12,18 @@ interface FooterProps {
 
 export function Footer({
   footer: footerPromise,
-  header,
   publicStoreDomain,
 }: FooterProps) {
   return (
     <Suspense>
       <Await resolve={footerPromise}>
-        {(footer) => (
+        {() => (
           <footer className="footer soraa-footer">
             <div className="footer-top">
               <div className="footer-signup">
-                <NavLink to="/" className="footer-logo-link"><BrandLogo /></NavLink>
+                <NavLink to="/" className="footer-logo-link">
+                  <BrandLogo />
+                </NavLink>
                 <p>GOOD SNACKS. BETTER DAYS.</p>
                 <h2>Get 15% off your first order.</h2>
                 <p>
@@ -57,53 +59,59 @@ export function Footer({
                     <button type="submit">Subscribe →</button>
                   </div>
                 </form>
-                <a
-                  className="footer-social"
-                  href="https://www.instagram.com/eatsoraa/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Instagram ↗
-                </a>
+                <FooterSocials />
               </div>
               <div className="footer-links-grid">
-                <div className="footer-shop">
+                <nav className="footer-help footer-shop" aria-label="Shop">
                   <h3>Shop</h3>
-                  {footer?.menu && header.shop.primaryDomain?.url && (
-                    <FooterMenu
-                      menu={footer.menu}
-                      primaryDomainUrl={header.shop.primaryDomain.url}
-                      publicStoreDomain={publicStoreDomain}
-                    />
-                  )}
-                </div>
-                <nav className="footer-help" aria-label="Customer care">
-                  <h3>Help</h3>
-                  <NavLink to="/account">My account</NavLink>
-                  <NavLink to="/account/orders">Track your orders</NavLink>
-                  <NavLink to="/policies/shipping-policy">
-                    Shipping &amp; delivery
+                  <NavLink to="/collections/flavored-nuts">
+                    Flavoured Nuts
                   </NavLink>
-                  <NavLink to="/policies/refund-policy">
-                    Returns &amp; refunds
+                  <NavLink to="/collections/roasted-nuts">Roasted Nuts</NavLink>
+                  <NavLink to="/collections/trail-mixes">Trail Mixes</NavLink>
+                  <NavLink to="/collections/seed-mixes">Seed Mixes</NavLink>
+                  <NavLink to="/collections/dry-fruits">Dry Fruits</NavLink>
+                  <NavLink to="/collections/dates-date-bites">
+                    Dates &amp; Date Bites
+                  </NavLink>
+                  <NavLink to="/collections/breakfast-mixes">
+                    Breakfast Mixes
+                  </NavLink>
+                  <NavLink to="/collections/gourmet-spices">
+                    Gourmet spices
                   </NavLink>
                 </nav>
-                <nav className="footer-help" aria-label="Company">
-                  <h3>Company</h3>
-                  <NavLink to="/pages/about">Our story</NavLink>
-                  <NavLink to="/blogs/news">The SORAA journal</NavLink>
-                  <NavLink to="/wishlist">Wishlist</NavLink>
-                  <NavLink to="/collections/all">All products</NavLink>
+                <nav className="footer-help" aria-label="Information">
+                  <h3>Info</h3>
+                  <NavLink to="/pages/about">About</NavLink>
+                  <NavLink to="/pages/factory-locator">Factory locator</NavLink>
+                  <NavLink to="/blogs/news">Blogs</NavLink>
+                  <NavLink to="/pages/lab-reports">Lab Report</NavLink>
+                  <NavLink to="/pages/investor-hub">Investor Hub</NavLink>
+                </nav>
+                <nav className="footer-help" aria-label="Legal">
+                  <h3>Legal</h3>
+                  <NavLink to="/pages/shipping-policy">Shipping Policy</NavLink>
+                  <NavLink to="/pages/privacy-policy">Privacy Policy</NavLink>
+                  <NavLink to="/pages/returns-refunds">
+                    Returns &amp; Refunds
+                  </NavLink>
+                  <NavLink to="/pages/terms-conditions">
+                    Terms &amp; Conditions
+                  </NavLink>
+                </nav>
+                <nav className="footer-help" aria-label="Help">
+                  <h3>Help</h3>
+                  <NavLink to="/search">Search</NavLink>
+                  <NavLink to="/pages/contact">Contact</NavLink>
                 </nav>
               </div>
             </div>
             <div className="footer-bottom">
               <p>© {new Date().getFullYear()} SORAA. All rights reserved.</p>
               <nav aria-label="Legal">
-                <NavLink to="/policies/privacy-policy">Privacy policy</NavLink>
-                <NavLink to="/policies/terms-of-service">
-                  Terms of service
-                </NavLink>
+                <NavLink to="/pages/privacy-policy">Privacy policy</NavLink>
+                <NavLink to="/pages/terms-conditions">Terms of service</NavLink>
               </nav>
               <a href="#top">Back to top ↑</a>
             </div>
@@ -112,100 +120,4 @@ export function Footer({
       </Await>
     </Suspense>
   );
-}
-
-function FooterMenu({
-  menu,
-  primaryDomainUrl,
-  publicStoreDomain,
-}: {
-  menu: FooterQuery['menu'];
-  primaryDomainUrl: FooterProps['header']['shop']['primaryDomain']['url'];
-  publicStoreDomain: string;
-}) {
-  return (
-    <nav className="footer-menu" role="navigation">
-      {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
-        if (!item.url) return null;
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-        const isExternal = !url.startsWith('/');
-        return isExternal ? (
-          <a href={url} key={item.id} rel="noopener noreferrer" target="_blank">
-            {item.title}
-          </a>
-        ) : (
-          <NavLink
-            end
-            key={item.id}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
-            {item.title}
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
-}
-
-const FALLBACK_FOOTER_MENU = {
-  id: 'gid://shopify/Menu/199655620664',
-  items: [
-    {
-      id: 'gid://shopify/MenuItem/461633060920',
-      resourceId: 'gid://shopify/ShopPolicy/23358046264',
-      tags: [],
-      title: 'Privacy Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/privacy-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633093688',
-      resourceId: 'gid://shopify/ShopPolicy/23358013496',
-      tags: [],
-      title: 'Refund Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/refund-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633126456',
-      resourceId: 'gid://shopify/ShopPolicy/23358111800',
-      tags: [],
-      title: 'Shipping Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/shipping-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633159224',
-      resourceId: 'gid://shopify/ShopPolicy/23358079032',
-      tags: [],
-      title: 'Terms of Service',
-      type: 'SHOP_POLICY',
-      url: '/policies/terms-of-service',
-      items: [],
-    },
-  ],
-};
-
-function activeLinkStyle({
-  isActive,
-  isPending,
-}: {
-  isActive: boolean;
-  isPending: boolean;
-}) {
-  return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'inherit',
-  };
 }

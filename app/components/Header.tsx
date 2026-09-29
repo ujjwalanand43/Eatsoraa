@@ -165,14 +165,18 @@ function HeaderMenuMobileToggle() {
 }
 
 function CartBadge({count}: {count: number}) {
+  const {open, type} = useAside();
   const {publish, shop, cart, prevCart} = useAnalytics();
 
   return (
-    <a
-      href="/cart"
+    <button
+      type="button"
+      aria-haspopup="dialog"
+      aria-expanded={type === 'cart'}
       className="header-icon-btn header-cart-btn"
       aria-label={`Cart, ${count} items`}
       onClick={() => {
+        open('cart');
         publish('cart_viewed', {
           cart,
           prevCart,
@@ -184,7 +188,7 @@ function CartBadge({count}: {count: number}) {
       <CartIcon />
       {count > 0 && <span className="header-cart-count">{count}</span>}
       {count === 0 && <span className="header-cart-count">0</span>}
-    </a>
+    </button>
   );
 }
 

@@ -1,6 +1,13 @@
 import {useLoaderData} from 'react-router';
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {
+  AboutSoraaPage,
+  ContactSoraaPage,
+  FactoryLocatorPage,
+  InvestorHubPage,
+  LabReportsPage,
+} from '~/components/BrandPages';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `${data?.page.title ?? 'Page'} | SORAA`}];
@@ -57,8 +64,14 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 export default function Page() {
   const {page} = useLoaderData<typeof loader>();
 
+  if (page.handle === 'about') return <AboutSoraaPage />;
+  if (page.handle === 'investor-hub') return <InvestorHubPage />;
+  if (page.handle === 'factory-locator') return <FactoryLocatorPage />;
+  if (page.handle === 'lab-reports') return <LabReportsPage />;
+  if (page.handle === 'contact') return <ContactSoraaPage />;
+
   return (
-    <div className="page">
+    <div className="page standard-shopify-page">
       <header>
         <h1>{page.title}</h1>
       </header>

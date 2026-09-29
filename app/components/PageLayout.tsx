@@ -1,4 +1,4 @@
-import {Await, Link, useFetcher} from 'react-router';
+import {Await, Link, useFetcher, useSearchParams} from 'react-router';
 import {Suspense, useEffect, useId} from 'react';
 import type {loader as cartLoader} from '~/routes/cart';
 import {HomeProductCard} from './HomeProductCard';
@@ -37,6 +37,7 @@ export function PageLayout({
 }: PageLayoutProps) {
   return (
     <Aside.Provider>
+      <CartRouteTrigger />
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
@@ -70,7 +71,6 @@ function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
                 <CartDrawerRecommendations />
                 <div className="cart-drawer-body">
                   <CartMain cart={cart} layout="aside" />
-                  {cart?.totalQuantity ? <CartDrawerLink /> : null}
                 </div>
               </div>
             );
@@ -104,13 +104,17 @@ function CartDrawerRecommendations() {
   );
 }
 
-function CartDrawerLink() {
-  const {close} = useAside();
-  return (
-    <Link className="cart-drawer-page-link" to="/cart" onClick={close}>
-      Go to cart <span aria-hidden="true">→</span>
-    </Link>
-  );
+function CartRouteTrigger() {
+  const {open} = useAside();
+  const [params, setParams] = useSearchParams();
+  useEffect(() => {
+    if (params.get('cart') !== 'open') return;
+    open('cart');
+    const next = new URLSearchParams(params);
+    next.delete('cart');
+    setParams(next, {replace: true, preventScrollReset: true});
+  }, [open, params, setParams]);
+  return null;
 }
 
 function SearchAside() {

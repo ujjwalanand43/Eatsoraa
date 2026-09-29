@@ -3,6 +3,13 @@ import {Link} from 'react-router';
 
 const slides = [
   {
+    src: '/soraa-website-banner.png',
+    alt: 'Boring snacks? Hard pass. Bold flavours, premium nuts and dry fruits. Shop SORAA now.',
+    color: '#faf7e6',
+    artwork: true,
+    kicker: '', headline: '', description: '',
+  },
+  {
     src: '/hero-snack-range.jpg',
     alt: 'SORAA roasted nuts, trail mixes and everyday snacks.',
     color: '#f75312',
@@ -71,11 +78,11 @@ export function HeroSlider() {
         {slides.map((slide, index) => (
           <div
             key={slide.src}
-            className={`home-hero-slide${active === index ? ' is-current' : ''}`}
+            className={`home-hero-slide${active === index ? ' is-current' : ''}${slide.artwork ? ' home-hero-artwork' : ''}`}
             style={{backgroundColor: slide.color}}
             aria-hidden={active !== index}
           >
-            <img
+            {slide.artwork ? <Link className="home-hero-artwork-link" to="/collections/all" tabIndex={active === index ? 0 : -1} aria-label="Shop SORAA snacks"><img src={slide.src} alt={slide.alt} width="8192" height="3641" fetchPriority="high" /></Link> : <><img
               src={slide.src}
               alt={slide.alt}
               width={2066}
@@ -115,7 +122,7 @@ export function HeroSlider() {
                   EXPLORE MORE <span aria-hidden="true">→</span>
                 </Link>
               </div>
-            </div>
+            </div></>}
           </div>
         ))}
       </div>

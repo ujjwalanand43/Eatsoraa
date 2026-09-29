@@ -75,7 +75,6 @@ export function WelcomeOffer() {
       </div>
       <div className="welcome-offer-art welcome-offer-art-pair" onPointerMove={tiltArt} onPointerDown={tiltArt} onPointerLeave={resetArt} onPointerUp={resetArt} onPointerCancel={resetArt}>
         <div className="welcome-art-depth">
-          <img draggable={false} className="welcome-pack-back" src="/feel-good/dry-fruits.png" alt="SORAA Premium Walnut Kernels" width="1122" height="1402" />
           <img draggable={false} className="welcome-pack-front" src="/feel-good/flavored-nuts.png" alt="SORAA Peri-Peri Roasted Cashews" width="1122" height="1402" />
         </div>
       </div>

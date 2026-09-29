@@ -1,17 +1,7 @@
-import {
-  Await,
-  Link,
-  useLoaderData,
-  data,
-  type HeadersFunction,
-} from 'react-router';
-import {Suspense, useRef} from 'react';
-import {CartIcon, CartNuts} from '~/components/CartArtwork';
+import {Navigate, data, type HeadersFunction} from 'react-router';
 import type {Route} from './+types/cart';
 import type {CartQueryDataReturn} from '@shopify/hydrogen';
 import {CartForm} from '@shopify/hydrogen';
-import {CartMain} from '~/components/CartMain';
-import {HomeProductCard} from '~/components/HomeProductCard';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: `Your Cart | SORAA`}];
@@ -114,96 +104,9 @@ export async function loader({context}: Route.LoaderArgs) {
   return {cart: currentCart, recommendations};
 }
 
+// Keep cart actions/data available; the drawer is the only cart interface.
 export default function Cart() {
-  const {cart, recommendations} = useLoaderData<typeof loader>();
-  const track = useRef<HTMLDivElement>(null);
-
-  return (
-    <div className="cart-page">
-      <nav className="cart-breadcrumb" aria-label="Breadcrumb">
-        <Link to="/">Home</Link>
-        <span>/</span>
-        <span>Cart</span>
-      </nav>
-      <header className="cart-page-header">
-        <div>
-          <h1>Your Cart</h1>
-          <p>
-            Good choice! You’re one step closer to a healthier, happier you. ♡
-          </p>
-        </div>
-        <div className="cart-page-doodle" aria-hidden="true">
-          Snacks
-          <br />
-          That Do
-          <br />
-          Good <CartIcon kind="smile" />
-        </div>
-        <Link className="cart-continue" to="/collections/all">
-          ← Continue shopping
-        </Link>
-      </header>
-      <CartMain layout="page" cart={cart} />
-      <section
-        className="cart-recommendations"
-        aria-labelledby="cart-recommendations-title"
-      >
-        <div className="cart-recommendations-head">
-          <CartNuts />
-          <p className="cart-banner-script" aria-hidden="true">
-            Good
-            <br />
-            Food
-            <br />
-            Good People ♡
-          </p>
-          <div>
-            <h2 id="cart-recommendations-title">You might also like</h2>
-            <span>More goodness for your everyday snacking.</span>
-          </div>
-          <Link to="/collections/all">Explore all products →</Link>
-          <CartNuts />
-        </div>
-        <Suspense fallback={<p>Finding more good snacks…</p>}>
-          <Await resolve={recommendations}>
-            {(result) => (
-              <div className="cart-recommendations-carousel">
-                <button
-                  className="cart-carousel-prev"
-                  aria-label="Previous products"
-                  onClick={() =>
-                    track.current?.scrollBy({
-                      left: -(track.current.clientWidth * 0.8),
-                      behavior: 'smooth',
-                    })
-                  }
-                >
-                  ‹
-                </button>
-                <div className="cart-recommendations-track" ref={track}>
-                  {result?.products.nodes.map((product) => (
-                    <HomeProductCard key={product.id} product={product} />
-                  ))}
-                </div>
-                <button
-                  className="cart-carousel-next"
-                  aria-label="Next products"
-                  onClick={() =>
-                    track.current?.scrollBy({
-                      left: track.current.clientWidth * 0.8,
-                      behavior: 'smooth',
-                    })
-                  }
-                >
-                  ›
-                </button>
-              </div>
-            )}
-          </Await>
-        </Suspense>
-      </section>
-    </div>
-  );
+  return <Navigate to="/collections/all?cart=open" replace />;
 }
 
 const CART_RECOMMENDATIONS_QUERY = `#graphql
