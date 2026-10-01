@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {Link, useNavigate, type FetcherWithComponents} from 'react-router';
 import {
   CartForm,
@@ -105,11 +105,14 @@ export function ProductPurchase({
   const navigate = useNavigate();
   const {open} = useAside();
   const [quantity, setQuantity] = useState(1);
-  const allocations = variant?.sellingPlanAllocations.nodes ?? [];
+  const allocations = useMemo(
+    () => variant?.sellingPlanAllocations.nodes ?? [],
+    [variant],
+  );
   const [selectedPlanId, setSelectedPlanId] = useState<string>();
   useEffect(() => {
     setSelectedPlanId(allocations[0]?.sellingPlan.id);
-  }, [variant?.id]);
+  }, [allocations]);
   const selectedAllocation = allocations.find(
     (allocation) => allocation.sellingPlan.id === selectedPlanId,
   );
@@ -145,6 +148,15 @@ export function ProductPurchase({
   return (
     <>
       <div className="pdp-purchase">
+        <div
+          className={`pdp-availability${variant?.availableForSale ? ' is-ready' : ' is-unavailable'}`}
+          role="status"
+        >
+          <span aria-hidden="true" />
+          {variant?.availableForSale
+            ? 'Ready to ship · Select your pack below'
+            : 'This option is currently unavailable'}
+        </div>
         {options
           .filter(
             (option) =>
@@ -155,7 +167,7 @@ export function ProductPurchase({
           )
           .map((option) => (
             <fieldset className="pdp-options" key={option.name}>
-              <legend>{option.name}</legend>
+              <legend>Choose {option.name.toLowerCase()}</legend>
               <div className="pdp-option-grid">
                 {option.optionValues.map((value) => {
                   const savings = packSavings(

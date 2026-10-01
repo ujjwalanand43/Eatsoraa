@@ -14,7 +14,13 @@ import {WishlistButton} from './WishlistButton';
 import {ProductWorld, ProductFaq, ProductJournal} from './ProductExtras';
 
 type Row = {label: string; value: string};
-type Review = {name: string; rating: number; text: string; verified?: boolean; date?: string};
+type Review = {
+  name: string;
+  rating: number;
+  text: string;
+  verified?: boolean;
+  date?: string;
+};
 function json(value?: string) {
   try {
     return JSON.parse(value || 'null') as unknown;
@@ -163,24 +169,26 @@ function Gallery({
       </div>
       {images.length > 1 && (
         <div className="pdp-editorial-grid" aria-label="More product moments">
-          {(images.length > 3 ? images.slice(2, 4) : images.slice(1, 3)).map((image, index) => (
-            <button
-              type="button"
-              key={`editorial-${image.id || image.url}`}
-              onClick={() => {
-                setChosen(images.findIndex((item) => item.url === image.url));
-                dialog.current?.showModal();
-              }}
-              aria-label={`Open product lifestyle image ${index + 2}`}
-            >
-              <Image
-                data={image}
-                alt={image.altText || `${product.title} lifestyle`}
-                sizes="(min-width: 900px) 24vw, 46vw"
-                loading="lazy"
-              />
-            </button>
-          ))}
+          {(images.length > 3 ? images.slice(2, 4) : images.slice(1, 3)).map(
+            (image, index) => (
+              <button
+                type="button"
+                key={`editorial-${image.id || image.url}`}
+                onClick={() => {
+                  setChosen(images.findIndex((item) => item.url === image.url));
+                  dialog.current?.showModal();
+                }}
+                aria-label={`Open product lifestyle image ${index + 2}`}
+              >
+                <Image
+                  data={image}
+                  alt={image.altText || `${product.title} lifestyle`}
+                  sizes="(min-width: 900px) 24vw, 46vw"
+                  loading="lazy"
+                />
+              </button>
+            ),
+          )}
         </div>
       )}
       <dialog
@@ -267,17 +275,9 @@ export function ProductPage({
 }) {
   const [tab, setTab] = useState(0);
   const reviews = reviewRows(product.reviews?.value);
-  const [reviewTopic, setReviewTopic] = useState('All');
+  const [reviewSlide, setReviewSlide] = useState(0);
+  const [reviewPaused, setReviewPaused] = useState(false);
   const [reviewLimit, setReviewLimit] = useState(4);
-  const topics = ['All', 'Flavour', 'Freshness', 'Shipping', 'Price', 'Packaging'];
-  const topicWords: Record<string, RegExp> = {
-    Flavour: /taste|tasty|flavou?r|delicious|crunch/i,
-    Freshness: /fresh|quality/i,
-    Shipping: /ship|delivery|arriv/i,
-    Price: /price|value|cost|afford/i,
-    Packaging: /pack|box|jar|seal/i,
-  };
-  const matchingReviews = reviewTopic === 'All' ? reviews : reviews.filter((review) => topicWords[reviewTopic].test(review.text));
   const nutrition = nutritionRows(product.nutrition?.value);
   const highlights = strings(product.highlights?.value).slice(0, 4);
   const collection = product.collections.nodes.find(
@@ -292,6 +292,19 @@ export function ProductPage({
   const rating = reviews.length
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
     : null;
+  useEffect(() => {
+    if (reviews.length < 2 || reviewPaused) return;
+    const timer = window.setInterval(() => {
+      if (!document.hidden) {
+        setReviewSlide((current) => (current + 1) % reviews.length);
+      }
+    }, 4800);
+    return () => window.clearInterval(timer);
+  }, [reviews.length, reviewPaused]);
+  useEffect(() => {
+    if (reviewSlide >= reviews.length) setReviewSlide(0);
+  }, [reviewSlide, reviews.length]);
+  const featuredReview = reviews[reviewSlide];
   const savings = packSavings(productOptions, selectedVariant);
   const comparisonPrice = savings?.price || selectedVariant?.compareAtPrice;
   const compare = Number(comparisonPrice?.amount);
@@ -351,10 +364,34 @@ export function ProductPage({
       <section className="pdp-top">
         <Gallery product={product} variant={selectedVariant} />
         <div className="pdp-summary">
+          <div className="pdp-offer-ribbon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              aria-hidden="true"
+            >
+              <path d="M3 5.5V12l8 8 9-9-8-8H5.5A2.5 2.5 0 0 0 3 5.5Z" />
+              <circle cx="8" cy="8" r="1.25" />
+            </svg>
+            <span className="pdp-offer-copy">
+              <strong>Get 10% off your first order!</strong>
+              <small>
+                First time? Use code <b>SORAA10</b> at checkout.
+              </small>
+            </span>
+          </div>
           <p className="pdp-eyebrow">
             {product.productType || collection?.title || 'SORAA SNACKS'}
           </p>
           <h1>{product.title}</h1>
+          <p className="pdp-snack-proof">
+            <span aria-hidden="true">✓</span>
+            {reviews.length
+              ? `Loved by ${reviews.length} verified snack moments`
+              : 'Made for brighter everyday snack breaks'}
+          </p>
           <div className="pdp-meta-row">
             <a className="pdp-rating" href="#customer-reviews">
               {rating ? (
@@ -422,28 +459,116 @@ export function ProductPage({
               ))}
             </div>
           )}
+          {featuredReview && (
+            <div
+              className="pdp-review-slider"
+              aria-label="Verified customer reviews"
+              onMouseEnter={() => setReviewPaused(true)}
+              onMouseLeave={() => setReviewPaused(false)}
+              onFocusCapture={() => setReviewPaused(true)}
+              onBlurCapture={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                  setReviewPaused(false);
+                }
+              }}
+            >
+              <a className="pdp-review-peek" href="#customer-reviews">
+                <img
+                  className="pdp-review-photo"
+                  src="/hero-snack-better.jpg"
+                  alt="SORAA customer enjoying a snack"
+                  width="58"
+                  height="58"
+                />
+                <span className="pdp-review-peek-copy">
+                  <span>
+                    <strong>{featuredReview.name}</strong>
+                    <b aria-label="Verified buyer">
+                      <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m10 1.5 2.1 1.4 2.6-.1.7 2.5 2.1 1.5-.9 2.4.9 2.4-2.1 1.5-.7 2.5-2.6-.1L10 18.5l-2.1-1.4-2.6.1-.7-2.5-2.1-1.5.9-2.4-.9-2.4 2.1-1.5.7-2.5 2.6.1Z" />
+                        <path d="m6.8 10.1 2 2 4.4-4.5" />
+                      </svg>
+                      Verified
+                    </b>
+                    <i aria-label={`${featuredReview.rating} out of 5`}>
+                      {'★'.repeat(featuredReview.rating)}
+                    </i>
+                  </span>
+                  <small>{featuredReview.text}</small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </a>
+              {reviews.length > 1 && (
+                <div className="pdp-review-slider-controls">
+                  <button
+                    type="button"
+                    aria-label="Previous verified review"
+                    onClick={() =>
+                      setReviewSlide(
+                        (current) =>
+                          (current + reviews.length - 1) % reviews.length,
+                      )
+                    }
+                  >
+                    ←
+                  </button>
+                  <div
+                    aria-label={`Review ${reviewSlide + 1} of ${reviews.length}`}
+                  >
+                    {reviews.map((review, index) => (
+                      <button
+                        type="button"
+                        key={`${review.name}-${review.text}`}
+                        className={index === reviewSlide ? 'is-current' : ''}
+                        aria-label={`Show review ${index + 1}`}
+                        aria-pressed={index === reviewSlide}
+                        onClick={() => setReviewSlide(index)}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    aria-label="Next verified review"
+                    onClick={() =>
+                      setReviewSlide(
+                        (current) => (current + 1) % reviews.length,
+                      )
+                    }
+                  >
+                    →
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
           <ProductPurchase
             options={productOptions}
             variant={selectedVariant}
             productTitle={product.title}
           />
           <div className="pdp-assurances">
-            <Link to="/policies/shipping-policy">
+            <Link to="/pages/shipping-policy">
               <Icon kind="truck" />
               <span>
-                Free shipping<small>on orders above ₹999</small>
+                Fast shipping<small>Free above ₹999</small>
               </span>
             </Link>
             <div>
               <Icon kind="shield" />
               <span>
-                Secure<small>checkout</small>
+                Quality checked<small>Carefully packed</small>
               </span>
             </div>
-            <Link to="/policies/refund-policy">
+            <div>
               <Icon kind="heart" />
               <span>
-                Returns &amp;<small>refund policy</small>
+                Good ingredients<small>Clear product details</small>
+              </span>
+            </div>
+            <Link to="/pages/returns-refunds">
+              <Icon kind="heart" />
+              <span>
+                Easy support<small>Returns &amp; refunds</small>
               </span>
             </Link>
           </div>
@@ -554,9 +679,14 @@ export function ProductPage({
         aria-labelledby="pdp-reviews-heading"
       >
         <div className="pdp-review-summary">
-          <h2 id="pdp-reviews-heading">Customer reviews</h2>
+          <p>THE SORAA COMMUNITY</p>
+          <h2 id="pdp-reviews-heading">
+            What are snackers
+            <br />
+            saying?
+          </h2>
           {rating !== null ? (
-            <>
+            <div className="pdp-review-total">
               <strong className="pdp-review-score">{rating.toFixed(1)}</strong>
               <span
                 className="pdp-stars"
@@ -566,36 +696,56 @@ export function ProductPage({
                 {'☆'.repeat(5 - Math.round(rating))}
               </span>
               <p>{reviews.length} reviews</p>
-            </>
+              <span className="pdp-verified-total">
+                <span aria-hidden="true">✓</span> Verified
+              </span>
+            </div>
           ) : (
             <p className="pdp-muted">No reviews yet</p>
           )}
         </div>
-        {reviews.length > 0 && <div className="pdp-review-topics" aria-label="Filter reviews by topic">
-          {topics.map((topic) => <button key={topic} type="button" aria-pressed={reviewTopic === topic} onClick={() => {setReviewTopic(topic); setReviewLimit(4);}}>{topic}</button>)}
-        </div>}
         <div className="pdp-review-cards">
           {reviews.length ? (
-            matchingReviews.slice(0, reviewLimit).map((review) => (
-              <article key={`${review.name}-${review.text}`}>
-                <div className="pdp-review-author">
-                  <strong>{review.name}</strong>
-                  {review.verified === true && <small>Verified Buyer</small>}
-                </div>
-                <div className="pdp-review-copy">
-                  <p
-                    className="pdp-stars"
-                    aria-label={`${review.rating} out of 5`}
-                  >
-                    {'★'.repeat(Math.round(review.rating))}
-                    {'☆'.repeat(5 - Math.round(review.rating))}
-                  </p>
-                  <h3>{product.title}</h3>
-                  <p>{review.text}</p>
-                </div>
-                {typeof review.date === 'string' && <time>{review.date}</time>}
-              </article>
-            ))
+            reviews.slice(0, reviewLimit).map((review, index) => {
+              const reviewImage =
+                product.images.nodes[index % product.images.nodes.length] ||
+                selectedVariant?.image;
+              return (
+                <article key={`${review.name}-${review.text}`}>
+                  {reviewImage && (
+                    <Image
+                      className="pdp-review-card-image"
+                      data={reviewImage}
+                      alt={`${product.title} snack moment`}
+                      sizes="(min-width: 900px) 22vw, 75vw"
+                      loading="lazy"
+                    />
+                  )}
+                  <div className="pdp-review-copy">
+                    <p
+                      className="pdp-stars"
+                      aria-label={`${review.rating} out of 5`}
+                    >
+                      {'★'.repeat(Math.round(review.rating))}
+                      {'☆'.repeat(5 - Math.round(review.rating))}
+                    </p>
+                    <h3>{product.title}</h3>
+                    <p>“{review.text}”</p>
+                  </div>
+                  <div className="pdp-review-author">
+                    <strong>{review.name}</strong>
+                    {review.verified === true && (
+                      <small>
+                        <span aria-hidden="true">✓</span> Verified Buyer
+                      </small>
+                    )}
+                  </div>
+                  {typeof review.date === 'string' && (
+                    <time>{review.date}</time>
+                  )}
+                </article>
+              );
+            })
           ) : (
             <div className="pdp-review-empty">
               <Icon kind="heart" />
@@ -604,14 +754,27 @@ export function ProductPage({
             </div>
           )}
         </div>
-        {reviews.length > 0 && matchingReviews.length === 0 && <p role="status">No reviews mention this topic yet.</p>}
-        {matchingReviews.length > reviewLimit && <button className="pdp-review-load" type="button" onClick={() => setReviewLimit((limit) => limit + 4)}>Load more reviews</button>}
+        {reviews.length > reviewLimit && (
+          <button
+            className="pdp-review-load"
+            type="button"
+            onClick={() => setReviewLimit((limit) => limit + 4)}
+          >
+            Load more reviews
+          </button>
+        )}
       </section>
       <ProductWorld product={product} />
       <ProductFaq product={product} />
       <section className="pdp-related" aria-labelledby="pdp-related-heading">
         <div className="pdp-related-heading">
-          <h2 id="pdp-related-heading">Even more<br />for you to<br /><span>snack on.</span></h2>
+          <h2 id="pdp-related-heading">
+            Even more
+            <br />
+            for you to
+            <br />
+            <span>snack on.</span>
+          </h2>
           <div>
             <button
               type="button"

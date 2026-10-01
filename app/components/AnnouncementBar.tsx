@@ -7,8 +7,8 @@ const ANNOUNCEMENTS = [
 export function AnnouncementBar() {
   return (
     <div className="announcement-bar">
-      {ANNOUNCEMENTS.map((item, index) => (
-        <p className="announcement-item" key={index}>
+      {ANNOUNCEMENTS.map((item) => (
+        <p className="announcement-item" key={item.text}>
           {item.icon === 'heart' && <HeartOutlineIcon />}
           {item.icon === 'truck' && <TruckIcon />}
           <span>{item.text}</span>
@@ -20,7 +20,13 @@ export function AnnouncementBar() {
 
 function HeartOutlineIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M12 20.3s-7.4-4.4-9.9-9C.6 8 1.8 4.4 5.2 3.6c2-.5 4 .3 5.2 2 .3.4.9.4 1.2 0 1.2-1.7 3.2-2.5 5.2-2 3.4.8 4.6 4.4 3.1 7.7-2.5 4.6-9.9 9-9.9 9z"
         stroke="currentColor"
@@ -33,7 +39,13 @@ function HeartOutlineIcon() {
 
 function TruckIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M2 6h11v10H2z"
         stroke="currentColor"

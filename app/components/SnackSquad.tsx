@@ -16,7 +16,9 @@ export function SnackSquad({
   const [position, setPosition] = useState(Math.min(2, products.length - 1));
 
   const repeatedProducts =
-    products.length > 1 ? [...products, ...products, ...products] : products;
+    products.length > 1
+      ? [0, 1, 2].flatMap((set) => products.map((product) => ({product, set})))
+      : products.map((product) => ({product, set: 0}));
 
   function centeredPhysicalIndex() {
     const node = track.current;
@@ -122,13 +124,13 @@ export function SnackSquad({
           }, 140);
         }}
       >
-        {repeatedProducts.map((product, index) => {
+        {repeatedProducts.map(({product, set}, index) => {
           const logicalIndex = index % products.length;
           const video = reviewVideos[product.handle];
           const variant = product.selectedOrFirstAvailableVariant;
           return (
             <article
-              key={`${product.id}-${index}`}
+              key={`${product.id}-${set}`}
               className={`social-card${position === logicalIndex ? ' is-active' : ''}`}
               aria-label={`Review ${logicalIndex + 1}: ${product.title}`}
             >

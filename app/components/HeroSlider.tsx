@@ -7,7 +7,9 @@ const slides = [
     alt: 'Boring snacks? Hard pass. Bold flavours, premium nuts and dry fruits. Shop SORAA now.',
     color: '#faf7e6',
     artwork: true,
-    kicker: '', headline: '', description: '',
+    kicker: '',
+    headline: '',
+    description: '',
   },
   {
     src: '/hero-snack-range.jpg',
@@ -82,47 +84,70 @@ export function HeroSlider() {
             style={{backgroundColor: slide.color}}
             aria-hidden={active !== index}
           >
-            {slide.artwork ? <Link className="home-hero-artwork-link" to="/collections/all" tabIndex={active === index ? 0 : -1} aria-label="Shop SORAA snacks"><img src={slide.src} alt={slide.alt} width="8192" height="3641" fetchPriority="high" /></Link> : <><img
-              src={slide.src}
-              alt={slide.alt}
-              width={2066}
-              height={761}
-              fetchPriority={index === 0 ? 'high' : 'auto'}
-            />
-            <div className="home-hero-featured-copy">
-              <p className="home-hero-kicker">{slide.kicker}</p>
-              <h2>
-                {slide.headline.split('\n').map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </h2>
-              <p className="home-hero-description">{slide.description}</p>
-              <ul className="home-hero-benefits" aria-label="SORAA benefits">
-                <li>
-                  <strong>REAL</strong>
-                  <span>INGREDIENTS</span>
-                </li>
-                <li>
-                  <strong>BOLD</strong>
-                  <span>FLAVOURS</span>
-                </li>
-                <li>
-                  <strong>EASY</strong>
-                  <span>SNACKING</span>
-                </li>
-              </ul>
-              <div className="home-hero-actions">
-                <Link
-                  to="/collections/best-sellers"
-                  className="home-hero-primary-cta"
-                >
-                  SHOP NOW <span aria-hidden="true">→</span>
-                </Link>
-                <Link to="/collections/all" className="home-hero-secondary-cta">
-                  EXPLORE MORE <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div></>}
+            {slide.artwork ? (
+              <Link
+                className="home-hero-artwork-link"
+                to="/collections/all"
+                tabIndex={active === index ? 0 : -1}
+                aria-label="Shop SORAA snacks"
+              >
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  width="8192"
+                  height="3641"
+                />
+              </Link>
+            ) : (
+              <>
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  width={2066}
+                  height={761}
+                />
+                <div className="home-hero-featured-copy">
+                  <p className="home-hero-kicker">{slide.kicker}</p>
+                  <h2>
+                    {slide.headline.split('\n').map((line) => (
+                      <span key={line}>{line}</span>
+                    ))}
+                  </h2>
+                  <p className="home-hero-description">{slide.description}</p>
+                  <ul
+                    className="home-hero-benefits"
+                    aria-label="SORAA benefits"
+                  >
+                    <li>
+                      <strong>REAL</strong>
+                      <span>INGREDIENTS</span>
+                    </li>
+                    <li>
+                      <strong>BOLD</strong>
+                      <span>FLAVOURS</span>
+                    </li>
+                    <li>
+                      <strong>EASY</strong>
+                      <span>SNACKING</span>
+                    </li>
+                  </ul>
+                  <div className="home-hero-actions">
+                    <Link
+                      to="/collections/best-sellers"
+                      className="home-hero-primary-cta"
+                    >
+                      SHOP NOW <span aria-hidden="true">→</span>
+                    </Link>
+                    <Link
+                      to="/collections/all"
+                      className="home-hero-secondary-cta"
+                    >
+                      EXPLORE MORE <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>
