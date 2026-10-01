@@ -10,6 +10,7 @@ import {HomeExplore} from '~/components/HomeExplore';
 import {HomeReviews} from '~/components/HomeReviews';
 import {HomeLifestyle} from '~/components/HomeLifestyle';
 import {WelcomeOffer} from '~/components/WelcomeOffer';
+import {LandingOverlays} from '~/components/LandingOverlays';
 import {BLOGS_QUERY} from './blogs.$blogHandle._index';
 
 import type {Route} from './+types/_index';
@@ -176,9 +177,15 @@ export default function Homepage() {
           }
         >
           <Await resolve={products}>
-            {(response) => (
-              <SnackSquad products={response?.products.nodes ?? []} />
-            )}
+            {(response) => {
+              const productNodes = response?.products.nodes ?? [];
+              return (
+                <>
+                  <SnackSquad products={productNodes} />
+                  <LandingOverlays products={productNodes} />
+                </>
+              );
+            }}
           </Await>
         </Suspense>
         <div className="social-footer">

@@ -475,8 +475,9 @@ export function ProductPage({
               <a className="pdp-review-peek" href="#customer-reviews">
                 <img
                   className="pdp-review-photo"
-                  src="/hero-snack-better.jpg"
-                  alt="SORAA customer enjoying a snack"
+                  src={/an[ku]+sh/i.test(featuredReview.name) ? '/reviews/ankush.jpg' : '/hero-snack-better.jpg'}
+                  style={/an[ku]+sh/i.test(featuredReview.name) ? {objectPosition: '50% 32%'} : undefined}
+                  alt={/an[ku]+sh/i.test(featuredReview.name) ? featuredReview.name : 'SORAA snack moment'}
                   width="58"
                   height="58"
                 />
