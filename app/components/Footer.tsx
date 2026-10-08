@@ -1,6 +1,7 @@
 import {Suspense} from 'react';
 import {BrandLogo} from './BrandLogo';
 import {FooterSocials} from './FooterSocials';
+import {NewsletterSignup} from './NewsletterSignup';
 import {Await, NavLink} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 
@@ -30,35 +31,7 @@ export function Footer({
                   Join our community for new launches, snack inspiration and
                   members-only offers.
                 </p>
-                <form
-                  action={`https://${publicStoreDomain.replace(/^https?:\/\//, '').replace(/\/$/, '')}/contact#contact_form`}
-                  method="post"
-                >
-                  <input type="hidden" name="form_type" value="customer" />
-                  <input type="hidden" name="utf8" value="✓" />
-                  <input
-                    type="hidden"
-                    name="contact[tags]"
-                    value="newsletter"
-                  />
-                  <label
-                    className="hero-accessible-copy"
-                    htmlFor="footer-email"
-                  >
-                    Email address
-                  </label>
-                  <div>
-                    <input
-                      id="footer-email"
-                      name="contact[email]"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      placeholder="Your email address"
-                    />
-                    <button type="submit">Subscribe →</button>
-                  </div>
-                </form>
+                <NewsletterSignup />
                 <FooterSocials />
               </div>
               <div className="footer-links-grid">
@@ -104,6 +77,7 @@ export function Footer({
                   <h3>Help</h3>
                   <NavLink to="/search">Search</NavLink>
                   <NavLink to="/pages/contact">Contact</NavLink>
+                  <NavLink to="/pages/bulk-order">Bulk orders</NavLink>
                 </nav>
               </div>
             </div>

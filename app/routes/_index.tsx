@@ -1,5 +1,7 @@
 import {Await, Link, useLoaderData} from 'react-router';
 import {Suspense} from 'react';
+import {OrderGlobe} from '~/components/OrderGlobe';
+import {parseGlobeLocations} from '~/lib/orderGlobe';
 import {SnackSquad} from '~/components/SnackSquad';
 import {CollectionShowcase} from '~/components/CollectionShowcase';
 import {HomeMotion} from '~/components/HomeMotion';
@@ -54,6 +56,7 @@ export async function loader({context}: Route.LoaderArgs) {
   return {
     products,
     collections,
+    globe: context.storefront.query(ORDER_GLOBE_QUERY).then((data) => parseGlobeLocations(data.shop.metafield?.value)).catch(() => []),
     journal: context.storefront
       .query(BLOGS_QUERY, {variables: {blogHandle: 'news', first: 6}})
       .catch(() => null),
@@ -65,7 +68,7 @@ export async function loader({context}: Route.LoaderArgs) {
 ========================================================= */
 
 export default function Homepage() {
-  const {products, collections, journal} = useLoaderData<typeof loader>();
+  const {products, collections, journal, globe} = useLoaderData<typeof loader>();
 
   return (
     <div className="soraa-home">
@@ -218,6 +221,7 @@ export default function Homepage() {
       <HomeExplore />
       <HomeLifestyle />
       <HomeReviews />
+      <Suspense fallback={<OrderGlobe />}><Await resolve={globe}>{(locations) => <OrderGlobe locations={locations} />}</Await></Suspense>
 
       {/* =====================================================
           WHY SORAA
@@ -372,4 +376,10 @@ const HOME_COLLECTIONS_QUERY = `#graphql
 
   }
 
+` as const;
+
+const ORDER_GLOBE_QUERY = `#graphql
+  query OrderGlobe {
+    shop { metafield(namespace: "soraa", key: "order_locations") { value } }
+  }
 ` as const;

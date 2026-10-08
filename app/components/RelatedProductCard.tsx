@@ -20,11 +20,13 @@ export function RelatedProductCard({product}: {product: HomeProductsQuery['produ
     <Link to={`/products/${product.handle}`} className="home-product-link">
       <div className="product-image-wrapper">{image && <Image data={image} sizes="(min-width: 900px) 340px, 80vw" loading="lazy" alt={image.altText || product.title} />}</div>
     </Link>
+    <div className="related-card-panel">
     <Link className="related-product-rating" to={`/products/${product.handle}#customer-reviews`} aria-label={rating ? `${rating.average.toFixed(1)} out of 5, ${rating.count} reviews` : 'No reviews yet'}>
       <span aria-hidden="true">{rating ? '★'.repeat(Math.round(rating.average)) + '☆'.repeat(5 - Math.round(rating.average)) : '☆☆☆☆☆'}</span>
       <small>{rating ? `${rating.count} reviews` : 'No reviews yet'}</small>
     </Link>
     <Link to={`/products/${product.handle}`}><h3>{product.title}</h3></Link>
+    <div className="related-card-price"><Money data={price} /></div>
     <div className="related-purchase-options">
       {detail ? detail.options.filter(option => !(option.name === 'Title' && option.optionValues[0]?.name === 'Default Title')).map(option => <label key={option.name}>
         <span className="related-option-label">{option.name}</span>
@@ -35,7 +37,7 @@ export function RelatedProductCard({product}: {product: HomeProductsQuery['produ
           void load(`/products/${product.handle}?${params}`);
         }}>{option.optionValues.map(value => <option key={value.name} value={value.name}>{value.name}</option>)}</select>
       </label>) : <span className="related-option-label">Loading pack options…</span>}
-      <label><span className="related-option-label">Purchase option</span><select aria-label={`${product.title} purchase option`} value={plan?.sellingPlan.id || ''} onChange={event => setPlanId(event.target.value)} disabled={!plans.length || state !== 'idle'}>
+      <label className="related-purchase-plan"><span className="related-option-label">Purchase option</span><select aria-label={`${product.title} purchase option`} value={plan?.sellingPlan.id || ''} onChange={event => setPlanId(event.target.value)} disabled={!plans.length || state !== 'idle'}>
         <option value="">One-time purchase</option>
         {plans.map(item => <option key={item.sellingPlan.id} value={item.sellingPlan.id}>Subscribe · {item.sellingPlan.name}</option>)}
       </select></label>
@@ -50,5 +52,6 @@ export function RelatedProductCard({product}: {product: HomeProductsQuery['produ
         <p className="product-cart-status" role="status">{fetcher.state === 'idle' && (fetcher.data?.errors?.length ? 'Could not add this pack. Please try again.' : fetcher.data?.cart ? 'Added to cart ✓' : '')}</p>
       </>}
     </CartForm>
+    </div>
   </article>;
 }

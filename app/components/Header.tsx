@@ -78,12 +78,13 @@ export function HeaderMenu({
         if (!item.url) return null;
 
         // if the url is internal, we strip the domain
-        const url =
+        let url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain) ||
           item.url.includes(primaryDomainUrl)
             ? new URL(item.url).pathname
             : item.url;
+        if (/^bulk orders?$/i.test(item.title.trim())) url = '/pages/bulk-order';
 
         // show a chevron only for items that actually have a submenu,
         // instead of hardcoding it onto a fake "Shop" entry

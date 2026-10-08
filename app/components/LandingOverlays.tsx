@@ -1,4 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
+import {createPortal} from 'react-dom';
 import {useAnalytics} from '@shopify/hydrogen';
 import {Link} from 'react-router';
 import type {HomeProductsQuery} from 'storefrontapi.generated';
@@ -181,10 +182,15 @@ function ProductPulse({products}: {products: Product[]}) {
 }
 
 export function LandingOverlays({products}: {products: Product[]}) {
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  // Fixed overlays must escape section stacking contexts and animated ancestors.
+  if (!mounted) return null;
+  return createPortal(
     <>
       <CookieConsent />
       <ProductPulse products={products} />
-    </>
+    </>,
+    document.body,
   );
 }

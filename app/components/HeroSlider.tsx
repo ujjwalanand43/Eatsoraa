@@ -3,8 +3,8 @@ import {Link} from 'react-router';
 
 const slides = [
   {
-    src: '/soraa-website-banner.png',
-    alt: 'Boring snacks? Hard pass. Bold flavours, premium nuts and dry fruits. Shop SORAA now.',
+    src: '/banner-first/background.webp',
+    alt: 'Boring snacks? Hard pass. Bold flavours, premium snacks for whatever the day brings. Shop SORAA now.',
     color: '#faf7e6',
     artwork: true,
     kicker: '',
@@ -65,6 +65,7 @@ export function HeroSlider() {
       className="home-hero-slider"
       aria-label="SORAA featured snacks"
       aria-roledescription="carousel"
+      data-motion-paused={paused || hovered || focused}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)}
@@ -97,6 +98,30 @@ export function HeroSlider() {
                   width="8192"
                   height="3641"
                 />
+                <span className="hero-product-layers" aria-hidden="true">
+                  {[
+                    [0, 172, 838, 386, 300],
+                    [1, 2161, 806, 357, 332],
+                    [2, 890, 851, 377, 287],
+                    [3, 1730, 852, 379, 286],
+                    [4, 539, 878, 369, 260],
+                    [5, 1346, 864, 416, 274],
+                  ].map(([id, x, y, width, height]) => (
+                    <span
+                      key={id}
+                      className="hero-product-pack"
+                      style={{
+                        left: `${(x / 2560) * 100}%`,
+                        top: `${(y / 1138) * 100}%`,
+                        width: `${(width / 2560) * 100}%`,
+                        height: `${(height / 1138) * 100}%`,
+                        animationDelay: `${-id * 0.7}s`,
+                      }}
+                    >
+                      <img src={`/banner-first/Im${id}.webp`} alt="" />
+                    </span>
+                  ))}
+                </span>
               </Link>
             ) : (
               <>

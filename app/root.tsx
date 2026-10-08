@@ -56,6 +56,13 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 export function links() {
   return [
     {
+      rel: 'preload',
+      href: '/fonts/jost-variable.ttf',
+      as: 'font',
+      type: 'font/ttf',
+      crossOrigin: 'anonymous',
+    },
+    {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
     },
@@ -151,6 +158,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="color-scheme" content="only light" />
         <link rel="stylesheet" href={resetStyles}></link>
         <link rel="stylesheet" href={appStyles}></link>
         <link rel="stylesheet" href={tailwindCss}></link>

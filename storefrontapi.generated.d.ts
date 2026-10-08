@@ -480,6 +480,16 @@ export type HomeCollectionsQuery = {
   };
 };
 
+export type OrderGlobeQueryVariables = StorefrontAPI.Exact<{
+  [key: string]: never;
+}>;
+
+export type OrderGlobeQuery = {
+  shop: {
+    metafield?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+  };
+};
+
 export type ArticleQueryVariables = StorefrontAPI.Exact<{
   articleHandle: StorefrontAPI.Scalars['String']['input'];
   blogHandle: StorefrontAPI.Scalars['String']['input'];
@@ -1682,6 +1692,10 @@ interface GeneratedQueryTypes {
   '#graphql\n\n  query HomeCollections(\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n\n    collections(\n      first: 7\n      sortKey: TITLE\n    ) {\n\n      nodes {\n\n        id\n\n        title\n\n        handle\n\n        products(first: 10) {\n          nodes {\n            id\n            title\n            handle\n            selectedOrFirstAvailableVariant {\n              id\n              availableForSale\n              title\n              selectedOptions { name value }\n              image { id url altText width height }\n              product { id handle title }\n              price { amount currencyCode }\n            }\n            priceRange { minVariantPrice { amount currencyCode } }\n            featuredImage { id url altText width height }\n          }\n        }\n\n        image {\n          id\n          url\n          altText\n          width\n          height\n        }\n\n      }\n\n    }\n\n  }\n\n': {
     return: HomeCollectionsQuery;
     variables: HomeCollectionsQueryVariables;
+  };
+  '#graphql\n  query OrderGlobe {\n    shop { metafield(namespace: "soraa", key: "order_locations") { value } }\n  }\n': {
+    return: OrderGlobeQuery;
+    variables: OrderGlobeQueryVariables;
   };
   '#graphql\n  query Article(\n    $articleHandle: String!\n    $blogHandle: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    blog(handle: $blogHandle) {\n      handle\n      articleByHandle(handle: $articleHandle) {\n        handle\n        title\n        contentHtml\n        publishedAt\n        author: authorV2 {\n          name\n        }\n        image {\n          id\n          altText\n          url\n          width\n          height\n        }\n        seo {\n          description\n          title\n        }\n      }\n    }\n  }\n': {
     return: ArticleQuery;

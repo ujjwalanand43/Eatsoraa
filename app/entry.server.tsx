@@ -15,6 +15,8 @@ export default async function handleRequest(
   context: HydrogenRouterContextProvider,
 ) {
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
+    // COBE embeds its world land mask as a PNG data URL.
+    imgSrc: ["'self'", "data:", "https://cdn.shopify.com", "https://shopify.com"],
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
