@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
 import type {CartLayout, LineItemChildrenMap} from '~/components/CartMain';
 import {CartForm, Image, type OptimisticCartLine} from '@shopify/hydrogen';
@@ -145,7 +146,7 @@ function CartLineQuantity({
             name="decrease-quantity"
             value={prevQuantity}
           >
-            <span>&#8722; </span>
+            <ButtonIcon name="minus" />
           </button>
         </CartLineUpdateButton>
         <output aria-live="polite" aria-label="Quantity">
@@ -158,7 +159,7 @@ function CartLineQuantity({
             value={nextQuantity}
             disabled={!!isOptimistic}
           >
-            <span>&#43;</span>
+            <ButtonIcon name="plus" />
           </button>
         </CartLineUpdateButton>
       </div>

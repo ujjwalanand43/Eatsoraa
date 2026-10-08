@@ -1,9 +1,11 @@
+import {Fragment} from 'react';
+import {ShopCollectionNav, ShopEditorialCard} from '~/components/ShopCollectionNav';
 import {redirect, useLoaderData} from 'react-router';
 import type {Route} from './+types/collections.$handle';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
-import {ProductItem} from '~/components/ProductItem';
+import {RelatedProductCard} from '~/components/RelatedProductCard';
 import type {ProductItemFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -69,7 +71,7 @@ export default function Collection() {
   const {collection} = useLoaderData<typeof loader>();
 
   return (
-    <div className="collection">
+    <div className="collection shop-catalog">
       <header className="store-page-header">
         <p>SHOP SORAA</p>
         <h1>{collection.title}</h1>
@@ -78,16 +80,18 @@ export default function Collection() {
             'Everyday goodness, packed fresh for happier snacking.'}
         </p>
       </header>
+      <ShopCollectionNav />
       <PaginatedResourceSection<ProductItemFragment>
+        autoLoad
         connection={collection.products}
         resourcesClassName="products-grid"
       >
         {({node: product, index}) => (
-          <ProductItem
-            key={product.id}
-            product={product}
-            loading={index < 8 ? 'eager' : undefined}
-          />
+          <Fragment key={product.id}>
+            {index === 4 && <ShopEditorialCard />}
+            <div className="shop-product-slot"><RelatedProductCard product={product} /></div>
+            {index === 7 && <ShopEditorialCard variant="message" />}
+          </Fragment>
         )}
       </PaginatedResourceSection>
       <Analytics.CollectionView

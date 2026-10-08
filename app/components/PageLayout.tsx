@@ -97,7 +97,7 @@ function CartDrawerRecommendations() {
         <Await resolve={fetcher.data?.recommendations}>
           {(result) => result?.products.nodes.length ? result.products.nodes.slice(0, 6).map((product) => (
             <HomeProductCard key={product.id} product={product} />
-          )) : <Link to="/collections/all" onClick={close}>Explore all snacks →</Link>}
+          )) : <Link to="/collections/all" onClick={close}>Explore all snacks</Link>}
         </Await>
       </Suspense>
     </div>

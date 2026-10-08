@@ -46,7 +46,7 @@ export function ProductItem({
             <Money data={product.priceRange.minVariantPrice} />
           </span>
           <span className="product-item-action">
-            View product <span aria-hidden="true">→</span>
+            View product
           </span>
         </span>
       </Link>

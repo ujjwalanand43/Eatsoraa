@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {Suspense} from 'react';
 import {CartForm, Image, Money, useOptimisticCart} from '@shopify/hydrogen';
 import {Await, Link, useAsyncValue, useFetcher, useRouteLoaderData, type FetcherWithComponents} from 'react-router';
@@ -51,7 +52,7 @@ function CompactCartButtons({variant, productTitle}: CompactCartProps) {
   const line = cart?.lines.nodes.find(item => item.merchandise.id === variant?.id);
   const quantity = line?.quantity ?? 0;
 
-  if (!variant?.availableForSale) return <div className="related-cart-control"><button className="add-cart-button" type="button" disabled aria-label={`${productTitle} is sold out`}>×</button></div>;
+  if (!variant?.availableForSale) return <div className="related-cart-control"><button className="add-cart-button" type="button" disabled aria-label={`${productTitle} is sold out`}><ButtonIcon name="close" /></button></div>;
 
   const submit = (action: string, inputs: object) => fetcher.submit(
     {[CartForm.INPUT_NAME]: JSON.stringify({action, inputs})},

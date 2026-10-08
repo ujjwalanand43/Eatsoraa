@@ -36,7 +36,7 @@ export function AboutSoraaPage() {
             SORAA was created with one simple thought: why should healthy
             snacking feel like a compromise?
           </p>
-          <Link to="/collections/all">Meet the snack shelf →</Link>
+          <Link to="/collections/all">Meet the snack shelf</Link>
         </div>
         <img
           src="/hero-snack-range.png"
@@ -122,7 +122,7 @@ export function AboutSoraaPage() {
       <section className="brand-page-closing">
         <p>WELCOME TO SORAA</p>
         <h2>The future of snacking is here.</h2>
-        <Link to="/collections/all">See you in your bag tomorrow →</Link>
+        <Link to="/collections/all">See you in your bag tomorrow</Link>
       </section>
     </div>
   );
@@ -205,7 +205,7 @@ export function InvestorHubPage() {
             nuts, dry fruits, date bites, seed mixes, trail mixes and
             grab-and-go packs that are bold, clean and never boring.
           </p>
-          <Link to="/pages/contact">Connect with us →</Link>
+          <Link to="/pages/contact">Connect with us</Link>
         </div>
       </section>
 
@@ -271,7 +271,7 @@ export function InvestorHubPage() {
             collaborations, growth and brand partnerships.
           </p>
         </div>
-        <Link to="/pages/contact">Contact SORAA →</Link>
+        <Link to="/pages/contact">Contact SORAA</Link>
       </section>
 
       <section className="brand-page-shell investor-disclaimer">
@@ -436,9 +436,9 @@ export function ContactSoraaPage() {
               target="_blank"
               rel="noreferrer"
             >
-              Start WhatsApp chat →
+              Start WhatsApp chat
             </a>
-            <a href="mailto:we@eatsoraa.com">Send an email →</a>
+            <a href="mailto:we@eatsoraa.com">Send an email</a>
           </div>
         </div>
       </section>
@@ -488,7 +488,7 @@ export function ContactSoraaPage() {
           Your feedback helps us build better snacks, flavours and experiences.
         </p>
         <a href="mailto:we@eatsoraa.com?subject=SORAA%20Feedback">
-          We are listening →
+          We are listening
         </a>
       </section>
     </div>

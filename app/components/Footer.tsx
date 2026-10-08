@@ -27,10 +27,6 @@ export function Footer({
                 </NavLink>
                 <p>GOOD SNACKS. BETTER DAYS.</p>
                 <h2>Get 15% off your first order.</h2>
-                <p>
-                  Join our community for new launches, snack inspiration and
-                  members-only offers.
-                </p>
                 <NewsletterSignup />
                 <FooterSocials />
               </div>
@@ -78,6 +74,8 @@ export function Footer({
                   <NavLink to="/search">Search</NavLink>
                   <NavLink to="/pages/contact">Contact</NavLink>
                   <NavLink to="/pages/bulk-order">Bulk orders</NavLink>
+                  <NavLink to="/collections/all">Catalog</NavLink>
+                  <NavLink to="/pages/bulk-order">Gifting</NavLink>
                 </nav>
               </div>
             </div>

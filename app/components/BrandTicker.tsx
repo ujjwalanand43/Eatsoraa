@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {useState} from 'react';
 
 function Megaphone() {
@@ -56,7 +57,7 @@ export function BrandTicker() {
         aria-label={paused ? 'Play moving text' : 'Pause moving text'}
         onClick={() => setPaused(!paused)}
       >
-        {paused ? '▶' : 'Ⅱ'}
+        <ButtonIcon name={paused ? 'play' : 'pause'} />
       </button>
     </section>
   );

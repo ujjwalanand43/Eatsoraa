@@ -1,11 +1,11 @@
-import {useMemo, useState} from 'react';
+import {useMemo} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {Link} from 'react-router';
 import type {HomeCollectionsQuery} from 'storefrontapi.generated';
 
 type Collection = HomeCollectionsQuery['collections']['nodes'][number];
 const campaignArt: Record<string, {file: string; alt: string}> = {
-  'best-sellers': {file: 'best-sellers.png', alt: 'SORAA Date Bites snack moment'},
+  'best-sellers': {file: 'breakfast-mixes.png', alt: 'A woman pouring SORAA Morning Energy Breakfast Mix into a bowl'},
   'breakfast-mixes': {file: 'breakfast-mixes.png', alt: 'SORAA Morning Energy Breakfast Mix'},
   'dates-date-bites': {file: 'dates-date-bites.png', alt: 'SORAA Date Bites with nuts and dates'},
   'dry-fruits': {file: 'dry-fruits.png', alt: 'SORAA Premium Walnut Kernels'},
@@ -64,10 +64,7 @@ export function BetterForYouShowcase({
     () => collections.filter((collection) => collection.products.nodes.length),
     [collections],
   );
-  const [activeHandle, setActiveHandle] = useState(available[0]?.handle);
-  const active =
-    available.find((collection) => collection.handle === activeHandle) ||
-    available[0];
+  const active = available[0];
   const product = active?.products.nodes[0];
   const image = product?.featuredImage || active?.image;
   const artwork = active && campaignArt[active.handle];
@@ -81,24 +78,6 @@ export function BetterForYouShowcase({
         <h2 id="better-heading">
           Feel-good snacks, <span>made better.</span>
         </h2>
-      </div>
-
-      <div className="better-tabs" role="tablist" aria-label="Snack category">
-        {available.slice(0, 5).map((collection) => {
-          const selected = collection.handle === active.handle;
-          return (
-            <button
-              key={collection.id}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              onClick={() => setActiveHandle(collection.handle)}
-            >
-              {selected && <span aria-hidden="true">✦</span>}
-              {collection.title}
-            </button>
-          );
-        })}
       </div>
 
       <div className="better-showcase-content">
@@ -139,7 +118,7 @@ export function BetterForYouShowcase({
             </article>
           ))}
           <Link to={`/collections/${active.handle}`} prefetch="intent">
-            Explore {active.title.toLowerCase()} <span aria-hidden="true">↗</span>
+            Explore {active.title.toLowerCase()}
           </Link>
         </div>
       </div>

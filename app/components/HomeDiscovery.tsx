@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {useRef, useState} from 'react';
 import {Link} from 'react-router';
 import type {ArticleItemFragment} from 'storefrontapi.generated';
@@ -38,7 +39,7 @@ export function HomeDiscovery({
                 to discover what&apos;s available in your area.
               </p>
               <Link className="orange-button" to="/collections/all">
-                SHOP DIRECT <span aria-hidden="true">→</span>
+                SHOP DIRECT
               </Link>
             </div>
             <div
@@ -122,14 +123,14 @@ export function HomeDiscovery({
               <span>snack.</span>
             </h2>
             <p>Stories, ingredients and inspiration for your everyday.</p>
-            <Link to="/blogs/news">Explore the journal ↗</Link>
+            <Link to="/blogs/news">Explore the journal</Link>
             {articles.length > 1 && (
               <div className="home-journal-controls">
                 <button onClick={() => move(-1)} aria-label="Previous stories">
-                  ←
+                  <ButtonIcon name="left" />
                 </button>
                 <button onClick={() => move(1)} aria-label="Next stories">
-                  →
+                  <ButtonIcon name="right" />
                 </button>
               </div>
             )}
@@ -158,7 +159,7 @@ export function HomeDiscovery({
                   <div className="home-story-copy">
                     <small>THE SORAA JOURNAL</small>
                     <h3>{article.title}</h3>
-                    <span className="home-story-read">Read story ↗</span>
+                    <span className="home-story-read">Read story</span>
                   </div>
                 </Link>
               </article>
@@ -170,7 +171,7 @@ export function HomeDiscovery({
                   New stories are on the way. Explore our snacks while we get
                   the next read ready.
                 </p>
-                <Link to="/collections/all">Discover SORAA →</Link>
+                <Link to="/collections/all">Discover SORAA</Link>
               </div>
             )}
           </div>

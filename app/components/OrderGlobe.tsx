@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {useEffect, useRef, useState} from 'react';
 import {Link} from 'react-router';
 import {DEFAULT_GLOBE_LOCATIONS, type GlobeLocation} from '~/lib/orderGlobe';
@@ -48,7 +49,7 @@ export function OrderGlobe({locations = []}: {locations?: GlobeLocation[]}) {
       <span className="order-globe-eyebrow">LITTLE PACKS. BIG CONNECTIONS.</span>
       <h2 id="order-globe-heading">A world of<br /><span>happy snacking.</span></h2>
       <p>From your everyday break to someone’s new favourite. Good snacks bring us a little closer.</p>
-      <Link className="order-globe-cta" to="/collections/all">Find your next favourite <span aria-hidden="true">↗</span></Link>
+      <Link className="order-globe-cta" to="/collections/all">Find your next favourite</Link>
       <div className="order-globe-locations" aria-label="Locations marked on the globe">
         {points.slice(0, 10).map((point, i) => <span key={`${point.label}-${i}`}><i aria-hidden="true" />{point.label}<small>{point.source === 'sample' ? 'Sample order' : 'Order destination'}</small></span>)}
       </div>
@@ -59,7 +60,7 @@ export function OrderGlobe({locations = []}: {locations?: GlobeLocation[]}) {
       <canvas ref={canvas} aria-label="Rotating world globe showing snack destinations" role="img" />
       {unavailable && <div className="order-globe-fallback">Good snacks.<br />Everywhere you go.<span>Destination locations are listed alongside.</span></div>}
       <span className="order-globe-caption"><i />THE SORAA CONNECTION</span>
-      <button className="order-globe-pause" onClick={() => {pauseRef.current = !paused; setPaused(!paused);}} aria-label={paused ? 'Play globe animation' : 'Pause globe animation'} aria-pressed={paused}>{paused ? '▶' : 'Ⅱ'}</button>
+      <button className="order-globe-pause" onClick={() => {pauseRef.current = !paused; setPaused(!paused);}} aria-label={paused ? 'Play globe animation' : 'Pause globe animation'} aria-pressed={paused}><ButtonIcon name={paused ? 'play' : 'pause'} /></button>
     </div>
   </section>;
 }

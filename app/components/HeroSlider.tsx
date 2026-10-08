@@ -42,7 +42,6 @@ const slides = [
 
 export function HeroSlider() {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -54,18 +53,18 @@ export function HeroSlider() {
     return () => media.removeEventListener('change', update);
   }, []);
   useEffect(() => {
-    if (paused || hovered || focused || reducedMotion) return;
+    if (hovered || focused || reducedMotion) return;
     const timer = window.setInterval(() => {
       if (!document.hidden) setActive((index) => (index + 1) % slides.length);
     }, 5000);
     return () => window.clearInterval(timer);
-  }, [paused, hovered, focused, reducedMotion]);
+  }, [hovered, focused, reducedMotion]);
   return (
     <section
       className="home-hero-slider"
       aria-label="SORAA featured snacks"
       aria-roledescription="carousel"
-      data-motion-paused={paused || hovered || focused}
+      data-motion-paused={hovered || focused}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)}
@@ -161,13 +160,13 @@ export function HeroSlider() {
                       to="/collections/best-sellers"
                       className="home-hero-primary-cta"
                     >
-                      SHOP NOW <span aria-hidden="true">→</span>
+                      SHOP NOW
                     </Link>
                     <Link
                       to="/collections/all"
                       className="home-hero-secondary-cta"
                     >
-                      EXPLORE MORE <span aria-hidden="true">→</span>
+                      EXPLORE MORE
                     </Link>
                   </div>
                 </div>
@@ -175,43 +174,6 @@ export function HeroSlider() {
             )}
           </div>
         ))}
-      </div>
-      <div className="home-hero-toolbar">
-        <div className="home-hero-controls">
-          <button
-            onClick={() =>
-              setActive((index) => (index + slides.length - 1) % slides.length)
-            }
-            aria-label="Previous hero slide"
-          >
-            ←
-          </button>
-          {slides.map((slide, index) => (
-            <button
-              key={slide.src}
-              className="home-hero-dot"
-              aria-label={`Show slide ${index + 1}`}
-              aria-pressed={active === index}
-              onClick={() => setActive(index)}
-            />
-          ))}
-          <button
-            onClick={() => setActive((index) => (index + 1) % slides.length)}
-            aria-label="Next hero slide"
-          >
-            →
-          </button>
-          {!reducedMotion && (
-            <button
-              onClick={() => setPaused((value) => !value)}
-              aria-label={
-                paused ? 'Play hero slideshow' : 'Pause hero slideshow'
-              }
-            >
-              {paused ? '▶' : 'Ⅱ'}
-            </button>
-          )}
-        </div>
       </div>
     </section>
   );

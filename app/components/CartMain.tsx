@@ -126,7 +126,7 @@ function CartEmpty({
       <h2>Your cart is ready for something good.</h2>
       <p>Add your favourite SORAA snacks and come back here to check out.</p>
       <Link to="/collections/all" onClick={close} prefetch="viewport">
-        Explore all products →
+        Explore all products
       </Link>
     </div>
   );

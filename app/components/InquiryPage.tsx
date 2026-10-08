@@ -13,7 +13,7 @@ export function InquiryPage({bulk = false}: {bulk?: boolean}) {
         <h1>{bulk ? 'More snacks.' : "Let’s get"}<br/><span>{bulk ? 'Bigger plans.' : 'in touch.'}</span></h1>
         <p>{bulk ? 'Planning a bulk order, stocking SORAA or gifting your team? Tell us what you have in mind.' : 'Have a question about your order or our snacks? Tell us a little more and we’ll help.'}</p>
         <p>Or reach us directly<br/><a href="mailto:we@eatsoraa.com">we@eatsoraa.com</a></p>
-        <a href="https://wa.me/919667761803" target="_blank" rel="noreferrer">Chat on WhatsApp ↗</a>
+        <a href="https://wa.me/919667761803" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
         <div className="inquiry-tags"><span>Bulk orders</span><span>Distributors</span><span>Partnerships</span><span>Support</span></div>
       </div>
       {bulk ? <div className="inquiry-form inquiry-hosted">
@@ -21,7 +21,7 @@ export function InquiryPage({bulk = false}: {bulk?: boolean}) {
         <p>Submit your bulk order or partnership enquiry through our Shopify form.</p>
         <div className="inquiry-topic-grid">{topics.map(topic=><span key={topic}>{topic}</span>)}</div>
         <p>The form asks for your name, email, phone, company, query type, order number, city, website and message.</p>
-        <a className="inquiry-submit" href="https://eatsoraa.com/pages/send-your-query" target="_blank" rel="noopener noreferrer">Open bulk order form ↗</a>
+        <a className="inquiry-submit" href="https://eatsoraa.com/pages/send-your-query" target="_blank" rel="noopener noreferrer">Open bulk order form</a>
         <p className="inquiry-policy">Opens our secure Shopify form in a new tab.</p>
       </div> : <form method="post" action="https://eatsoraa.com/contact#contact_form" acceptCharset="UTF-8" className="inquiry-form" onSubmit={event=>{
         const form = event.currentTarget;
@@ -48,7 +48,7 @@ export function InquiryPage({bulk = false}: {bulk?: boolean}) {
           <label className="inquiry-wide">Website / Instagram<input name="contact[Website or Instagram]" maxLength={250} placeholder="https://... or @username"/></label>
           <label className="inquiry-wide">Message *<textarea name="contact[body]" required maxLength={1000} rows={5} value={message} onChange={e=>setMessage(e.target.value)} placeholder="Tell us about your query…"/><small>{message.length}/1000</small></label>
         </div>
-        <button className="inquiry-submit" disabled={selected.length === 0} type="submit">Submit query <span aria-hidden="true">↗</span></button>
+        <button className="inquiry-submit" disabled={selected.length === 0} type="submit">Submit query</button>
         <p className="inquiry-policy">View our <Link to="/pages/privacy-policy">privacy policy</Link> and <Link to="/pages/terms-conditions">terms of service</Link>.</p>
       </form>}
     </div>

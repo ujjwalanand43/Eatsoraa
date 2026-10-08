@@ -10,10 +10,10 @@ export function ProductWorld({product}: {product: ProductFragment}) {
     <h2 id="pdp-world-title"><span>SORAA</span> WORLD</h2>
     <div className="pdp-world-grid">
       <div className="pdp-world-tall">{lifestyle && <img src={lifestyle.url} alt={lifestyle.altText || product.title} loading="lazy" />}</div>
-      <div className="pdp-world-message"><small>GOOD SNACKS. BETTER DAYS.</small><h3>Big flavour.<br />Little everyday joys.</h3><Link to="/collections/all">Find your favourite ↗</Link></div>
+      <div className="pdp-world-message"><small>GOOD SNACKS. BETTER DAYS.</small><h3>Big flavour.<br />Little everyday joys.</h3><Link to="/collections/all">Find your favourite</Link></div>
       <img className="pdp-world-photo" src="/hero-snack-better.jpg" alt="SORAA Date Bites for a snack break" loading="lazy" />
       <div className="pdp-world-wide"><small>MAKE TIME FOR THE GOOD STUFF</small><h3>Work breaks.<br />Road trips. Your everyday.</h3><p>A little SORAA goes a long way.</p></div>
-      <div className="pdp-world-end"><img src="/hero-grab-snack.jpg" alt="SORAA snack packs" loading="lazy" /><h3>Keep a little<br />crunch close.</h3><Link to="/collections/all">Explore the snack shelf →</Link></div>
+      <div className="pdp-world-end"><img src="/hero-grab-snack.jpg" alt="SORAA snack packs" loading="lazy" /><h3>Keep a little<br />crunch close.</h3><Link to="/collections/all">Explore the snack shelf</Link></div>
     </div>
   </section>;
 }

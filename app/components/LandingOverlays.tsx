@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {useEffect, useMemo, useState} from 'react';
 import {createPortal} from 'react-dom';
 import {useAnalytics} from '@shopify/hydrogen';
@@ -76,7 +77,7 @@ function CookieConsent() {
         aria-label="Use necessary cookies only"
         onClick={() => saveChoice(false)}
       >
-        ×
+        <ButtonIcon name="close" />
       </button>
       <span className="cookie-consent-icon" aria-hidden="true">🍪</span>
       <div>
@@ -158,7 +159,7 @@ function ProductPulse({products}: {products: Product[]}) {
           setVisible(false);
         }}
       >
-        ×
+        <ButtonIcon name="close" />
       </button>
       <Link to={`/products/${product.handle}`} prefetch="intent">
         <img
@@ -172,7 +173,7 @@ function ProductPulse({products}: {products: Product[]}) {
           <strong>{product.title}</strong>
           <em>{city}, {region}, India</em>
           <span className="product-pulse-meta">
-            <span>Sample activity</span><span>View product →</span>
+            <span>Sample activity</span><span>View product</span>
           </span>
         </span>
       </Link>

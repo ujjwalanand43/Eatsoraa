@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {Suspense, useEffect, useRef, useState} from 'react';
 import {Await, Link} from 'react-router';
 import {Image, Money, type MappedProductOptions} from '@shopify/hydrogen';
@@ -206,7 +207,7 @@ function Gallery({
           aria-label="Close enlarged image"
           onClick={() => dialog.current?.close()}
         >
-          ×
+          <ButtonIcon name="close" />
         </button>
         <div className="pdp-lightbox-stage">
           {images.length > 1 && (
@@ -216,7 +217,7 @@ function Gallery({
               aria-label="Previous product image"
               onClick={() => move(-1)}
             >
-              ←
+              <ButtonIcon name="left" />
             </button>
           )}
           {active && (
@@ -234,7 +235,7 @@ function Gallery({
               aria-label="Next product image"
               onClick={() => move(1)}
             >
-              →
+              <ButtonIcon name="right" />
             </button>
           )}
         </div>
@@ -497,7 +498,6 @@ export function ProductPage({
                   </span>
                   <small>{featuredReview.text}</small>
                 </span>
-                <span aria-hidden="true">→</span>
               </a>
               {reviews.length > 1 && (
                 <div className="pdp-review-slider-controls">
@@ -511,7 +511,7 @@ export function ProductPage({
                       )
                     }
                   >
-                    ←
+                    <ButtonIcon name="left" />
                   </button>
                   <div
                     aria-label={`Review ${reviewSlide + 1} of ${reviews.length}`}
@@ -536,7 +536,7 @@ export function ProductPage({
                       )
                     }
                   >
-                    →
+                    <ButtonIcon name="right" />
                   </button>
                 </div>
               )}
@@ -784,7 +784,7 @@ export function ProductPage({
                 related.current?.scrollBy({left: -350, behavior: 'smooth'})
               }
             >
-              ←
+              <ButtonIcon name="left" />
             </button>
             <button
               type="button"
@@ -793,7 +793,7 @@ export function ProductPage({
                 related.current?.scrollBy({left: 350, behavior: 'smooth'})
               }
             >
-              →
+              <ButtonIcon name="right" />
             </button>
           </div>
         </div>
@@ -814,7 +814,7 @@ export function ProductPage({
                   ))}
                 </div>
               ) : (
-                <Link to="/collections/all">Explore all snacks →</Link>
+                <Link to="/collections/all">Explore all snacks</Link>
               );
             }}
           </Await>
@@ -831,7 +831,7 @@ export function ProductPage({
             with <span>SORAA.</span>
           </h2>
         </div>
-        <Link to="/collections/all">Explore more →</Link>
+        <Link to="/collections/all">Explore more</Link>
       </section>
     </div>
   );

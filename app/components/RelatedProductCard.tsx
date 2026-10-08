@@ -5,7 +5,9 @@ import type {HomeProductsQuery} from 'storefrontapi.generated';
 import type {loader} from '~/routes/products.$handle';
 import {productRating} from './HomeProductCard';
 
-export function RelatedProductCard({product}: {product: HomeProductsQuery['products']['nodes'][number]}) {
+type CardProduct = Pick<HomeProductsQuery['products']['nodes'][number], 'id' | 'handle' | 'title' | 'featuredImage' | 'priceRange'>;
+
+export function RelatedProductCard({product}: {product: CardProduct}) {
   const {load, data, state} = useFetcher<typeof loader>();
   const [planId, setPlanId] = useState('');
   useEffect(() => {void load(`/products/${product.handle}`);}, [load, product.handle]);

@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {Link, useNavigate, type FetcherWithComponents} from 'react-router';
 import {
@@ -252,7 +253,7 @@ export function ProductPurchase({
               disabled={quantity === 1}
               onClick={() => setQuantity((q) => q - 1)}
             >
-              −
+              <ButtonIcon name="minus" />
             </button>
             <output aria-live="polite" aria-label="Selected quantity">
               {quantity}
@@ -263,7 +264,7 @@ export function ProductPurchase({
               disabled={quantity === 99}
               onClick={() => setQuantity((q) => q + 1)}
             >
-              +
+              <ButtonIcon name="plus" />
             </button>
           </div>
           <CartForm
@@ -504,7 +505,7 @@ export function ProductPurchase({
               disabled={quantity === 1}
               onClick={() => setQuantity((current) => current - 1)}
             >
-              −
+              <ButtonIcon name="minus" />
             </button>
             <output aria-live="polite">{quantity}</output>
             <button
@@ -513,7 +514,7 @@ export function ProductPurchase({
               disabled={quantity === 99}
               onClick={() => setQuantity((current) => current + 1)}
             >
-              +
+              <ButtonIcon name="plus" />
             </button>
           </div>
           <CartForm

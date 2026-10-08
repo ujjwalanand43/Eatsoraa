@@ -83,33 +83,9 @@ export default function Homepage() {
 
       <section className="category-section" aria-labelledby="category-heading">
         <div className="category-heading-row">
-          <svg
-            className="category-rays"
-            viewBox="0 0 90 70"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M19 51 10 39M32 39 26 13M45 34 47 5"
-              stroke="currentColor"
-              strokeWidth="6"
-              strokeLinecap="round"
-            />
-            <path
-              d="m60 39 15-22"
-              stroke="#FE5100"
-              strokeWidth="6"
-              strokeLinecap="round"
-            />
-          </svg>
           <h2 id="category-heading">
             SHOP BY <span>CATEGORY</span>
           </h2>
-          <p className="category-note" aria-hidden="true">
-            Healthy looks
-            <br />
-            good on you ♡
-          </p>
         </div>
         <div className="category-grid">
           {[
@@ -136,9 +112,6 @@ export default function Homepage() {
                 loading="lazy"
               />
               <h3>{category.title}</h3>
-              <span className="category-arrow" aria-hidden="true">
-                →
-              </span>
             </Link>
           ))}
         </div>
@@ -192,9 +165,6 @@ export default function Homepage() {
           </Await>
         </Suspense>
         <div className="social-footer">
-          <Link className="orange-button" to="/collections/all">
-            EXPLORE ALL PRODUCTS <span aria-hidden="true">→</span>
-          </Link>
           <p>Customer review videos coming soon</p>
         </div>
       </section>
@@ -246,7 +216,7 @@ export default function Homepage() {
             big adventures and all the little moments in between.
           </p>
           <Link className="why-sky-button" to="/collections/all">
-            Find Your Favourite <span aria-hidden="true">→</span>
+            Find Your Favourite
           </Link>
         </div>
         <img

@@ -87,24 +87,34 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
 }
 
 export function ShippingProgress({subtotal}: {subtotal: number}) {
-  const threshold = 999;
-  const remaining = Math.max(0, threshold - subtotal);
-  const progress = Math.min(100, (subtotal / threshold) * 100);
+  const tiers = [{amount: 999, label: 'Free delivery'}, {amount: 1499, label: '10% off'}, {amount: 1999, label: '15% off'}];
+  const threshold = 1999;
+  const next = tiers.find((tier) => subtotal < tier.amount);
+  const remaining = next ? Math.ceil(next.amount - subtotal) : 0;
+  const progress = subtotal < 999 ? Math.max(0, subtotal / 999) * 16.667 : subtotal < 1499 ? 16.667 + (subtotal - 999) / 500 * 33.333 : Math.min(83.333, 50 + (subtotal - 1499) / 500 * 33.333);
   return (
     <div className="cart-shipping-progress">
       <strong>
-        {remaining === 0
-          ? 'You’re eligible for FREE shipping!'
-          : `Add ₹${Math.ceil(remaining)} for FREE shipping`}
+        {next ? `Add ₹${remaining} for ${next.label}` : 'You’ve reached the top offer tier!'}
       </strong>
+      <div className="cart-reward-track">
       <div
+        className="cart-reward-rail"
         role="progressbar"
-        aria-label="Free shipping progress"
+        aria-label="Cart offers progress"
         aria-valuemin={0}
         aria-valuemax={threshold}
         aria-valuenow={Math.min(subtotal, threshold)}
       >
         <span style={{width: `${progress}%`}} />
+      </div>
+      <ol className="cart-offer-tiers">
+        {tiers.map((tier) => <li key={tier.amount} data-reached={subtotal >= tier.amount}>
+          <b>₹{tier.amount.toLocaleString('en-IN')}</b>
+          <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7C5 8 5 1 9 3l3 4Zm0 0c7 1 7-6 3-4l-3 4Z" /></svg></i>
+          <span>{tier.label}</span>
+        </li>)}
+      </ol>
       </div>
     </div>
   );
@@ -129,7 +139,6 @@ function CartCheckoutActions({
         ) : (
           'Proceed to Checkout'
         )}{' '}
-        <span aria-hidden="true">→</span>
       </a>
     </div>
   );

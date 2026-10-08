@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {useEffect, useRef, useState} from 'react';
 import {CartForm, Image, Money} from '@shopify/hydrogen';
 import {Link, type FetcherWithComponents} from 'react-router';
@@ -46,35 +47,32 @@ export function SnackSquad({
       behavior:
         smooth && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
           ? 'smooth'
-          : 'auto',
+          : 'instant',
     });
   }
 
-  function moveTo(index: number, smooth = true) {
-    if (products.length <= 1) return moveToPhysical(0, smooth);
-    const normalized =
-      ((index % products.length) + products.length) % products.length;
-    const current = centeredPhysicalIndex();
-    const candidates = [
-      normalized,
-      normalized + products.length,
-      normalized + products.length * 2,
-    ];
-    const closest = candidates.reduce((best, candidate) =>
-      Math.abs(candidate - current) < Math.abs(best - current)
-        ? candidate
-        : best,
-    );
-    moveToPhysical(closest, smooth);
-  }
 
   useEffect(() => {
     const initial = Math.min(2, products.length - 1);
-    moveToPhysical(
-      products.length > 1 ? products.length + initial : initial,
-      false,
-    );
+    const node = track.current;
+    if (!node) return;
+    let frame = 0;
+    let initialized = false;
+    const align = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const index = initialized ? centeredPhysicalIndex() : products.length > 1 ? products.length + initial : initial;
+        moveToPhysical(index, false);
+        initialized = true;
+      });
+    };
+    const observer = new ResizeObserver(align);
+    observer.observe(node);
+    if (node.firstElementChild) observer.observe(node.firstElementChild);
+    align();
     return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
       if (scrollTimer.current) clearTimeout(scrollTimer.current);
     };
   }, [products.length]);
@@ -197,7 +195,7 @@ export function SnackSquad({
                   <Money
                     data={variant?.price ?? product.priceRange.minVariantPrice}
                   />
-                  <span className="squad-details">View product ↗</span>
+                  <span className="squad-details">View product</span>
                 </div>
               </Link>
               <div className="squad-cart">
@@ -243,34 +241,12 @@ export function SnackSquad({
           );
         })}
       </div>
-      <div className="social-controls">
-        <button
-          type="button"
-          onClick={() => moveToPhysical(centeredPhysicalIndex() - 1)}
-          aria-label="Previous review"
-          aria-controls="snack-squad-cards"
-        >
-          ←
+      <div className="review-small-controls" aria-label="Review navigation">
+        <button type="button" aria-label="Previous review" onClick={() => moveToPhysical(centeredPhysicalIndex() - 1)}>
+          <ButtonIcon name="left" />
         </button>
-        <div className="squad-pagination">
-          {products.map((product, index) => (
-            <button
-              type="button"
-              key={product.id}
-              className={position === index ? 'is-active' : ''}
-              aria-label={`Show review ${index + 1}`}
-              aria-current={position === index ? 'true' : undefined}
-              onClick={() => moveTo(index)}
-            />
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={() => moveToPhysical(centeredPhysicalIndex() + 1)}
-          aria-label="Next review"
-          aria-controls="snack-squad-cards"
-        >
-          →
+        <button type="button" aria-label="Next review" onClick={() => moveToPhysical(centeredPhysicalIndex() + 1)}>
+          <ButtonIcon name="right" />
         </button>
       </div>
     </div>

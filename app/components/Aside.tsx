@@ -1,3 +1,4 @@
+import {ButtonIcon} from './ButtonIcon';
 import {
   createContext,
   type ReactNode,
@@ -65,7 +66,7 @@ export function Aside({
         <header>
           <h3 id={id}>{heading}</h3>
           <button className="close reset" onClick={close} aria-label="Close">
-            &times;
+            <ButtonIcon name="close" />
           </button>
         </header>
         <main>{children}</main>
