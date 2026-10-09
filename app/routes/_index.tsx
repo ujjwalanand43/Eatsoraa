@@ -1,5 +1,6 @@
 import {Await, Link, useLoaderData} from 'react-router';
 import {Suspense} from 'react';
+import {CategorySlider} from '~/components/CategorySlider';
 import {OrderGlobe} from '~/components/OrderGlobe';
 import {parseGlobeLocations} from '~/lib/orderGlobe';
 import {SnackSquad} from '~/components/SnackSquad';
@@ -87,34 +88,58 @@ export default function Homepage() {
             SHOP BY <span>CATEGORY</span>
           </h2>
         </div>
-        <div className="category-grid">
-          {[
-            {title: 'Nuts & Raisins', handle: 'dry-fruits'},
-            {title: 'Seeds & Superfoods', handle: 'seed-mixes'},
-            {title: 'Trail Mixes', handle: 'trail-mixes'},
-            {title: 'Flavoured Nuts & Mixes', handle: 'flavored-nuts'},
-            {title: 'Spices & Masalas', handle: 'spice-blends'},
-            {title: 'Bundles & Giftpacks', handle: 'combos-gift-boxes'},
-            {title: 'Dry Fruits', handle: 'dry-fruits', id: 'dried-fruit-bowl'},
-          ].map((category, index) => (
+        <CategorySlider>
             <Link
-              key={category.id ?? category.handle}
-              to={`/collections/${category.handle}`}
-              className="category-card"
+              to="/collections/flavored-nuts"
+              className="category-card category-card--swap"
               prefetch="intent"
             >
-              <img
-                className="category-image"
-                src={`/categories/category-${String(index + 1).padStart(2, '0')}.jpg`}
-                alt={category.title}
-                width="5001"
-                height="5001"
-                loading="lazy"
-              />
-              <h3>{category.title}</h3>
+                <span className="category-swap-media">
+                  <img className="category-swap-default" src="/categories/hover/flavoured-nuts-packs.jpg" alt="Cheese & Jalapeno Cashews and Smoked BBQ Almonds" width="1000" height="1000" loading="lazy" />
+                  <img className="category-swap-hover" src="/categories/hover/flavoured-nuts-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
+                </span>
+              <h3>Flavoured Nuts &amp; Mixes</h3>
             </Link>
-          ))}
-        </div>
+            <Link
+              to="/collections/seed-mixes"
+              className="category-card category-card--swap category-card--seeds"
+              prefetch="intent"
+            >
+              <span className="category-swap-media">
+                <img className="category-swap-default" src="/categories/hover/seeds-pack.jpg" alt="SORAA 5-in-1 Roasted Super Seed Mix" width="1000" height="1000" loading="lazy" />
+                <img className="category-swap-hover" src="/categories/hover/seeds-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
+              </span>
+              <h3>Seeds &amp; Superfoods</h3>
+            </Link>
+            <Link to="/collections/dry-fruits" className="category-card category-card--swap category-card--nuts" prefetch="intent">
+              <span className="category-swap-media">
+                <img className="category-swap-default" src="/categories/hover/nuts-pack.jpg" alt="Himalayan Pink Salted Pistachios" width="1000" height="1000" loading="lazy" />
+                <img className="category-swap-hover" src="/categories/hover/nuts-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
+              </span>
+              <h3>Nuts &amp; Raisins</h3>
+            </Link>
+            <Link to="/collections/spice-blends" className="category-card category-card--swap category-card--spices" prefetch="intent">
+              <span className="category-swap-media">
+                <img className="category-swap-default" src="/categories/hover/spices-pack.jpg" alt="Royal Awadhi Biryani Masala" width="1000" height="1000" loading="lazy" />
+                <img className="category-swap-hover" src="/categories/hover/spices-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
+              </span>
+              <h3>Spices &amp; Masalas</h3>
+            </Link>
+            <Link to="/collections/combos-gift-boxes" className="category-card category-card--swap category-card--gifts" prefetch="intent">
+              <span className="category-swap-media">
+                <img className="category-swap-default" src="/categories/hover/gifts-pack.jpg" alt="SORAA Gift of Love gift box" width="1000" height="1000" loading="lazy" />
+                <img className="category-swap-hover" src="/categories/hover/gifts-hover.png" alt="" aria-hidden="true" width="1000" height="708" loading="lazy" />
+              </span>
+              <h3>Bundles &amp; Giftpacks</h3>
+            </Link>
+            <Link to="/collections/dry-fruits" className="category-card category-card--swap category-card--dry-fruits" prefetch="intent">
+              <span className="category-swap-media">
+                <img className="category-swap-default" src="/categories/hover/dry-fruits-pack.jpg" alt="Premium Walnut Kernels" width="1000" height="1000" loading="lazy" />
+                <img className="category-swap-hover" src="/categories/hover/dry-fruits-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
+              </span>
+              <h3>Dry Fruits</h3>
+            </Link>
+        </CategorySlider>
       </section>
 
       {/* =====================================================
@@ -128,24 +153,6 @@ export default function Homepage() {
             <br />
             <span>REAL SNACKING.</span>
           </h2>
-          <svg
-            className="social-crown"
-            viewBox="0 0 90 75"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="m15 60-7-40 24 15L44 7l12 28 25-18-10 43c-20-7-37-7-56 0Z"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <div className="social-squad">
-            Snack
-            <br />
-            Squad ♡
-          </div>
         </div>
         <Suspense
           fallback={
@@ -221,11 +228,11 @@ export default function Homepage() {
         </div>
         <img
           className="why-sky-art"
-          src="/why-soraa-orange.png"
-          width={1774}
-          height={887}
+          src="/home-final-snacking.jpg"
+          width={2400}
+          height={1067}
           loading="lazy"
-          alt="SORAA date bites, walnut kernels, roasted super seed mix, dried cranberries and pistachios against bold orange clouds"
+          alt="Three friends enjoying SORAA Berry Blast Mix, Cheese and Jalapeno Cashews, and Date Bites beneath a blue sky"
         />
       </section>
     </div>

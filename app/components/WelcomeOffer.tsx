@@ -1,28 +1,21 @@
 import {ButtonIcon} from './ButtonIcon';
-import {useEffect, useRef, useState, type PointerEvent} from 'react';
+import './WelcomeOffer.css';
+import './WelcomeOfferMotion.css';
+import {useEffect, useRef, useState} from 'react';
 import {Link} from 'react-router';
 
 export function WelcomeOffer() {
   const dialog = useRef<HTMLDialogElement>(null);
-  const canvas = useRef<HTMLCanvasElement>(null);
-  const strokes = useRef(0);
   const shownThisMount = useRef(false);
-  const [revealed, setRevealed] = useState(false);
-  const [copyStatus, setCopyStatus] = useState('');
-  function tiltArt(event: PointerEvent<HTMLDivElement>) {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const node = event.currentTarget;
-    const bounds = node.getBoundingClientRect();
-    const x = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1));
-    const y = Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1));
-    node.style.setProperty('--tilt-x', `${-y * 8}deg`);
-    node.style.setProperty('--tilt-y', `${x * 12}deg`);
-    node.style.setProperty('--shift-x', `${x * 18}px`);
-    node.style.setProperty('--shift-y', `${y * 12}px`);
-  }
-  function resetArt(event: PointerEvent<HTMLDivElement>) {
-    for (const property of ['--tilt-x', '--tilt-y', '--shift-x', '--shift-y']) event.currentTarget.style.removeProperty(property);
-  }
+  const [step, setStep] = useState<'email' | 'pick' | 'reveal'>('email');
+  const [selected, setSelected] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [unlocking, setUnlocking] = useState(false);
+  useEffect(() => {
+    if (!unlocking) return;
+    const timer = window.setTimeout(() => { setStep('pick'); setUnlocking(false); }, 500);
+    return () => window.clearTimeout(timer);
+  }, [unlocking]);
   useEffect(() => {
     const node = dialog.current;
     if (!node) return;
@@ -44,48 +37,56 @@ export function WelcomeOffer() {
     document.body.style.overflow = 'hidden';
     return () => {node.removeEventListener('close', close); node.close(); document.body.style.overflow = overflow;};
   }, []);
+
   useEffect(() => {
-    const ctx = canvas.current?.getContext('2d');
-    if (!ctx) return;
-    const gold = ctx.createLinearGradient(0, 0, 640, 400);
-    gold.addColorStop(0, '#f9d781'); gold.addColorStop(.5, '#c99a39'); gold.addColorStop(1, '#f7dca0');
-    ctx.fillStyle = gold; ctx.fillRect(0, 0, 640, 400);
-    ctx.fillStyle = '#653815'; ctx.font = 'bold 36px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('SCRATCH HERE', 320, 215);
-  }, []);
-  return <dialog ref={dialog} className="welcome-offer" aria-labelledby="welcome-offer-title">
-    <button className="welcome-offer-close" type="button" aria-label="Close welcome popup" onClick={() => dialog.current?.close()}><ButtonIcon name="close" /></button>
-    <div className="welcome-offer-layout">
-      <div className="welcome-offer-copy">
-        <p className="welcome-offer-brand">SORAA</p>
-        <p className="welcome-offer-eyebrow">A LITTLE SURPRISE FOR YOUR SNACK BREAK</p>
-        <h2 id="welcome-offer-title">Good snacks.<br /><span>A little luck.</span></h2>
-        <p>Scratch the golden card to take a peek.</p>
-        <div className="welcome-scratch">
-          <div className="welcome-scratch-result" aria-live="polite">{revealed && <><strong>10% OFF</strong><span>Use code at checkout</span><b className="welcome-coupon">SORAA10</b></>}</div>
-          {!revealed && <canvas ref={canvas} width="640" height="400" aria-hidden="true" onPointerDown={event => {event.currentTarget.setPointerCapture(event.pointerId);}} onPointerMove={event => {
-            if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
-            const rect = event.currentTarget.getBoundingClientRect();
-            const ctx = event.currentTarget.getContext('2d');
-            if (!ctx) return;
-            ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath();
-            ctx.arc((event.clientX - rect.left) * 640 / rect.width, (event.clientY - rect.top) * 400 / rect.height, 48, 0, Math.PI * 2); ctx.fill();
-            if (++strokes.current > 28) setRevealed(true);
-          }} />}
-        </div>
-        {!revealed ? <button className="welcome-offer-action" type="button" onClick={() => setRevealed(true)}>Reveal surprise</button> : <>
-          <button className="welcome-offer-action" type="button" onClick={() => {
-            if (!navigator.clipboard) { setCopyStatus('Use code SORAA10 at checkout.'); return; }
-            void navigator.clipboard.writeText('SORAA10').then(() => setCopyStatus('Copied! Use SORAA10 at checkout.'), () => setCopyStatus('Use code SORAA10 at checkout.'));
-          }}>Copy code · SORAA10</button>
-          <Link className="welcome-offer-shop" to="/collections/all" onClick={() => dialog.current?.close()}>Shop now</Link>
-        </>}
-        <small className="welcome-offer-note" role="status">{copyStatus || 'A little treat for your next snack order.'}</small>
-        <button className="welcome-offer-skip" type="button" onClick={() => dialog.current?.close()}>Continue browsing</button>
+    if (selected === null) return;
+    const timer = window.setTimeout(() => setStep('reveal'), 700);
+    return () => window.clearTimeout(timer);
+  }, [selected]);
+  return <dialog ref={dialog} className="welcome-offer snack-game" aria-labelledby="welcome-offer-title">
+    {step === 'reveal' && <div className="coupon-celebration" aria-hidden="true">
+      {Array.from({length: 64}, (_, index) => <i key={index} style={{
+        left: `${(index * 37) % 100}%`,
+        backgroundColor: ['#ff5900', '#ffd447', '#bd3e65', '#7248a5', '#63bba2', '#ffffff'][index % 6],
+        animationDelay: `${(index % 13) * 0.09}s`,
+        animationDuration: `${2.3 + (index % 7) * 0.19}s`,
+      }} />)}
+    </div>}
+    <span className="game-decor game-decor--star" aria-hidden="true">✦</span>
+    <span className="game-decor game-decor--float" aria-hidden="true">✦</span>
+    <span className="game-decor game-decor--circle" aria-hidden="true" />
+    <button className="game-close" type="button" aria-label="Close welcome popup" onClick={() => dialog.current?.close()}><ButtonIcon name="close" /></button>
+    <div className="game-layout">
+      <div className="game-art">
+        <img src="/feel-good/popup-breakfast.webp" alt="Woman pouring SORAA Breakfast Mix into a bowl" width="1080" height="1350" />
+        <span className="game-sticker">GOOD SNACKS<br />GOOD MOOD</span>
       </div>
-      <div className="welcome-offer-art welcome-offer-art-pair" onPointerMove={tiltArt} onPointerDown={tiltArt} onPointerLeave={resetArt} onPointerUp={resetArt} onPointerCancel={resetArt}>
-        <div className="welcome-art-depth">
-          <img draggable={false} className="welcome-pack-front" src="/feel-good/flavored-nuts.png" alt="SORAA Peri-Peri Roasted Cashews" width="1122" height="1402" />
-        </div>
+      <div className="game-content" key={step}>
+        <p className="game-eyebrow">{step === 'email' ? '✦ HEY SNACKER! ✦' : step === 'pick' ? '✦ PICK YOUR DEAL! ✦' : '✦ YOU SCORED! ✦'}</p>
+        <h2 id="welcome-offer-title">{step === 'email' ? 'PLAY & WIN A SNACK DEAL!' : step === 'pick' ? 'PICK YOUR SNACK SURPRISE!' : 'YOU WON 15% OFF!'}</h2>
+        {step === 'email' && <>
+          <div className="game-mini-cards" aria-hidden="true"><span><b>?</b></span><span><b>?</b></span><span><b>?</b></span></div>
+          <p>Enter your email and unlock your special snack offer.</p>
+          <form onSubmit={event => {event.preventDefault(); setUnlocking(true);}}>
+            <label className="sr-only" htmlFor="game-email">Email address</label>
+            <input id="game-email" type="email" required autoComplete="email" placeholder="Enter email address" />
+            <button className="game-action" type="submit" disabled={unlocking}>{unlocking ? 'UNLOCKING…' : 'UNLOCK MY OFFER'} {!unlocking && <ButtonIcon name="right" />}</button>
+          </form>
+          <small>Preview experience — email signup and offer activation coming soon.</small>
+        </>}
+        {step === 'pick' && <>
+          <p>One pick. One deal. Choose your mystery card.</p>
+          <div className="game-cards">
+            {[0, 1, 2].map(index => <button key={index} type="button" disabled={selected !== null} className={selected === index ? 'is-picked' : ''} onClick={() => setSelected(index)} aria-label={`Reveal mystery card ${index + 1}`}><strong>?</strong><span>MYSTERY</span></button>)}
+          </div>
+          <p role="status">{selected === null ? 'Pick one mystery snack to reveal your deal.' : 'Unwrapping your surprise…'}</p>
+        </>}
+        {step === 'reveal' && <>
+          <p>Your snack deal preview is ready!</p>
+          <div className="game-code"><strong>SORAA15</strong><button type="button" onClick={() => {void navigator.clipboard?.writeText('SORAA15').then(() => setCopied(true)).catch(() => setCopied(false));}}>{copied ? 'COPIED!' : 'COPY CODE'}</button></div>
+          <Link className="game-action" to="/collections/all" onClick={() => dialog.current?.close()}>START SNACKING <ButtonIcon name="right" /></Link>
+          <small role="status">Demo offer — this code is not active at checkout yet.</small>
+        </>}
       </div>
     </div>
   </dialog>;

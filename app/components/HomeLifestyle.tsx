@@ -10,9 +10,14 @@ const moments = [
 ];
 
 function LifestyleScene({index}: {index: number}) {
-  return <svg className="snack-life-scene" viewBox={`${index * 543} 0 543 724`} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <image href="/lifestyle-scenes.png" width="2172" height="724" />
-  </svg>;
+  const scenes = [
+    {file: 'work', alt: 'SORAA Cheese & Jalapeno Cashews beside a laptop and coffee'},
+    {file: 'gym', alt: 'SORAA Smoked BBQ Almonds beside a gym bag and yoga mat'},
+    {file: 'travel', alt: 'SORAA Berry Blast Mix on a scenic train journey'},
+    {file: 'chill', alt: 'SORAA Peri Peri Party Mix with a book and tea'},
+  ];
+  const scene = scenes[index];
+  return <img className="snack-life-scene" src={`/feel-good/lifestyle-${scene.file}.jpg`} alt={scene.alt} width="1200" height="1200" loading="lazy" style={{objectFit: 'cover', objectPosition: 'center'}} />;
 }
 
 function LifestyleSlider() {

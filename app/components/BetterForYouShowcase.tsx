@@ -76,7 +76,7 @@ export function BetterForYouShowcase({
       <div className="better-showcase-heading">
         <p>GOOD CHOICES. GREAT TASTE.</p>
         <h2 id="better-heading">
-          Feel-good snacks, <span>made better.</span>
+          Feel-good snacks,<br /><span>made better.</span>
         </h2>
       </div>
 

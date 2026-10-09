@@ -1,0 +1,237 @@
+/* Motion timings and keyframes from the supplied SORAA reference. */
+.coupon-celebration {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.coupon-celebration i {
+  position: absolute;
+  top: -24px;
+  width: 8px;
+  height: 14px;
+  opacity: 0;
+  animation: coupon-rain 3s cubic-bezier(.2, .5, .65, 1) both;
+}
+.coupon-celebration i:nth-child(3n) { border-radius: 50%; width: 9px; height: 9px; }
+.coupon-celebration i:nth-child(4n) { width: 6px; height: 20px; }
+.coupon-celebration i:nth-child(even) { animation-name: coupon-rain-reverse; }
+@keyframes coupon-rain {
+  0% { opacity: 0; transform: translate3d(-20px, 0, 0) rotate(0deg); }
+  8% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(65px, 740px, 0) rotate(680deg); }
+}
+@keyframes coupon-rain-reverse {
+  0% { opacity: 0; transform: translate3d(25px, 0, 0) rotate(45deg); }
+  8% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(-70px, 740px, 0) rotate(-620deg); }
+}
+@media (prefers-reduced-motion: reduce) { .coupon-celebration { display: none; } }
+.snack-game .game-content .game-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 58px;
+  height: auto;
+  flex-shrink: 0;
+  padding: 16px 22px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  font-size: 17px;
+  line-height: 1.25;
+  gap: 12px;
+}
+.snack-game .game-art > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+dialog.welcome-offer.snack-game {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  width: min(940px, calc(100vw - 40px));
+  max-height: min(720px, calc(100dvh - 40px));
+  border-radius: 24px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.snack-game .game-layout { min-width: 0; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.snack-game .game-content { min-width: 0; box-sizing: border-box; }
+dialog.snack-game[open] { animation: soraaPopupEnter .45s ease forwards; }
+.game-content { animation: none; }
+.game-close { transform: rotate(4deg); transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+.game-close:hover { background: #FE5100; color: white; transform: rotate(90deg) translate(2px, 2px) scale(1.05); box-shadow: 1px 1px 0 #2A2421; }
+.game-action { transition: transform .2s ease, box-shadow .2s ease; }
+.game-action:hover { transform: translate(3px, 3px) rotate(-1deg); box-shadow: 2px 2px 0 #2A2421; }
+.game-content input { border-color: #2A2421; box-shadow: none; transition: border-color .2s ease, box-shadow .2s ease; }
+.game-content input:focus { border-color: #FE5100; box-shadow: 4px 4px 0 #2A2421; }
+.game-mini-cards > span { position: relative; display: grid; place-items: center; width: 64px; height: 76px; padding: 0; transform-origin: center bottom; animation: none; transform: rotate(-5deg); transition: box-shadow .25s ease; }
+.game-mini-cards > span:nth-child(2) { transform: translateY(-7px) rotate(4deg); }
+.game-mini-cards > span:nth-child(3) { transform: rotate(5deg); }
+.game-mini-cards > span > b { display: block; font-size: 34px; font-weight: 700; }
+.game-mini-cards > span::before { content: ''; position: absolute; top: -9px; left: 50%; width: 18px; height: 18px; transform: translateX(-50%); border: 2px solid #2A2421; border-radius: 50% 50% 45% 45%; background: inherit; }
+.game-mini-cards > span:hover { animation: soraaMiniGiftBurst 1.1s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+.game-mini-cards > span:hover > b { animation: soraaQuestionBurst 1.1s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+.game-cards button { position: relative; transform-origin: center bottom; overflow: visible; transition: transform .2s ease, box-shadow .2s ease, opacity .25s ease; }
+.game-cards button::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 18px; transform: translateY(-50%); background: #ffffff2e; border-block: 2px solid #2a242133; }
+.game-cards button:hover:not(:disabled) { animation: soraaGiftBurst 1.1s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+.game-cards button:hover:not(:disabled) strong { animation: soraaQuestionBurst 1.1s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+.game-cards button:hover:not(:disabled) span { display: block; animation: soraaLabelPulse 1.1s ease-in-out infinite; }
+.game-cards button::after { content: '✦ ✦'; position: absolute; top: -28px; left: 50%; transform: translateX(-50%) scale(0); color: #FDF6EC; font-size: 22px; white-space: nowrap; opacity: 0; pointer-events: none; transition: transform .25s ease, opacity .25s ease; }
+.game-cards button:hover:not(:disabled)::after { opacity: 1; animation: soraaSparkBurst .6s ease-in-out infinite; }
+.game-cards button.is-picked { animation: none; transform: scale(1.08) rotate(0deg); z-index: 4; }
+.game-cards:has(.is-picked) button:not(.is-picked) { opacity: .25; transform: scale(.88); }
+.game-code button { box-shadow: 3px 3px 0 #2A2421; transition: transform .15s ease, box-shadow .15s ease; }
+.game-code button:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #2A2421; }
+.game-decor { position: absolute; pointer-events: none; z-index: 3; }
+.game-decor--star { top: 18px; left: 22px; color: #FE5100; font-size: 34px; transform: rotate(12deg); }
+.game-decor--float { right: 32px; bottom: 25px; color: #BE4362; font-size: 25px; animation: soraaFloat 3s ease-in-out infinite; }
+.game-decor--circle { right: -25px; top: 80px; width: 70px; height: 70px; border-radius: 50%; background: #E33127; opacity: .9; }
+@media (max-width: 749px) {
+  dialog.welcome-offer.snack-game { width: min(480px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); border-radius: 20px; }
+  .snack-game .game-layout { grid-template-columns: 1fr; min-height: 0; }
+  .snack-game .game-art { height: 220px; }
+  .snack-game .game-art > img { height: 100%; width: 100%; object-position: center 38%; }
+  .snack-game .game-content { padding: 32px 24px 30px; }
+}
+@keyframes soraaPopupEnter {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes soraaFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(12deg);
+  }
+}
+@keyframes soraaGiftBurst {
+
+  0% {
+    transform: scale(1);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 0 rgba(254, 81, 0, 0);
+  }
+
+  35% {
+    transform: scale(1.16);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 30px 8px rgba(254, 81, 0, 0.55);
+  }
+
+  60% {
+    transform: scale(0.95);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 12px 2px rgba(254, 81, 0, 0.25);
+  }
+
+  80% {
+    transform: scale(1.07);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 20px 5px rgba(254, 81, 0, 0.4);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 0 rgba(254, 81, 0, 0);
+  }
+
+}
+@keyframes soraaMiniGiftBurst {
+
+  0% {
+    transform: scale(1);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 0 rgba(254, 81, 0, 0);
+  }
+
+  35% {
+    transform: scale(1.2);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 22px 6px rgba(254, 81, 0, 0.55);
+  }
+
+  60% {
+    transform: scale(0.94);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 8px 2px rgba(254, 81, 0, 0.25);
+  }
+
+  80% {
+    transform: scale(1.1);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 16px 4px rgba(254, 81, 0, 0.4);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 0 rgba(254, 81, 0, 0);
+  }
+
+}
+@keyframes soraaQuestionBurst {
+
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  35% {
+    transform: scale(1.32) rotate(-8deg);
+  }
+
+  60% {
+    transform: scale(0.88) rotate(5deg);
+  }
+
+  80% {
+    transform: scale(1.14) rotate(-3deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+
+}
+@keyframes soraaLabelPulse {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-3px) scale(1.06);
+    opacity: 0.85;
+  }
+
+}
+@keyframes soraaSparkBurst {
+
+  0% {
+    transform: translateX(-50%) translateY(8px) scale(0.7);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-6px) scale(1.35);
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(-12px) scale(1);
+  }
+
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.snack-game[open], .snack-game *, .snack-game *::before, .snack-game *::after { animation: none !important; transition: none !important; }
+}
