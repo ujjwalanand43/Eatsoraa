@@ -98,7 +98,7 @@ export default function Homepage() {
                   <img className="category-swap-default" src="/categories/hover/flavoured-nuts-packs.jpg" alt="Cheese & Jalapeno Cashews and Smoked BBQ Almonds" width="1000" height="1000" loading="lazy" />
                   <img className="category-swap-hover" src="/categories/hover/flavoured-nuts-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
                 </span>
-              <h3>Flavoured Nuts &amp; Mixes</h3>
+              <h3><span>Flavoured</span><span>Nuts &amp; Mixes</span></h3>
             </Link>
             <Link
               to="/collections/seed-mixes"
@@ -109,35 +109,35 @@ export default function Homepage() {
                 <img className="category-swap-default" src="/categories/hover/seeds-pack.jpg" alt="SORAA 5-in-1 Roasted Super Seed Mix" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/seeds-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
               </span>
-              <h3>Seeds &amp; Superfoods</h3>
+              <h3><span>Seeds &amp;</span><span>Superfoods</span></h3>
             </Link>
             <Link to="/collections/dry-fruits" className="category-card category-card--swap category-card--nuts" prefetch="intent">
               <span className="category-swap-media">
                 <img className="category-swap-default" src="/categories/hover/nuts-pack.jpg" alt="Himalayan Pink Salted Pistachios" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/nuts-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
               </span>
-              <h3>Nuts &amp; Raisins</h3>
+              <h3><span>Nuts &amp;</span><span>Raisins</span></h3>
             </Link>
             <Link to="/collections/spice-blends" className="category-card category-card--swap category-card--spices" prefetch="intent">
               <span className="category-swap-media">
                 <img className="category-swap-default" src="/categories/hover/spices-pack.jpg" alt="Royal Awadhi Biryani Masala" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/spices-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
               </span>
-              <h3>Spices &amp; Masalas</h3>
+              <h3><span>Spices &amp;</span><span>Masalas</span></h3>
             </Link>
             <Link to="/collections/combos-gift-boxes" className="category-card category-card--swap category-card--gifts" prefetch="intent">
               <span className="category-swap-media">
                 <img className="category-swap-default" src="/categories/hover/gifts-pack.jpg" alt="SORAA Gift of Love gift box" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/gifts-hover.png" alt="" aria-hidden="true" width="1000" height="708" loading="lazy" />
               </span>
-              <h3>Bundles &amp; Giftpacks</h3>
+              <h3><span>Bundles &amp;</span><span>Giftpacks</span></h3>
             </Link>
             <Link to="/collections/dry-fruits" className="category-card category-card--swap category-card--dry-fruits" prefetch="intent">
               <span className="category-swap-media">
                 <img className="category-swap-default" src="/categories/hover/dry-fruits-pack.jpg" alt="Premium Walnut Kernels" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/dry-fruits-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
               </span>
-              <h3>Dry Fruits</h3>
+              <h3><span>Dry</span><span>Fruits</span></h3>
             </Link>
         </CategorySlider>
       </section>

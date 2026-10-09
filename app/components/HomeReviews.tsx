@@ -26,11 +26,5 @@ export function HomeReviews() {
       </div>)}
     </div>
     <Link className="home-reviews-cta" to="/products/morning-energy-breakfast-mix#customer-reviews">Read product reviews</Link>
-    <div className="home-press">
-      <div><h3>As seen on</h3><p>Sample publications · placeholders only</p></div>
-      <div className="home-press-names" aria-label="Placeholder publication names">
-        <span>THE DAILY BITE</span><span>Good Living</span><span>SNACK JOURNAL</span><span>the pantry.</span>
-      </div>
-    </div>
   </section>;
 }

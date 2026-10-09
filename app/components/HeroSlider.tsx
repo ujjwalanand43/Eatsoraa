@@ -3,6 +3,15 @@ import {Link} from 'react-router';
 
 const slides = [
   {
+    src: '/hero-soraa-friends.jpg',
+    alt: 'Two friends with SORAA Date Bites and Morning Energy Breakfast Mix.',
+    color: '#faf7e6',
+    artwork: true,
+    kicker: '',
+    headline: '',
+    description: '',
+  },
+  {
     src: '/banner-first/background.webp',
     alt: 'Boring snacks? Hard pass. Bold flavours, premium snacks for whatever the day brings. Shop SORAA now.',
     color: '#faf7e6',
@@ -11,6 +20,7 @@ const slides = [
     headline: '',
     description: '',
   },
+  /* Additional campaign slides paused; retained for future use.
   {
     src: '/hero-snack-range.jpg',
     alt: 'SORAA roasted nuts, trail mixes and everyday snacks.',
@@ -38,6 +48,7 @@ const slides = [
     description:
       'Pick your favourite, tear it open and turn any moment into a better snack break.',
   },
+  */
 ];
 
 export function HeroSlider() {
@@ -97,7 +108,7 @@ export function HeroSlider() {
                   width="8192"
                   height="3641"
                 />
-                <span className="hero-product-layers" aria-hidden="true">
+                {slide.src === '/banner-first/background.webp' && <span className="hero-product-layers" aria-hidden="true">
                   {[
                     [0, 172, 838, 386, 300],
                     [1, 2161, 806, 357, 332],
@@ -120,7 +131,7 @@ export function HeroSlider() {
                       <img src={`/banner-first/Im${id}.webp`} alt="" />
                     </span>
                   ))}
-                </span>
+                </span>}
               </Link>
             ) : (
               <>

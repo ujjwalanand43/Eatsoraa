@@ -1,5 +1,4 @@
-import {Fragment} from 'react';
-import {ShopCollectionNav, ShopEditorialCard} from '~/components/ShopCollectionNav';
+import {ShopCollectionNav} from '~/components/ShopCollectionNav';
 import type {Route} from './+types/collections.all';
 import {useLoaderData} from 'react-router';
 import {getPaginationVariables, Image, Money} from '@shopify/hydrogen';
@@ -68,12 +67,8 @@ export default function Collection() {
         connection={products}
         resourcesClassName="products-grid"
       >
-        {({node: product, index}) => (
-          <Fragment key={product.id}>
-            {index === 4 && <ShopEditorialCard />}
-            <div className="shop-product-slot"><RelatedProductCard product={product} /></div>
-            {index === 7 && <ShopEditorialCard variant="message" />}
-          </Fragment>
+        {({node: product}) => (
+          <div className="shop-product-slot" key={product.id}><RelatedProductCard product={product} /></div>
         )}
       </PaginatedResourceSection>
     </div>

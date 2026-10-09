@@ -5,7 +5,7 @@ import type {HomeCollectionsQuery} from 'storefrontapi.generated';
 
 type Collection = HomeCollectionsQuery['collections']['nodes'][number];
 const campaignArt: Record<string, {file: string; alt: string}> = {
-  'best-sellers': {file: 'breakfast-mixes.png', alt: 'A woman pouring SORAA Morning Energy Breakfast Mix into a bowl'},
+  'best-sellers': {file: 'date-bites-lifestyle.jpg', alt: 'A woman holding a SORAA Date Bites tin'},
   'breakfast-mixes': {file: 'breakfast-mixes.png', alt: 'SORAA Morning Energy Breakfast Mix'},
   'dates-date-bites': {file: 'dates-date-bites.png', alt: 'SORAA Date Bites with nuts and dates'},
   'dry-fruits': {file: 'dry-fruits.png', alt: 'SORAA Premium Walnut Kernels'},
@@ -76,7 +76,7 @@ export function BetterForYouShowcase({
       <div className="better-showcase-heading">
         <p>GOOD CHOICES. GREAT TASTE.</p>
         <h2 id="better-heading">
-          Feel-good snacks,<br /><span>made better.</span>
+          FEEL - GOOD SNACKS,<br /><span>MADE BETTER.</span>
         </h2>
       </div>
 
@@ -89,7 +89,7 @@ export function BetterForYouShowcase({
             ✦
           </span>
           <div className={artwork ? 'better-campaign-art' : 'better-burst'}>
-            {artwork ? <img key={artwork.file} src={`/feel-good/${artwork.file}`} alt={artwork.alt} loading="lazy" width="1122" height="1402" /> : image && (
+            {artwork ? <img key={artwork.file} src={`/feel-good/${artwork.file}`} alt={artwork.alt} loading="lazy" width={artwork.file === 'date-bites-lifestyle.jpg' ? 1221 : 1122} height={artwork.file === 'date-bites-lifestyle.jpg' ? 1600 : 1402} /> : image && (
               <Image
                 data={image}
                 alt={image.altText || product.title}
@@ -97,13 +97,13 @@ export function BetterForYouShowcase({
               />
             )}
           </div>
-          <p>{artwork ? active.title : product.title}</p>
+          {/* <p>{artwork ? active.title : product.title}</p> */}
         </div>
 
         <div className="better-benefits">
           <div className="better-benefits-intro">
             <p className="better-benefits-eyebrow">YOUR DAILY DOSE OF DELICIOUS</p>
-            <h3>Little breaks.<br /><span>Big flavour.</span></h3>
+            <h3>Little breaks.<br /><span>big flavour.</span></h3>
             <p>From your first bite to your next adventure, find a favourite that fits your day.</p>
           </div>
           {benefits.map((benefit) => (

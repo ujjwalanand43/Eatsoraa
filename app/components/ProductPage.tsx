@@ -276,6 +276,7 @@ export function ProductPage({
 }) {
   const [tab, setTab] = useState(0);
   const reviews = reviewRows(product.reviews?.value);
+  const featuredReviews = reviews.slice(0, 5);
   const [reviewSlide, setReviewSlide] = useState(0);
   const [reviewPaused, setReviewPaused] = useState(false);
   const [reviewLimit, setReviewLimit] = useState(4);
@@ -294,18 +295,18 @@ export function ProductPage({
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
     : null;
   useEffect(() => {
-    if (reviews.length < 2 || reviewPaused) return;
+    if (featuredReviews.length < 2 || reviewPaused) return;
     const timer = window.setInterval(() => {
       if (!document.hidden) {
-        setReviewSlide((current) => (current + 1) % reviews.length);
+        setReviewSlide((current) => (current + 1) % featuredReviews.length);
       }
     }, 4800);
     return () => window.clearInterval(timer);
-  }, [reviews.length, reviewPaused]);
+  }, [featuredReviews.length, reviewPaused]);
   useEffect(() => {
-    if (reviewSlide >= reviews.length) setReviewSlide(0);
-  }, [reviewSlide, reviews.length]);
-  const featuredReview = reviews[reviewSlide];
+    if (reviewSlide >= featuredReviews.length) setReviewSlide(0);
+  }, [reviewSlide, featuredReviews.length]);
+  const featuredReview = featuredReviews[reviewSlide];
   const savings = packSavings(productOptions, selectedVariant);
   const comparisonPrice = savings?.price || selectedVariant?.compareAtPrice;
   const compare = Number(comparisonPrice?.amount);
@@ -499,47 +500,6 @@ export function ProductPage({
                   <small>{featuredReview.text}</small>
                 </span>
               </a>
-              {reviews.length > 1 && (
-                <div className="pdp-review-slider-controls">
-                  <button
-                    type="button"
-                    aria-label="Previous verified review"
-                    onClick={() =>
-                      setReviewSlide(
-                        (current) =>
-                          (current + reviews.length - 1) % reviews.length,
-                      )
-                    }
-                  >
-                    <ButtonIcon name="left" />
-                  </button>
-                  <div
-                    aria-label={`Review ${reviewSlide + 1} of ${reviews.length}`}
-                  >
-                    {reviews.map((review, index) => (
-                      <button
-                        type="button"
-                        key={`${review.name}-${review.text}`}
-                        className={index === reviewSlide ? 'is-current' : ''}
-                        aria-label={`Show review ${index + 1}`}
-                        aria-pressed={index === reviewSlide}
-                        onClick={() => setReviewSlide(index)}
-                      />
-                    ))}
-                  </div>
-                  <button
-                    type="button"
-                    aria-label="Next verified review"
-                    onClick={() =>
-                      setReviewSlide(
-                        (current) => (current + 1) % reviews.length,
-                      )
-                    }
-                  >
-                    <ButtonIcon name="right" />
-                  </button>
-                </div>
-              )}
             </div>
           )}
           <ProductPurchase

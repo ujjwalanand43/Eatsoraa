@@ -60,6 +60,7 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
         <p id="cart-lines" className="sr-only">
           Line items
         </p>
+        <div className="cart-items-region">
         {layout === 'aside' && <ShippingProgress subtotal={Number(cart?.cost?.subtotalAmount?.amount || 0)} />}
         <div className="cart-lines-panel">
           {layout === 'page' && (
@@ -89,6 +90,7 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
               );
             })}
           </ul>
+        </div>
         </div>
         {cartHasItems && <CartSummary cart={cart} layout={layout} />}
         {cartHasItems && layout === 'page' && (

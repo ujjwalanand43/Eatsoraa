@@ -14,7 +14,6 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
     layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
   const summaryId = useId();
   const discountsHeadingId = useId();
-  const discountCodeInputId = useId();
   const giftCardHeadingId = useId();
   const giftCardInputId = useId();
   const subtotal = Number(cart.cost?.subtotalAmount?.amount ?? 0);
@@ -63,7 +62,6 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       <CartDiscounts
         discountCodes={cart?.discountCodes}
         discountsHeadingId={discountsHeadingId}
-        discountCodeInputId={discountCodeInputId}
       />
       {layout === 'aside' && (
         <CartGiftCard
@@ -147,16 +145,16 @@ function CartCheckoutActions({
 function CartDiscounts({
   discountCodes,
   discountsHeadingId,
-  discountCodeInputId,
 }: {
   discountCodes?: CartApiQueryFragment['discountCodes'];
   discountsHeadingId: string;
-  discountCodeInputId: string;
 }) {
   const codes: string[] =
     discountCodes
       ?.filter((discount) => discount.applicable)
       ?.map(({code}) => code) || [];
+
+  if (!codes.length) return null;
 
   return (
     <section aria-label="Discounts" className="cart-coupon">
@@ -180,26 +178,6 @@ function CartDiscounts({
         </div>
       </dl>
 
-      {/* Show an input to apply a discount */}
-      <UpdateDiscountForm discountCodes={codes}>
-        <div>
-          <label htmlFor={discountCodeInputId} className="sr-only">
-            Discount code
-          </label>
-          <strong>Have a coupon code?</strong>
-          <div className="cart-coupon-row">
-            <input
-              id={discountCodeInputId}
-              type="text"
-              name="discountCode"
-              placeholder="Discount code"
-            />
-            <button type="submit" aria-label="Apply discount code">
-              Apply
-            </button>
-          </div>
-        </div>
-      </UpdateDiscountForm>
     </section>
   );
 }
