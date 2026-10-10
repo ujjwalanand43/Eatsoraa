@@ -4,17 +4,9 @@ import type {ProductFragment} from 'storefrontapi.generated';
 import type {loader as blogLoader} from '~/routes/blogs.$blogHandle._index';
 import {HomeDiscovery} from './HomeDiscovery';
 
-export function ProductWorld({product}: {product: ProductFragment}) {
-  const lifestyle = product.images.nodes[2] || product.images.nodes[0];
-  return <section className="pdp-world" aria-labelledby="pdp-world-title">
-    <h2 id="pdp-world-title"><span>SORAA</span> WORLD</h2>
-    <div className="pdp-world-grid">
-      <div className="pdp-world-tall">{lifestyle && <img src={lifestyle.url} alt={lifestyle.altText || product.title} loading="lazy" />}</div>
-      <div className="pdp-world-message"><small>GOOD SNACKS. BETTER DAYS.</small><h3>Big flavour.<br />Little everyday joys.</h3><Link to="/collections/all">Find your favourite</Link></div>
-      <img className="pdp-world-photo" src="/hero-snack-better.jpg" alt="SORAA Date Bites for a snack break" loading="lazy" />
-      <div className="pdp-world-wide"><small>MAKE TIME FOR THE GOOD STUFF</small><h3>Work breaks.<br />Road trips. Your everyday.</h3><p>A little SORAA goes a long way.</p></div>
-      <div className="pdp-world-end"><img src="/hero-grab-snack.jpg" alt="SORAA snack packs" loading="lazy" /><h3>Keep a little<br />crunch close.</h3><Link to="/collections/all">Explore the snack shelf</Link></div>
-    </div>
+export function ProductWorld() {
+  return <section className="pdp-world-banner" aria-label="SORAA World">
+    <img src="/soraa-world-banner.jpg" alt="Great ingredients. Big flavour. SORAA brings quality and food expertise to snacks made for your everyday cravings wherever the day takes you." width="2560" height="1138" loading="lazy" style={{display: 'block', width: '100%', height: 'auto'}} />
   </section>;
 }
 

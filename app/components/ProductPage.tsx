@@ -10,9 +10,8 @@ import type {
 import {ProductPurchase} from './ProductPurchase';
 import {packSavings} from '~/lib/packSavings';
 import {RelatedProductCard} from './RelatedProductCard';
-import {BannerProductArt} from './BannerProductArt';
 import {WishlistButton} from './WishlistButton';
-import {ProductWorld, ProductFaq, ProductJournal} from './ProductExtras';
+import {ProductWorld, ProductFaq} from './ProductExtras';
 
 type Row = {label: string; value: string};
 type Review = {
@@ -592,11 +591,6 @@ export function ProductPage({
                       '<p>A little goodness for your everyday moments.</p>',
                   }}
                 />
-                <p className="pdp-signoff">
-                  Good snacks.
-                  <br />
-                  Better days.
-                </p>
               </div>
               {image && (
                 <Image
@@ -725,17 +719,10 @@ export function ProductPage({
           </button>
         )}
       </section>
-      <ProductWorld product={product} />
+      <ProductWorld />
       <ProductFaq product={product} />
-      <section className="pdp-related" aria-labelledby="pdp-related-heading">
+      <section className="pdp-related collection-showcase pdp-recommendation-cards" aria-label="Recommended products">
         <div className="pdp-related-heading">
-          <h2 id="pdp-related-heading">
-            Even more
-            <br />
-            for you to
-            <br />
-            <span>snack on.</span>
-          </h2>
           <div>
             <button
               type="button"
@@ -779,19 +766,6 @@ export function ProductPage({
             }}
           </Await>
         </Suspense>
-      </section>
-      <ProductJournal />
-      <section className="pdp-banner">
-        <BannerProductArt />
-        <div>
-          <p className="pdp-eyebrow">GOOD FOOD. GOOD MOOD.</p>
-          <h2>
-            Snack smarter
-            <br />
-            with <span>SORAA.</span>
-          </h2>
-        </div>
-        <Link to="/collections/all">Explore more</Link>
       </section>
     </div>
   );

@@ -67,7 +67,7 @@ export function HeroSlider() {
     if (hovered || focused || reducedMotion) return;
     const timer = window.setInterval(() => {
       if (!document.hidden) setActive((index) => (index + 1) % slides.length);
-    }, 5000);
+    }, 6500);
     return () => window.clearInterval(timer);
   }, [hovered, focused, reducedMotion]);
   return (

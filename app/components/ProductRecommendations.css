@@ -1,0 +1,32 @@
+.pdp section.pdp-recommendation-cards {
+  display: block;
+  position: relative;
+  padding-inline: clamp(28px, 4vw, 56px);
+}
+.pdp .pdp-recommendation-cards .pdp-related-heading {
+  position: static;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+}
+.pdp .pdp-recommendation-cards .pdp-related-heading button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  background: var(--brand-orange);
+  color: white;
+  border-radius: 50%;
+}
+.pdp .pdp-recommendation-cards .pdp-related-heading button:first-child { left: 0; }
+.pdp .pdp-recommendation-cards .pdp-related-heading button:last-child { right: 0; }
+.pdp .pdp-recommendation-cards .pdp-related-track { width: 100%; min-width: 0; }
+@media (max-width: 767px) {
+  .pdp .pdp-recommendation-cards .pdp-related-track { grid-auto-columns: clamp(250px, 78vw, 310px); }
+  .pdp .pdp-recommendation-cards .pdp-related-track .related-shop-card { padding: 12px; }
+  .pdp .pdp-recommendation-cards .pdp-related-track .product-image-wrapper { height: 220px; min-height: 0; }
+  .pdp .pdp-recommendation-cards .pdp-related-heading button { width: 36px; height: 36px; }
+}

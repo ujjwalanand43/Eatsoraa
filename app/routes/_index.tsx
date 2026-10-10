@@ -9,7 +9,7 @@ import {HomeMotion} from '~/components/HomeMotion';
 import {HeroSlider} from '~/components/HeroSlider';
 import {BetterForYouShowcase} from '~/components/BetterForYouShowcase';
 import {HomeDiscovery} from '~/components/HomeDiscovery';
-import {HomeExplore} from '~/components/HomeExplore';
+// import {HomeExplore} from '~/components/HomeExplore';
 import {HomeReviews} from '~/components/HomeReviews';
 import {HomeLifestyle} from '~/components/HomeLifestyle';
 import {WelcomeOffer} from '~/components/WelcomeOffer';
@@ -195,7 +195,9 @@ export default function Homepage() {
 
 
 
+      {/* Temporarily hidden: Shop All SORAA, Our Story, and Subscribe & Save.
       <HomeExplore />
+      */}
       <HomeLifestyle />
       <HomeReviews />
       <Suspense fallback={<OrderGlobe />}><Await resolve={globe}>{(locations) => <OrderGlobe locations={locations} />}</Await></Suspense>

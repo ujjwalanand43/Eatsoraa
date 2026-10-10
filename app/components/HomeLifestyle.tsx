@@ -55,9 +55,9 @@ export function HomeLifestyle() {
   return <section className="snack-life" aria-labelledby="snack-life-heading">
     <header className="snack-life-header">
       <div><p className="snack-life-eyebrow">GOOD COMPANY. WHEREVER YOU GO.</p><h2 id="snack-life-heading">Big days. Little breaks.<br /><span>Make room for good snacks.</span></h2></div>
-      <div className="snack-life-intro"><p>For the desk drawer, the weekend bag and those just-for-you moments. Bring a little crunch along.</p><Link className="snack-life-cta" to="/collections/all">Find your everyday favourite</Link></div>
     </header>
     <div className="snack-life-grid">
+      {/* Temporarily hidden: lifestyle note card.
       <article className="snack-life-note">
         <span className="snack-life-sun" aria-hidden="true">✳</span>
         <h3>A little pause.<br />A lot to love.</h3>
@@ -65,6 +65,7 @@ export function HomeLifestyle() {
         <div className="snack-life-moments"><span>01 / WORK</span><span>02 / WANDER</span><span>03 / UNWIND</span></div>
         <Link to="/pages/about">Meet SORAA</Link>
       </article>
+      */}
       <LifestyleSlider />
       <Link className="snack-life-photo snack-life-travel" to="/collections/trail-mixes">
         <LifestyleScene index={2} />

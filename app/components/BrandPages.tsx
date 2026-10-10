@@ -1,4 +1,5 @@
 import {Link} from 'react-router';
+export {AboutSoraaPage} from './AboutSoraaPage';
 
 const products = [
   'Roasted Nuts',
@@ -22,7 +23,7 @@ const promises = [
   ['Trust', 'Products made with care, clarity, and attention to detail.'],
 ];
 
-export function AboutSoraaPage() {
+export function LegacyAboutSoraaPage() {
   return (
     <div className="brand-page about-soraa-page">
       <section className="brand-page-hero">

@@ -23,7 +23,7 @@ export function Footer({
             <div className="footer-top">
               <div className="footer-signup">
                 <NavLink to="/" className="footer-logo-link">
-                  <BrandLogo />
+                  <BrandLogo tone="white" />
                 </NavLink>
                 <p>GOOD SNACKS. BETTER DAYS.</p>
                 <h2>Get 15% off your first order.</h2>
