@@ -3,6 +3,7 @@ import type {CartLayout} from '~/components/CartMain';
 import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
 import {useFetcher} from 'react-router';
+import {startFastrrCheckout, toNumericId} from '~/lib/fastrr';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
@@ -55,7 +56,7 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
             </strong>
             <small>Incl. all taxes</small>
           </div>
-          <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+          <CartCheckoutActions cart={cart} checkoutUrl={cart?.checkoutUrl} />
           <ShippingProgress subtotal={subtotal} />
         </>
       )}
@@ -72,6 +73,7 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       )}
       {layout === 'aside' && (
         <CartCheckoutActions
+          cart={cart}
           checkoutUrl={cart?.checkoutUrl}
           total={
             cart?.cost?.totalAmount?.amount ? (
@@ -119,17 +121,42 @@ export function ShippingProgress({subtotal}: {subtotal: number}) {
 }
 
 function CartCheckoutActions({
+  cart,
   checkoutUrl,
   total,
 }: {
+  cart: CartSummaryProps['cart'];
   checkoutUrl?: string;
   total?: React.ReactNode;
 }) {
   if (!checkoutUrl) return null;
 
+  // Shiprocket Checkout (Fastrr) when available; otherwise the plain link
+  // below navigates to the normal Shopify checkout.
+  function openFastrr(event: React.MouseEvent<HTMLAnchorElement>) {
+    const lines = cart?.lines?.nodes ?? [];
+    // Fastrr's buyDirect cannot carry subscription (selling plan) lines.
+    const hasSubscription = lines.some(
+      (line) =>
+        (line as {sellingPlanAllocation?: unknown}).sellingPlanAllocation,
+    );
+    if (hasSubscription) return;
+    const products = lines.map((line) => ({
+      variantId: toNumericId(line.merchandise.id),
+      quantity: line.quantity,
+    }));
+    const coupon = cart?.discountCodes?.find((item) => item.applicable)?.code;
+    const started = startFastrrCheckout({
+      type: 'cart',
+      products,
+      ...(coupon ? {couponCode: coupon} : {}),
+    });
+    if (started) event.preventDefault();
+  }
+
   return (
     <div className="cart-checkout-actions">
-      <a href={checkoutUrl} target="_self">
+      <a href={checkoutUrl} target="_self" onClick={openFastrr}>
         {total ? (
           <>
             Checkout — {total}

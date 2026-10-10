@@ -7,6 +7,11 @@ export const CART_QUERY_FRAGMENT = `#graphql
   fragment CartLine on CartLine {
     id
     quantity
+    sellingPlanAllocation {
+      sellingPlan {
+        id
+      }
+    }
     attributes {
       key
       value

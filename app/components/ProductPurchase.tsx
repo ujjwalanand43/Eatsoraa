@@ -10,6 +10,7 @@ import {
 import type {ProductVariantFragment} from 'storefrontapi.generated';
 import {useAside} from './Aside';
 import {packSavings} from '~/lib/packSavings';
+import {startFastrrCheckout, toNumericId} from '~/lib/fastrr';
 
 type Result = {
   cart?: {id: string; checkoutUrl: string};
@@ -329,6 +330,20 @@ export function ProductPurchase({
                 disabled={
                   !variant?.availableForSale || fetcher.state !== 'idle'
                 }
+                onClick={(event) => {
+                  // Shiprocket Checkout (Fastrr); falls back to the cart
+                  // form submit + Shopify checkout if it is not available.
+                  if (
+                    variant &&
+                    startFastrrCheckout({
+                      type: 'product',
+                      products: [
+                        {variantId: toNumericId(variant.id), quantity},
+                      ],
+                    })
+                  )
+                    event.preventDefault();
+                }}
               >
                 {fetcher.state !== 'idle' ? 'Preparing checkout…' : 'Buy now'}
               </button>

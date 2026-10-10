@@ -8,12 +8,6 @@ const chapters = [
     left: '/feel-good/about-founder-1.jpg', leftAlt: 'SORAA founder seated at an office desk',
     right: '/feel-good/about-founder-2.jpg', rightAlt: 'SORAA founder seated on a sofa',
   },
-  {
-    label: 'THE GOOD STUFF', title: 'A little crunch. A lot of flavour.',
-    copy: 'Roasted nuts, colourful fruit mixes, date bites and seeds. Familiar favourites with a little more personality, made for the people who believe a snack break should be something to look forward to.',
-    left: '/feel-good/about-founder-3.jpg', leftAlt: 'Portrait of a SORAA founder',
-    right: '/feel-good/lifestyle-chill.jpg', rightAlt: 'SORAA Party Mix with a book and tea',
-  },
 ];
 
 export function AboutSoraaPage() {
@@ -24,7 +18,7 @@ export function AboutSoraaPage() {
     </section>
     <div className="about-story-chapters">
       {chapters.map((chapter, index) => <section className={`about-story-chapter${index === 1 ? ' about-story-chapter-single' : ''}`} key={chapter.label} aria-labelledby={`about-chapter-${index}`}>
-        <figure className="about-story-photo about-story-photo-left"><img src={chapter.left} alt={chapter.leftAlt} loading="lazy" width="600" height="600" /></figure>
+        {index === 0 && <figure className="about-story-photo about-story-photo-left"><img src={chapter.left} alt={chapter.leftAlt} loading="lazy" width="600" height="600" /></figure>}
         <div className="about-story-chapter-copy"><p className="about-story-kicker">0{index + 1} / {chapter.label}</p><h2 id={`about-chapter-${index}`}>{chapter.title}</h2><p>{chapter.copy}</p></div>
         {index === 0 && <figure className="about-story-photo about-story-photo-right"><img src={chapter.right} alt={chapter.rightAlt} loading="lazy" width="600" height="600" /></figure>}
       </section>)}
