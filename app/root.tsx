@@ -20,6 +20,7 @@ import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
 import {CommerceMotion} from './components/CommerceMotion';
 import {
+  FASTRR_ENABLED,
   FASTRR_SCRIPT_SRC,
   FASTRR_SELLER_DOMAIN,
   FASTRR_STYLE_HREF,
@@ -169,14 +170,18 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={appStyles}></link>
         <link rel="stylesheet" href={tailwindCss}></link>
         <link rel="stylesheet" href={productRecommendationStyles}></link>
-        <link rel="stylesheet" href={FASTRR_STYLE_HREF} />
+        {FASTRR_ENABLED && <link rel="stylesheet" href={FASTRR_STYLE_HREF} />}
         <Meta />
         <Links />
       </head>
       <body id="top">
         {/* Shiprocket Checkout (Fastrr): seller domain + loader script */}
-        <input type="hidden" value={FASTRR_SELLER_DOMAIN} id="sellerDomain" />
-        <script src={FASTRR_SCRIPT_SRC} defer nonce={nonce} />
+        {FASTRR_ENABLED && (
+          <>
+            <input type="hidden" value={FASTRR_SELLER_DOMAIN} id="sellerDomain" />
+            <script src={FASTRR_SCRIPT_SRC} defer nonce={nonce} />
+          </>
+        )}
         {children}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />

@@ -7,6 +7,11 @@
  * false so callers fall back to the normal Shopify `cart.checkoutUrl`.
  */
 
+// Master switch. Keep false until Shiprocket confirms their backend is live
+// for this domain; while false, no Fastrr script loads and checkout is the
+// normal Shopify checkout.
+export const FASTRR_ENABLED = false;
+
 // Domain Fastrr has this store's configuration saved against.
 // Must match what Shiprocket has on file for the live domain.
 export const FASTRR_SELLER_DOMAIN = 'eatsoraa.com';
@@ -38,7 +43,7 @@ export function toNumericId(gid: string) {
 
 /** Returns true if Fastrr took over checkout, false to use the Shopify checkout URL. */
 export function startFastrrCheckout(options: FastrrOptions): boolean {
-  if (typeof window === 'undefined') return false;
+  if (!FASTRR_ENABLED || typeof window === 'undefined') return false;
   const events = window.shiprocketCheckoutEvents;
   if (typeof events?.buyDirect !== 'function' || !options.products.length) {
     return false;
