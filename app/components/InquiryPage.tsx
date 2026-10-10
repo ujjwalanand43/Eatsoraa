@@ -6,28 +6,32 @@ const topics = ['Bulk Order', 'Distributor Inquiry', 'Retailer / Stockist', 'Who
 export function InquiryPage({bulk = false}: {bulk?: boolean}) {
   const [message, setMessage] = useState('');
   const [selected, setSelected] = useState<string[]>(bulk ? ['Bulk Order'] : []);
-  return <section className="inquiry-page">
+  return <section className={`inquiry-page${bulk ? ' inquiry-bulk' : ' inquiry-contact'}`}>
+    {!bulk && <header className="inquiry-contact-heading">
+      <p className="inquiry-kicker">CONTACT US</p>
+      <h1>LET’S GET <span>IN TOUCH.</span></h1>
+      <p>Have a question about your order or our snacks? Tell us a little more and we’ll help.</p>
+    </header>}
     <div className="inquiry-card">
-      <div className="inquiry-intro">
+      {bulk ? <div className="inquiry-intro">
         <p className="inquiry-kicker">{bulk ? 'BULK ORDERS & PARTNERSHIPS' : 'CONTACT US'}</p>
         <h1>{bulk ? 'More snacks.' : "Let’s get"}<br/><span>{bulk ? 'Bigger plans.' : 'in touch.'}</span></h1>
         <p>{bulk ? 'Planning a bulk order, stocking SORAA or gifting your team? Tell us what you have in mind.' : 'Have a question about your order or our snacks? Tell us a little more and we’ll help.'}</p>
         <p>Or reach us directly<br/><a href="mailto:we@eatsoraa.com">we@eatsoraa.com</a></p>
         <a href="https://wa.me/919667761803" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
         <div className="inquiry-tags"><span>Bulk orders</span><span>Distributors</span><span>Partnerships</span><span>Support</span></div>
-      </div>
-      {bulk ? <div className="inquiry-form inquiry-hosted">
-        <h2>Tell us about your requirement</h2>
-        <p>Submit your bulk order or partnership enquiry through our Shopify form.</p>
-        <div className="inquiry-topic-grid">{topics.map(topic=><span key={topic}>{topic}</span>)}</div>
-        <p>The form asks for your name, email, phone, company, query type, order number, city, website and message.</p>
-        <a className="inquiry-submit" href="https://eatsoraa.com/pages/send-your-query" target="_blank" rel="noopener noreferrer">Open bulk order form</a>
-        <p className="inquiry-policy">Opens our secure Shopify form in a new tab.</p>
-      </div> : <form method="post" action="https://eatsoraa.com/contact#contact_form" acceptCharset="UTF-8" className="inquiry-form" onSubmit={event=>{
+      </div> : <div className="inquiry-contact-image">
+        <img src="/contact-us-creative.png" alt="Woman holding an orange telephone beside a bowl of nuts and dried fruit" width="1122" height="1402" />
+      </div>}
+      <form method="post" action="https://eatsoraa.com/contact#contact_form" acceptCharset="UTF-8" className="inquiry-form" onSubmit={event=>{
+        if (selected.length === 0) {
+          event.preventDefault();
+          return;
+        }
         const form = event.currentTarget;
         const name = form.elements.namedItem('contact[name]') as HTMLInputElement;
         const fields = new FormData(form);
-        name.value = `${fields.get('firstName') || ''} ${fields.get('lastName') || ''}`.trim();
+        name.value = bulk ? String(fields.get('name') || '').trim() : `${fields.get('firstName') || ''} ${fields.get('lastName') || ''}`.trim();
       }}>
         <h2>{bulk ? 'Tell us about your requirement' : 'Tell us more'}</h2>
         <p>Tell us what you need and our team will get back to you.</p>
@@ -50,7 +54,12 @@ export function InquiryPage({bulk = false}: {bulk?: boolean}) {
         </div>
         <button className="inquiry-submit" disabled={selected.length === 0} type="submit">Submit query</button>
         <p className="inquiry-policy">View our <Link to="/pages/privacy-policy">privacy policy</Link> and <Link to="/pages/terms-conditions">terms of service</Link>.</p>
-      </form>}
+        {!bulk && <div className="inquiry-contact-direct">
+          <p>Or reach us directly: <a href="mailto:we@eatsoraa.com">we@eatsoraa.com</a></p>
+          <a href="https://wa.me/919667761803" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+          <div className="inquiry-tags"><span>Bulk orders</span><span>Distributors</span><span>Partnerships</span><span>Support</span></div>
+        </div>}
+      </form>
     </div>
   </section>;
 }
