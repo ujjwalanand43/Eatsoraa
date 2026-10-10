@@ -10686,10 +10686,12 @@ dialog.welcome-offer {
   padding: 11px;
   text-decoration: none;
 }
+.whatsapp-float {background: #5B1A30; border-radius: 22px 22px 8px 22px; box-shadow: 0 6px 22px #5b1a3035; transition: transform .2s ease, background .2s ease;}
 .whatsapp-float svg {
   width: 32px;
   height: 32px;
   flex-shrink: 0;
+  transition: transform .25s ease;
 }
 .whatsapp-float span {
   position: absolute;
@@ -10697,25 +10699,40 @@ dialog.welcome-offer {
   white-space: nowrap;
   padding: 9px 13px;
   background: #fffaf2;
-  color: #293c29;
+  color: #5B1A30;
   border-radius: 12px;
   box-shadow: 0 3px 14px #0001;
-  font: 600 12px var(--font-body);
-  opacity: 0;
-  pointer-events: none;
+  font: 700 15px var(--font-body);
+  transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+  opacity: 1;
+  pointer-events: auto;
 }
 .whatsapp-float:hover,
 .whatsapp-float:focus-visible {
   color: #fff;
-  background: #10783d;
+  background: #78253f;
+  transform: translateY(-3px);
 }
 .whatsapp-float:hover span,
 .whatsapp-float:focus-visible span {
   opacity: 1;
+  background: #ffe5cc;
+  box-shadow: 0 7px 20px #5b1a3026;
+  transform: translateX(-4px);
 }
+.whatsapp-float:hover svg,
+.whatsapp-float:focus-visible svg {transform: rotate(-10deg) scale(1.1);}
+.whatsapp-float:hover span::after,
+.whatsapp-float:focus-visible span::after {background: #ffe5cc;}
 .whatsapp-float:focus-visible {
   outline: 3px solid #193d29;
   outline-offset: 4px;
+}
+.whatsapp-float span small {display: block; margin-top: 4px; font-size: 11px; font-weight: 500;}
+.whatsapp-float span::after {content: ''; position: absolute; right: -6px; top: calc(50% - 6px); width: 12px; height: 12px; background: #fffaf2; transform: rotate(45deg);}
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-float, .whatsapp-float span, .whatsapp-float svg {transition: none;}
+  .whatsapp-float:is(:hover, :focus-visible), .whatsapp-float:is(:hover, :focus-visible) span, .whatsapp-float:is(:hover, :focus-visible) svg {transform: none;}
 }
 .whatsapp-float:disabled {
   opacity: 1;

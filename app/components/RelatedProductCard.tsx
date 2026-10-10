@@ -9,7 +9,7 @@ type CardProduct = Pick<HomeProductsQuery['products']['nodes'][number], 'id' | '
 
 export function RelatedProductCard({product}: {product: CardProduct}) {
   const {load, data, state} = useFetcher<typeof loader>();
-  const [planId, setPlanId] = useState('');
+  const [planId] = useState('');
   useEffect(() => {void load(`/products/${product.handle}`);}, [load, product.handle]);
   const detail = data?.product;
   const variant = detail?.selectedOrFirstAvailableVariant;
@@ -29,6 +29,7 @@ export function RelatedProductCard({product}: {product: CardProduct}) {
     </Link>
     <Link to={`/products/${product.handle}`}><h3>{product.title}</h3></Link>
     <div className="related-card-price"><Money data={price} /></div>
+    {/* Temporarily hidden: pack and purchase option selectors.
     <div className="related-purchase-options">
       {detail ? detail.options.filter(option => !(option.name === 'Title' && option.optionValues[0]?.name === 'Default Title')).map(option => <label key={option.name}>
         <span className="related-option-label">{option.name}</span>
@@ -46,6 +47,7 @@ export function RelatedProductCard({product}: {product: CardProduct}) {
     </div>
     {plan && <small className="related-subscription-note">{plan.sellingPlan.name}</small>}
     {detail && !plans.length && <small className="related-subscription-note">Subscription unavailable for this pack</small>}
+    */}
     <CartForm route="/cart" action={CartForm.ACTIONS.LinesAdd} inputs={{lines: variant ? [{merchandiseId: variant.id, quantity: 1, ...(plan ? {sellingPlanId: plan.sellingPlan.id} : {})}] : []}}>
       {fetcher => <>
         <button className="add-cart-button" type="submit" disabled={!variant?.availableForSale || state !== 'idle' || fetcher.state !== 'idle'}>

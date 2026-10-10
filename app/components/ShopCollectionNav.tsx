@@ -1,15 +1,18 @@
 import {NavLink} from 'react-router';
 
 const categories = [
-  ['all', 'All snacks'], ['flavored-nuts', 'Flavoured nuts'],
-  ['dry-fruits', 'Dry fruits'], ['seed-mixes', 'Seed mixes'],
-  ['dates-date-bites', 'Dates & bites'], ['breakfast-mixes', 'Breakfast mixes'],
+  ['flavored-nuts', 'Flavoured Nuts & Mixes', 'flavoured-nuts-packs.jpg'],
+  ['seed-mixes', 'Seeds & Superfoods', 'seeds-pack.jpg'],
+  ['dry-fruits', 'Nuts & Raisins', 'nuts-pack.jpg'],
+  ['spice-blends', 'Spices & Masalas', 'spices-pack.jpg'],
+  ['combos-gift-boxes', 'Bundles & Giftpacks', 'gifts-pack.jpg'],
+  ['dry-fruits', 'Dry Fruits', 'dry-fruits-pack.jpg'],
 ] as const;
 
 export function ShopCollectionNav() {
   return <nav className="shop-category-nav" aria-label="Shop categories">
-    {categories.map(([handle, title], index) => <NavLink key={handle} to={`/collections/${handle}`}>
-      <img src={`/categories/category-${String(index + 1).padStart(2, '0')}.jpg`} alt="" width="40" height="40" />{title}
+    {categories.map(([handle, title, image]) => <NavLink key={title} to={`/collections/${handle}`}>
+      <img src={`/categories/hover/${image}`} alt="" width="40" height="40" />{title}
     </NavLink>)}
   </nav>;
 }
