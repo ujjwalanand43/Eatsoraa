@@ -4680,7 +4680,7 @@ body > main:has(.soraa-home) {
   margin: 8px 0;
   font-family: var(--font-display);
 }
-.cart-empty a {
+.cart-empty > a {
   display: inline-block;
   margin-top: 18px;
   padding: 11px 21px;
@@ -13300,7 +13300,13 @@ button[name='decrease-quantity'] .button-icon, button[name='increase-quantity'] 
   .cart-drawer-recommendations--inline h4 { margin: 0 0 12px; padding: 0 12px; }
   .cart-drawer-recommendations-track { display: flex; gap: 12px; overflow-x: auto; padding: 0 12px 6px; scroll-snap-type: x proximity; scrollbar-width: none; }
   .cart-drawer-recommendations-track::-webkit-scrollbar { display: none; }
-  .cart-drawer-recommendations-track > .soraa-product-card { flex: 0 0 148px; margin-bottom: 0; scroll-snap-align: start; }
-  .cart-drawer-recommendations--inline .soraa-product-card h3 { font-size: 14px; }
-  .cart-drawer-recommendations--inline .product-image-wrapper { aspect-ratio: 1 / 1.15; }
+  .cart-drawer-recommendations-track { align-items: stretch; }
+  .cart-drawer-recommendations-track > .soraa-product-card { flex: 0 0 44%; min-width: 140px; margin: 0; scroll-snap-align: start; display: flex; flex-direction: column; text-align: left; }
+  .cart-drawer-recommendations--inline .home-product-link { display: block; margin: 0; padding: 0; background: transparent; border-radius: 0; color: var(--brand-ink); text-decoration: none; }
+  .cart-drawer-recommendations--inline .soraa-product-card h3 { font-size: 14px; line-height: 1.25; height: 3.75em; margin: 12px 0 8px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-transform: uppercase; }
+  .cart-drawer-recommendations--inline .product-image-wrapper { width: 100%; height: auto; aspect-ratio: 1 / 1.1; border-radius: 16px; background: #fff; border: 1px solid var(--brand-border); overflow: hidden; }
+  .cart-drawer-recommendations--inline .product-image-wrapper img { padding: 12px; object-fit: contain; mix-blend-mode: normal; }
+  .cart-drawer-recommendations--inline .product-price { margin: 0 0 10px; font-size: 16px; line-height: 1.3; text-align: left; }
+  .cart-drawer-recommendations--inline .soraa-product-card > form { margin-top: auto; width: 100%; }
+  .cart-drawer-recommendations--inline .add-cart-button { font-size: 13px; min-height: 42px; padding: 10px 8px; }
 }
