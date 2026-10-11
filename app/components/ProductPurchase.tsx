@@ -11,6 +11,7 @@ import type {ProductVariantFragment} from 'storefrontapi.generated';
 import {useAside} from './Aside';
 import {packSavings} from '~/lib/packSavings';
 import {startFastrrCheckout, toNumericId} from '~/lib/fastrr';
+import {SUBSCRIPTIONS_ENABLED} from '~/lib/features';
 
 type Result = {
   cart?: {id: string; checkoutUrl: string};
@@ -355,6 +356,7 @@ export function ProductPurchase({
             </>
           )}
         </CartForm>
+        {SUBSCRIPTIONS_ENABLED && (
         <section
           className="pdp-subscription"
           aria-labelledby="subscription-heading"
@@ -493,6 +495,7 @@ export function ProductPurchase({
             )}
           </CartForm>
         </section>
+        )}
       </div>
       {showStickyBuy && (
         <div

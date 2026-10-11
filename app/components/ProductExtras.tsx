@@ -16,7 +16,6 @@ export function ProductFaq({product}: {product: ProductFragment}) {
     ['Where can I find ingredients and nutrition information?', 'Open the Ingredients and Nutrition facts tabs above. Please check the pack label for the complete ingredient list, allergens and serving information.'],
     ['Which pack sizes can I choose?', 'The available pack options and their current prices are shown beside the product image. Select a pack before adding it to your cart.'],
     ['How should I store this product?', 'Follow the storage instructions printed on your pack, including any guidance after opening and the best-before date.'],
-    ['Can I subscribe for regular deliveries?', 'If a subscription is available for your selected pack, the Subscribe & Save panel above shows the delivery frequency and price before you add it.'],
     ['Where can I check delivery and returns?', <span key="policies">Read our <Link to="/policies/shipping-policy">shipping policy</Link> and <Link to="/policies/refund-policy">returns policy</Link> for delivery and refund details.</span>],
   ];
   return <section className="pdp-faq" aria-labelledby="pdp-faq-title">

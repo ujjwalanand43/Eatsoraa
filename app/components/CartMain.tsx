@@ -11,6 +11,8 @@ export type CartLayout = 'page' | 'aside';
 export type CartMainProps = {
   cart: CartApiQueryFragment | null;
   layout: CartLayout;
+  /** Rendered inside the cart (empty state, or under the items) on phones. */
+  recommendations?: React.ReactNode;
 };
 
 export type LineItemChildrenMap = {[parentId: string]: CartLine[]};
@@ -37,7 +39,7 @@ function getLineItemChildrenMap(lines: CartLine[]): LineItemChildrenMap {
  * The main cart component that displays the cart items and summary.
  * It is used by both the /cart route and the cart aside dialog.
  */
-export function CartMain({layout, cart: originalCart}: CartMainProps) {
+export function CartMain({layout, cart: originalCart, recommendations}: CartMainProps) {
   // The useOptimisticCart hook applies pending actions to the cart
   // so the user immediately sees feedback when they modify the cart.
   const cart = useOptimisticCart(originalCart);
@@ -55,7 +57,9 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
       className={className}
       aria-label={layout === 'page' ? 'Cart page' : 'Cart drawer'}
     >
-      <CartEmpty hidden={linesCount} layout={layout} />
+      <CartEmpty hidden={linesCount} layout={layout}>
+        {!cartHasItems && layout === 'aside' ? recommendations : null}
+      </CartEmpty>
       <div className="cart-details" hidden={!cartHasItems}>
         <p id="cart-lines" className="sr-only">
           Line items
@@ -90,6 +94,7 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
               );
             })}
           </ul>
+          {cartHasItems && layout === 'aside' ? recommendations : null}
         </div>
         </div>
         {cartHasItems && <CartSummary cart={cart} layout={layout} />}
@@ -117,9 +122,11 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
 function CartEmpty({
   hidden = false,
   layout,
+  children,
 }: {
   hidden: boolean;
   layout?: CartMainProps['layout'];
+  children?: React.ReactNode;
 }) {
   const {close} = useAside();
   return (
@@ -130,6 +137,7 @@ function CartEmpty({
       <Link to="/collections/all" onClick={close} prefetch="viewport">
         Explore all products
       </Link>
+      {children}
     </div>
   );
 }

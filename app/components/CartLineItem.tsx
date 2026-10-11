@@ -7,6 +7,7 @@ import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
 import {CartIcon} from './CartArtwork';
+import {SUBSCRIPTIONS_ENABLED} from '~/lib/features';
 import type {
   CartApiQueryFragment,
   CartLineFragment,
@@ -84,7 +85,7 @@ export function CartLineItem({
           </div>
         )}
         <CartLineQuantity line={line} layout={layout} />
-        {layout === 'aside' && (
+        {SUBSCRIPTIONS_ENABLED && layout === 'aside' && (
           <Link className="cart-subscribe-strip" to={`${lineItemUrl}#subscription-heading`} onClick={close}>
             <span>Save 10%</span>
             <strong>Subscribe</strong>

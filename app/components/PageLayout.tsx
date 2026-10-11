@@ -70,7 +70,11 @@ function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
               <div className="cart-drawer-shell">
                 <CartDrawerRecommendations />
                 <div className="cart-drawer-body">
-                  <CartMain cart={cart} layout="aside" />
+                  <CartMain
+                    cart={cart}
+                    layout="aside"
+                    recommendations={<CartDrawerRecommendations inline />}
+                  />
                 </div>
               </div>
             );
@@ -81,25 +85,35 @@ function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
   );
 }
 
-function CartDrawerRecommendations() {
+function CartDrawerRecommendations({inline = false}: {inline?: boolean}) {
   const {close} = useAside();
   const {type} = useAside();
   const fetcher = useFetcher<typeof cartLoader>();
   useEffect(() => {
+    // Wide screens show recommendations in a side column; phones show them as
+    // a strip inside the cart. Only the variant that is visible fetches.
+    const phone = window.matchMedia('(max-width: 720px)').matches;
+    if (phone !== inline) return;
     if (type === 'cart' && !fetcher.data && fetcher.state === 'idle') {
       void fetcher.load('/cart');
     }
-  }, [type, fetcher]);
+  }, [type, fetcher, inline]);
+  const cards = (
+    <Suspense fallback={<p>Finding your next snack…</p>}>
+      <Await resolve={fetcher.data?.recommendations}>
+        {(result) => result?.products.nodes.length ? result.products.nodes.slice(0, 6).map((product) => (
+          <HomeProductCard key={product.id} product={product} />
+        )) : <Link to="/collections/all" onClick={close}>Explore all snacks</Link>}
+      </Await>
+    </Suspense>
+  );
   return (
-    <div className="cart-drawer-recommendations" aria-label="You may also like">
+    <div
+      className={`cart-drawer-recommendations${inline ? ' cart-drawer-recommendations--inline' : ''}`}
+      aria-label="You may also like"
+    >
       <h4>You may also like</h4>
-      <Suspense fallback={<p>Finding your next snack…</p>}>
-        <Await resolve={fetcher.data?.recommendations}>
-          {(result) => result?.products.nodes.length ? result.products.nodes.slice(0, 6).map((product) => (
-            <HomeProductCard key={product.id} product={product} />
-          )) : <Link to="/collections/all" onClick={close}>Explore all snacks</Link>}
-        </Await>
-      </Suspense>
+      {inline ? <div className="cart-drawer-recommendations-track">{cards}</div> : cards}
     </div>
   );
 }
