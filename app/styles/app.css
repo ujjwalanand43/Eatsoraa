@@ -13280,13 +13280,22 @@ button[name='decrease-quantity'] .button-icon, button[name='increase-quantity'] 
 
 /* Phones: smaller "Shop by category" cards so the next card peeks in. */
 @media (max-width: 600px) {
-  .category-feature { grid-auto-columns: min(58vw, 230px); gap: 14px; }
+  .category-slider { min-width: 0; width: 100%; }
+  .category-feature { display: flex; justify-content: flex-start; gap: 14px; padding-inline: 0; margin-inline: 0; scroll-padding-inline: 0; }
+  .category-feature > .category-card--swap { flex: 0 0 min(58vw, 230px); margin: 0; }
+  .category-feature > link { display: none; }
+  .home-hero-stage:has(.home-hero-artwork.is-current) { height: clamp(300px, 85vw, 450px); aspect-ratio: auto; }
+  .home-hero-slide.home-hero-artwork .home-hero-artwork-link { width: 150%; max-width: none; margin-left: -25%; }
+  .home-hero-slide.home-hero-artwork .home-hero-artwork-link > img { object-fit: cover; }
   .category-feature .category-card.category-card--swap h3 { font-size: 17px; padding: 14px 8px 18px; }
 }
 
 /* Cart drawer on phones: "You may also like" as a swipeable strip. */
 .cart-drawer-recommendations.cart-drawer-recommendations--inline { display: none; }
 @media (max-width: 720px) {
+  .overlay-cart .cart-empty--aside:not([hidden]) { height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; box-sizing: border-box; padding: 24px 16px; }
+  .overlay-cart .cart-items-region { display: block; flex: 1; min-height: 0; overflow-y: auto; }
+  .overlay-cart .cart-items-region > .cart-lines-panel { overflow: visible; }
   .cart-drawer-recommendations.cart-drawer-recommendations--inline { display: block; overflow: visible; border-right: 0; border-top: 1px solid var(--brand-border); margin-top: 12px; padding: 16px 0 18px; background: transparent; text-align: left; }
   .cart-drawer-recommendations--inline h4 { margin: 0 0 12px; padding: 0 12px; }
   .cart-drawer-recommendations-track { display: flex; gap: 12px; overflow-x: auto; padding: 0 12px 6px; scroll-snap-type: x proximity; scrollbar-width: none; }
