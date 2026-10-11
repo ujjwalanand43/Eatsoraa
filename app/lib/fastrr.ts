@@ -10,7 +10,7 @@
 // Master switch. Keep false until Shiprocket confirms their backend is live
 // for this domain; while false, no Fastrr script loads and checkout is the
 // normal Shopify checkout.
-export const FASTRR_ENABLED = false;
+export const FASTRR_ENABLED = true;
 
 // Domain Fastrr has this store's configuration saved against.
 // Must match what Shiprocket has on file for the live domain.
