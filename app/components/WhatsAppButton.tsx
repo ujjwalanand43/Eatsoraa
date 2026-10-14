@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = '919667761803';
+const WHATSAPP_NUMBER = '919667584803';
 
 export function WhatsAppButton() {
   return <a className="whatsapp-float" href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi SORAA! I need help with your snacks.')}`} target="_blank" rel="noopener noreferrer" aria-label="Chat with SORAA on WhatsApp" aria-describedby="soraa-chat-tooltip">

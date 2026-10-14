@@ -10935,6 +10935,13 @@ dialog.welcome-offer {
 }
 
 /* Retailer reels reach the full height of the shared discovery panel. */
+.home-find-copy {position: relative;}
+.home-find .home-find-copy h2 {font-size: clamp(32px, 3.6vw, 58px); font-weight: 800; line-height: 1.06; letter-spacing: -.025em;}
+.home-find-copy .orange-button {display: inline-flex; align-items: center; gap: 28px; padding: 7px 8px 7px 22px; border: 2px solid var(--brand-orange); border-radius: 99px; background: transparent; color: var(--brand-orange); box-shadow: none; letter-spacing: .08em;}
+.home-find-copy .orange-button span {display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--brand-orange); color: white; font-size: 24px;}
+.home-find-copy .orange-button:hover {background: #ffe5cc;}
+.home-find-arrow {position: absolute; width: clamp(80px, 9vw, 145px); height: auto; right: 10px; top: 8px; color: var(--brand-orange); pointer-events: none;}
+@media (max-width: 900px) {.home-find-arrow {display: none;}}
 .home-find-panel {
   padding: 0;
   overflow: hidden;
@@ -13089,6 +13096,7 @@ dialog.welcome-offer {
 .inquiry-bulk .inquiry-card {width: 100%;}
 .inquiry-bulk .inquiry-form h2 {font-size: clamp(28px, 2.5vw, 34px); color: var(--brand-orange);}
 .bulk-social {padding: 64px 0 32px; background: #F6F2DE; overflow: hidden; text-align: center;}
+.soraa-home > section.bulk-social {padding: 64px 0 32px; background: #F6F2DE;}
 .bulk-social-heading {padding: 0 20px 42px;}
 .bulk-social-heading h1 {font-family: var(--font-display); font-size: clamp(36px, 6vw, 96px); line-height: 1.05; color: var(--brand-orange); margin: 0 0 20px;}
 .bulk-social-heading a {font-family: var(--font-display); font-size: clamp(24px, 3vw, 38px); color: #5B1A30; text-decoration: none;}

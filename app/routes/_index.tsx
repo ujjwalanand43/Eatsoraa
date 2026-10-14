@@ -1,16 +1,17 @@
 import {Await, Link, useLoaderData} from 'react-router';
 import {Suspense} from 'react';
 import {CategorySlider} from '~/components/CategorySlider';
-import {OrderGlobe} from '~/components/OrderGlobe';
 import {parseGlobeLocations} from '~/lib/orderGlobe';
 import {SnackSquad} from '~/components/SnackSquad';
 import {CollectionShowcase} from '~/components/CollectionShowcase';
 import {HomeMotion} from '~/components/HomeMotion';
 import {HeroSlider} from '~/components/HeroSlider';
+import {BulkSocialGallery} from '~/components/BulkSocialGallery';
 import {BetterForYouShowcase} from '~/components/BetterForYouShowcase';
 import {HomeDiscovery} from '~/components/HomeDiscovery';
 // import {HomeExplore} from '~/components/HomeExplore';
-import {HomeReviews} from '~/components/HomeReviews';
+// Temporarily hidden; keep the reviews component and assets for later.
+// import {HomeReviews} from '~/components/HomeReviews';
 import {HomeLifestyle} from '~/components/HomeLifestyle';
 import {WelcomeOffer} from '~/components/WelcomeOffer';
 import {LandingOverlays} from '~/components/LandingOverlays';
@@ -69,7 +70,7 @@ export async function loader({context}: Route.LoaderArgs) {
 ========================================================= */
 
 export default function Homepage() {
-  const {products, collections, journal, globe} = useLoaderData<typeof loader>();
+  const {products, collections, journal} = useLoaderData<typeof loader>();
 
   return (
     <div className="soraa-home">
@@ -198,9 +199,9 @@ export default function Homepage() {
       {/* Temporarily hidden: Shop All SORAA, Our Story, and Subscribe & Save.
       <HomeExplore />
       */}
+      <BulkSocialGallery />
       <HomeLifestyle />
-      <HomeReviews />
-      <Suspense fallback={<OrderGlobe />}><Await resolve={globe}>{(locations) => <OrderGlobe locations={locations} />}</Await></Suspense>
+      {/* Temporarily hidden: <HomeReviews /> */}
 
       {/* =====================================================
           WHY SORAA
@@ -220,9 +221,10 @@ export default function Homepage() {
         <div className="why-sky-copy">
           <h2 id="why-soraa-heading">Why SORAA?</h2>
           <p>
-            Good snacking starts with ingredients you love. Discover our nuts,
-            dried fruits, seeds and flavour-packed mixes—made for work breaks,
-            big adventures and all the little moments in between.
+            SORAA is a modern wellness and snacking brand built for people who
+            want to make better everyday choices without adding more effort to
+            their lives. We create premium, taste-led clean-label products
+            designed for real routines, real cravings, and real moments.
           </p>
           <Link className="why-sky-button" to="/collections/all">
             Find Your Favourite

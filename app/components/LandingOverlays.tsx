@@ -114,7 +114,8 @@ function ProductPulse({products}: {products: Product[]}) {
 
   useEffect(() => {
     let hideTimer: number;
-    let nextShowAt = Date.now() + 1500;
+    const showInterval = 120_000;
+    let nextShowAt = Date.now() + showInterval;
     let wasBlocked = false;
     const rotate = () => {
       if (document.hidden || document.querySelector('dialog[open]')) {
@@ -124,10 +125,10 @@ function ProductPulse({products}: {products: Product[]}) {
       }
       if (wasBlocked) {
         wasBlocked = false;
-        nextShowAt = Date.now();
+        nextShowAt = Math.max(nextShowAt, Date.now());
       }
       if (Date.now() < nextShowAt) return;
-      nextShowAt = Date.now() + 15000;
+      nextShowAt = Date.now() + showInterval;
       setProductIndex((current) => nextRandom(usableProducts.length, current));
       setPersonIndex((current) => nextRandom(firstNames.length, current));
       setRegionIndex((current) => nextRandom(indianRegions.length, current));

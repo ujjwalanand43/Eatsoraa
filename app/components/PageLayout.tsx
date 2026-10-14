@@ -1,5 +1,6 @@
-import {Await, Link, useFetcher, useSearchParams} from 'react-router';
-import {Suspense, useEffect, useId} from 'react';
+import {Await, Link, useFetcher, useFetchers, useLocation, useSearchParams} from 'react-router';
+import {Suspense, useEffect, useId, useRef} from 'react';
+import {CartForm} from '@shopify/hydrogen';
 import type {loader as cartLoader} from '~/routes/cart';
 import {HomeProductCard} from './HomeProductCard';
 import {WhatsAppButton} from './WhatsAppButton';
@@ -38,6 +39,7 @@ export function PageLayout({
   return (
     <Aside.Provider>
       <CartRouteTrigger />
+      <HomeCartAddTrigger />
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
@@ -116,6 +118,40 @@ function CartDrawerRecommendations({inline = false}: {inline?: boolean}) {
       {inline ? <div className="cart-drawer-recommendations-track">{cards}</div> : cards}
     </div>
   );
+}
+
+// Home-only UI behaviour; product-page cart handling stays unchanged.
+function HomeCartAddTrigger() {
+  const {pathname} = useLocation();
+  const fetchers = useFetchers();
+  const {open} = useAside();
+  const pending = useRef(new Set<string>());
+
+  useEffect(() => {
+    if (pathname !== '/') {
+      pending.current.clear();
+      return;
+    }
+    const submittingKeys = new Set(fetchers.filter(fetcher => fetcher.state === 'submitting').map(fetcher => fetcher.key));
+    for (const key of pending.current) {
+      if (!submittingKeys.has(key)) pending.current.delete(key);
+    }
+    for (const fetcher of fetchers) {
+      if (fetcher.state === 'submitting' && fetcher.formData) {
+        const raw = fetcher.formData.get(CartForm.INPUT_NAME);
+        if (typeof raw === 'string') {
+          try {
+            const payload = JSON.parse(raw) as {action?: string} | null;
+            if (payload?.action === CartForm.ACTIONS.LinesAdd && !pending.current.has(fetcher.key)) {
+              pending.current.add(fetcher.key);
+              open('cart');
+            }
+          } catch { /* Ignore unrelated forms. */ }
+        }
+      }
+    }
+  }, [fetchers, pathname, open]);
+  return null;
 }
 
 function CartRouteTrigger() {

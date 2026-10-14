@@ -34,21 +34,13 @@ export function Footer({
                 <nav className="footer-help footer-shop" aria-label="Shop">
                   <h3>Shop</h3>
                   <NavLink to="/collections/flavored-nuts">
-                    Flavoured Nuts
+                    Flavoured Nuts &amp; Mixes
                   </NavLink>
-                  <NavLink to="/collections/roasted-nuts">Roasted Nuts</NavLink>
-                  <NavLink to="/collections/trail-mixes">Trail Mixes</NavLink>
-                  <NavLink to="/collections/seed-mixes">Seed Mixes</NavLink>
+                  <NavLink to="/collections/seed-mixes">Seeds &amp; Superfoods</NavLink>
+                  <NavLink to="/collections/dry-fruits">Nuts &amp; Raisins</NavLink>
+                  <NavLink to="/collections/spice-blends">Spices &amp; Masalas</NavLink>
+                  <NavLink to="/collections/combos-gift-boxes">Bundles &amp; Giftpacks</NavLink>
                   <NavLink to="/collections/dry-fruits">Dry Fruits</NavLink>
-                  <NavLink to="/collections/dates-date-bites">
-                    Dates &amp; Date Bites
-                  </NavLink>
-                  <NavLink to="/collections/breakfast-mixes">
-                    Breakfast Mixes
-                  </NavLink>
-                  <NavLink to="/collections/gourmet-spices">
-                    Gourmet spices
-                  </NavLink>
                 </nav>
                 <nav className="footer-help" aria-label="Information">
                   <h3>Info</h3>

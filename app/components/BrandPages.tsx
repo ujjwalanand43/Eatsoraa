@@ -433,7 +433,7 @@ export function ContactSoraaPage() {
           <h1>Welcome! How can we help you?</h1>
           <div className="contact-actions">
             <a
-              href="https://wa.me/919667761803"
+              href="https://wa.me/919667584803"
               target="_blank"
               rel="noreferrer"
             >
@@ -447,7 +447,7 @@ export function ContactSoraaPage() {
       <section className="brand-page-shell contact-details">
         <article>
           <p className="brand-page-kicker">WHATSAPP / CALL</p>
-          <a href="tel:+919667761803">+91 96677 61803</a>
+          <a href="tel:+919667584803">+91 96675 84803</a>
         </article>
         <article>
           <p className="brand-page-kicker">EMAIL</p>

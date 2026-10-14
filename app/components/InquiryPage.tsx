@@ -18,7 +18,7 @@ export function InquiryPage({bulk = false}: {bulk?: boolean}) {
         <h1>{bulk ? 'More snacks.' : "Let’s get"}<br/><span>{bulk ? 'Bigger plans.' : 'in touch.'}</span></h1>
         <p>{bulk ? 'Planning a bulk order, stocking SORAA or gifting your team? Tell us what you have in mind.' : 'Have a question about your order or our snacks? Tell us a little more and we’ll help.'}</p>
         <p>Or reach us directly<br/><a href="mailto:we@eatsoraa.com">we@eatsoraa.com</a></p>
-        <a href="https://wa.me/919667761803" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+        <a href="https://wa.me/919667584803" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
         <div className="inquiry-tags"><span>Bulk orders</span><span>Distributors</span><span>Partnerships</span><span>Support</span></div>
       </div> : <div className="inquiry-contact-image">
         <img src="/contact-us-creative.png" alt="Woman holding an orange telephone beside a bowl of nuts and dried fruit" width="1122" height="1402" />
@@ -56,7 +56,7 @@ export function InquiryPage({bulk = false}: {bulk?: boolean}) {
         <p className="inquiry-policy">View our <Link to="/pages/privacy-policy">privacy policy</Link> and <Link to="/pages/terms-conditions">terms of service</Link>.</p>
         {!bulk && <div className="inquiry-contact-direct">
           <p>Or reach us directly: <a href="mailto:we@eatsoraa.com">we@eatsoraa.com</a></p>
-          <a href="https://wa.me/919667761803" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+          <a href="https://wa.me/919667584803" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
           <div className="inquiry-tags"><span>Bulk orders</span><span>Distributors</span><span>Partnerships</span><span>Support</span></div>
         </div>}
       </form>

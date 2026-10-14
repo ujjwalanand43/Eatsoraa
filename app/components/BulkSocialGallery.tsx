@@ -5,8 +5,8 @@ const images = [
   ['social-berry.jpg', 'Berry Blast Mix tucked into an everyday bag'],
   ['social-breakfast.jpg', 'Breakfast Mix ready for a busy day'],
   ['social-sea-salt.jpg', 'Sea Salt Cashews on the go'],
-  ['social-snack-selection.jpg', 'A handful of SORAA snack favourites'],
   ['social-date-bites.jpg', 'SORAA Date Bites with a little good company'],
+  ['social-snack-selection.jpg', 'A handful of SORAA snack favourites'],
 ];
 
 export function BulkSocialGallery() {
