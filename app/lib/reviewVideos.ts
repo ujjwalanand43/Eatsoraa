@@ -5,4 +5,12 @@ export const reviewVideos: Record<string, {src: string; poster?: string; caption
     src: '/videos/peri-peri-review.mp4',
     poster: '/videos/peri-peri-review.jpg',
   },
+  'date-bites-jar': {
+    src: '/videos/date-bites-review.mp4',
+    poster: '/videos/date-bites-review.jpg',
+  },
+  'antioxidant-berry-blast-mix': {
+    src: '/videos/berry-blast-review.mp4',
+    poster: '/videos/berry-blast-review.jpg',
+  },
 };

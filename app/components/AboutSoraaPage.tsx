@@ -4,7 +4,7 @@ import './AboutSoraaPage.css';
 const chapters = [
   {
     label: 'THE IDEA', title: 'Better snacks. No compromise.',
-    copy: 'SORAA started with a simple thought: why should better snacking feel like a compromise? We wanted to bring a fresh perspective to nuts, dry fruits and everyday snacks—with flavour at the heart of it all.',
+    copy: 'SORAA started with a simple thought: why should better snacking feel like a compromise? We wanted to bring a fresh perspective to nuts, dry fruits and everyday snacks with flavour at the heart of it all.',
     left: '/feel-good/about-founder-1.jpg', leftAlt: 'SORAA founder seated at an office desk',
     right: '/feel-good/about-founder-2.jpg', rightAlt: 'SORAA founder seated on a sofa',
   },

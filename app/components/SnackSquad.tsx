@@ -18,6 +18,10 @@ export function SnackSquad({
   const videoIndex = products.findIndex((product) => reviewVideos[product.handle]);
   const startIndex = videoIndex >= 0 ? videoIndex : Math.min(2, products.length - 1);
   const [position, setPosition] = useState(startIndex);
+  const [soundOn, setSoundOn] = useState(true);
+  const [alignTick, setAlignTick] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [inView, setInView] = useState(true);
 
   const repeatedProducts =
     products.length > 1
@@ -67,6 +71,7 @@ export function SnackSquad({
         const index = initialized ? centeredPhysicalIndex() : products.length > 1 ? products.length + initial : initial;
         moveToPhysical(index, false);
         initialized = true;
+        setAlignTick((tick) => tick + 1);
       });
     };
     const observer = new ResizeObserver(align);
@@ -81,16 +86,43 @@ export function SnackSquad({
   }, [products.length, startIndex]);
 
   useEffect(() => {
-    // Review videos autoplay muted on the centred card and pause elsewhere.
-    track.current?.querySelectorAll('video').forEach((video) => {
-      if (video.dataset.index === String(position)) {
-        video.muted = true;
-        void video.play().catch(() => {});
+    // Only the centred card's video plays (with sound if the browser allows it).
+    const node = track.current;
+    if (!node) return;
+    const centre = centeredPhysicalIndex();
+    node.querySelectorAll('video').forEach((video) => {
+      if (video.dataset.physical === String(centre) && inView && !paused) {
+        video.muted = !soundOn;
+        video.play().catch(() => {
+          // Browsers block autoplay with sound until the visitor interacts.
+          video.muted = true;
+          setSoundOn(false);
+          void video.play().catch(() => {});
+        });
       } else {
+        video.muted = true;
         video.pause();
       }
     });
-  }, [position]);
+  }, [position, soundOn, alignTick, paused, inView]);
+
+  // Leaving the section (scrolling up or down) pauses and mutes the videos.
+  useEffect(() => {
+    const node = track.current;
+    if (!node || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        if (!entry.isIntersecting) setSoundOn(false);
+      },
+      {threshold: 0.35},
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  // A new slide always starts playing.
+  useEffect(() => setPaused(false), [position]);
 
   if (!products.length)
     return (
@@ -127,6 +159,7 @@ export function SnackSquad({
                 products.length + (settledIndex % products.length),
                 false,
               );
+              setAlignTick((tick) => tick + 1);
             }
           }, 140);
         }}
@@ -141,12 +174,19 @@ export function SnackSquad({
               className={`social-card${video ? ' social-card--video' : ''}${position === logicalIndex ? ' is-active' : ''}`}
               aria-label={`Review ${logicalIndex + 1}: ${product.title}`}
             >
-              <div className="social-image">
+              <div
+                className="social-image"
+                onClick={(event) => {
+                  if (!video || (event.target as HTMLElement).closest('.squad-sound')) return;
+                  setPaused((value) => !value);
+                }}
+              >
                 {video ? (
+                  <>
                   <video
                     key={video.src}
                     data-index={logicalIndex}
-                    autoPlay
+                    data-physical={index}
                     muted
                     loop
                     playsInline
@@ -165,6 +205,28 @@ export function SnackSquad({
                       />
                     ) : null}
                   </video>
+                  <button
+                    type="button"
+                    className="squad-sound"
+                    aria-label={soundOn ? 'Mute video' : 'Unmute video'}
+                    aria-pressed={!soundOn}
+                    onClick={() => setSoundOn((on) => !on)}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor" />
+                      {soundOn ? (
+                        <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
+                      ) : (
+                        <path d="m16 9 5 6M21 9l-5 6" />
+                      )}
+                    </svg>
+                  </button>
+                  {paused && position === logicalIndex ? (
+                    <span className="squad-paused" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                    </span>
+                  ) : null}
+                  </>
                 ) : (
                   <div className="squad-video-empty">
                     <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">

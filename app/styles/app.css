@@ -13581,3 +13581,14 @@ a:hover > .btn-arrow--down {transform: translateY(3px);}
   .pdp-swipe-dots span {width: 7px; height: 7px; border-radius: 99px; background: #e2cdbb; transition: width .25s ease, background .25s ease;}
   .pdp-swipe-dots span.is-active {width: 22px; background: var(--brand-orange);}
 }
+
+/* Review video mute / unmute button (top-right, shows on hover; always on touch) */
+.social-card--video .social-image .squad-sound {position: absolute; top: 12px; right: 12px; z-index: 3; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%; background: rgba(20,8,4,.55); color: #fff; cursor: pointer; opacity: 0; transform: scale(.9); transition: opacity .2s ease, transform .2s ease, background .2s ease; pointer-events: auto; backdrop-filter: blur(4px);}
+.social-card--video .social-image .squad-sound svg {width: 19px; height: 19px;}
+.social-card--video:hover .squad-sound, .social-card--video .squad-sound:focus-visible {opacity: 1; transform: none;}
+.social-card--video .squad-sound:hover {background: var(--brand-orange);}
+@media (hover: none) { .social-card--video.is-active .squad-sound {opacity: 1; transform: none;} }
+/* Tap a review video to pause / play */
+.social-card--video .social-image {cursor: pointer;}
+.social-card--video .squad-paused {position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; pointer-events: none;}
+.social-card--video .squad-paused svg {width: 64px; height: 64px; padding: 18px; border-radius: 50%; background: rgba(20,8,4,.55); color: #fff; backdrop-filter: blur(4px);}

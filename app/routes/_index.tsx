@@ -1,3 +1,4 @@
+import {reviewVideos} from '~/lib/reviewVideos';
 import {categoryPath} from '~/lib/categories';
 import {Await, Link, useLoaderData} from 'react-router';
 import {Suspense} from 'react';
@@ -27,7 +28,7 @@ import type {Route} from './+types/_index';
 export const meta: Route.MetaFunction = () => {
   return [
     {
-      title: 'SORAA - upgrade your daily snack game!',
+      title: 'SORAA - Upgrade your daily snack game!',
     },
     {
       name: 'description',
@@ -56,8 +57,19 @@ export async function loader({context}: Route.LoaderArgs) {
       return null;
     });
 
+  // Products with customer review videos are always shown in the review carousel.
+  const reviewProducts = Promise.all(
+    Object.keys(reviewVideos).map((handle) =>
+      context.storefront
+        .query(HOME_REVIEW_PRODUCT_QUERY, {variables: {handle}})
+        .then((data) => data?.product ?? null)
+        .catch(() => null),
+    ),
+  ).then((list) => list.filter(Boolean));
+
   return {
-    products,
+    // Best sellers + products that have review videos, resolved together.
+    products: Promise.all([products, reviewProducts]),
     collections,
     globe: context.storefront.query(ORDER_GLOBE_QUERY).then((data) => parseGlobeLocations(data.shop.metafield?.value)).catch(() => []),
     journal: context.storefront
@@ -155,11 +167,19 @@ export default function Homepage() {
           }
         >
           <Await resolve={products}>
-            {(response) => {
-              const productNodes = response?.products.nodes ?? [];
+            {([response, reviewList]) => {
+              type SquadProduct = Parameters<typeof SnackSquad>[0]['products'][number];
+              const productNodes: SquadProduct[] = response?.products.nodes ?? [];
+              const reviewNodes = ((reviewList ?? []) as SquadProduct[]).filter(
+                (product) => !productNodes.some((item) => item.id === product.id),
+              );
               return (
                 <>
-                  <SnackSquad products={productNodes} />
+                  <SnackSquad
+                    products={Object.keys(reviewVideos)
+                      .map((handle) => [...productNodes, ...reviewNodes].find((product) => product.handle === handle))
+                      .filter((product): product is SquadProduct => Boolean(product))}
+                  />
                   <LandingOverlays products={productNodes} />
                 </>
               );
@@ -241,6 +261,34 @@ export default function Homepage() {
    SHOPIFY PRODUCTS QUERY
 ========================================================= */
 
+const HOME_REVIEW_PRODUCT_QUERY = `#graphql
+  query HomeReviewProduct(
+    $handle: String!
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    product(handle: $handle) {
+      ...HomeReviewProductFields
+    }
+  }
+  fragment HomeReviewProductFields on Product {
+    id
+    title
+    handle
+    selectedOrFirstAvailableVariant {
+      id
+      availableForSale
+      title
+      selectedOptions { name value }
+      image { id url altText width height }
+      product { id handle title }
+      price { amount currencyCode }
+    }
+    priceRange { minVariantPrice { amount currencyCode } }
+    featuredImage { id url altText width height }
+  }
+` as const;
+
 const HOME_PRODUCTS_QUERY = `#graphql
 
   query HomeProducts(
@@ -254,6 +302,14 @@ const HOME_PRODUCTS_QUERY = `#graphql
     ) {
 
       nodes {
+        ...HomeProductCardFields
+      }
+
+    }
+
+  }
+
+  fragment HomeProductCardFields on Product {
 
         id
 
@@ -287,11 +343,6 @@ const HOME_PRODUCTS_QUERY = `#graphql
         }
 
       }
-
-    }
-
-  }
-
 ` as const;
 
 /* =========================================================

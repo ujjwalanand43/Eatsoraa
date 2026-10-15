@@ -1,7 +1,7 @@
 const ANNOUNCEMENTS = [
-  {icon: 'heart', text: 'Good Snacks, Better Days'},
+  {icon: null, text: 'Grab Snack Go'},
   {icon: 'truck', text: 'Free Shipping on Orders Above ₹999'},
-  {icon: null, text: 'A Healthier You, One Bite at a Time'},
+  {icon: null, text: 'Your Snack Break Deserves Better'},
 ] as const;
 
 export function AnnouncementBar() {
