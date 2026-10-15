@@ -1,12 +1,13 @@
 import {ButtonIcon} from './ButtonIcon';
 import {Link} from 'react-router';
 import {useEffect, useState} from 'react';
+import {CATEGORIES} from '~/lib/categories';
 
 const moments = [
-  {name: 'Work', headline: ['Less scrolling.', 'More snacking.'], cta: 'Shop desk-side favourites', handle: 'seed-mixes'},
-  {name: 'Gym', headline: ['Move a little.', 'Crunch a little.'], cta: 'Find your next snack', handle: 'dry-fruits'},
+  {name: 'Work', headline: ['Less scrolling.', 'More snacking.'], cta: 'Shop desk-side favourites', handle: CATEGORIES.seeds.handle},
+  {name: 'Gym', headline: ['Move a little.', 'Crunch a little.'], cta: 'Find your next snack', handle: CATEGORIES.nuts.handle},
   {name: 'Travel', headline: ['Pack light.', 'Snack right.'], cta: 'Shop travel favourites', handle: 'trail-mixes'},
-  {name: 'Chill', headline: ['Slow afternoons.', 'Good company.'], cta: 'Find your cosy favourite', handle: 'flavored-nuts'},
+  {name: 'Chill', headline: ['Slow afternoons.', 'Good company.'], cta: 'Find your cosy favourite', handle: CATEGORIES.flavoured.handle},
 ];
 
 function LifestyleScene({index}: {index: number}) {

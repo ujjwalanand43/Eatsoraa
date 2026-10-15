@@ -1,12 +1,13 @@
 import {NavLink} from 'react-router';
+import {CATEGORIES} from '~/lib/categories';
 
 const categories = [
-  ['flavored-nuts', 'Flavoured Nuts & Mixes', 'flavoured-nuts-packs.jpg'],
-  ['seed-mixes', 'Seeds & Superfoods', 'seeds-pack.jpg'],
-  ['dry-fruits', 'Nuts & Raisins', 'nuts-pack.jpg'],
-  ['spice-blends', 'Spices & Masalas', 'spices-pack.jpg'],
-  ['combos-gift-boxes', 'Bundles & Giftpacks', 'gifts-pack.jpg'],
-  ['dry-fruits', 'Dry Fruits', 'dry-fruits-pack.jpg'],
+  [CATEGORIES.flavoured.handle, CATEGORIES.flavoured.title, 'flavoured-nuts-packs.jpg'],
+  [CATEGORIES.seeds.handle, CATEGORIES.seeds.title, 'seeds-pack.jpg'],
+  [CATEGORIES.nuts.handle, CATEGORIES.nuts.title, 'nuts-pack.jpg'],
+  [CATEGORIES.spices.handle, CATEGORIES.spices.title, 'spices-pack.jpg'],
+  [CATEGORIES.gifts.handle, CATEGORIES.gifts.title, 'gifts-pack.jpg'],
+  [CATEGORIES.dryFruits.handle, CATEGORIES.dryFruits.title, 'dry-fruits-pack.jpg'],
 ] as const;
 
 export function ShopCollectionNav() {
@@ -23,7 +24,7 @@ export function ShopEditorialCard({variant = 'photo'}: {variant?: 'photo' | 'mes
     <p className="shop-feature-eyebrow">A LITTLE CRUNCH. A LOT TO LOVE.</p>
     <h2>Good snacks.<br />Great company.</h2>
     <p>For the desk drawer, the road trip and every little break in between. Find your next SORAA favourite.</p>
-    <NavLink to="/collections/flavored-nuts">Explore flavoured nuts</NavLink>
+    <NavLink to={`/collections/${CATEGORIES.flavoured.handle}`}>Explore flavoured nuts</NavLink>
   </section>;
   return <section className="shop-grid-feature shop-grid-photo">
     <img src="/feel-good/breakfast-mixes.png" alt="A woman pouring SORAA Morning Energy Breakfast Mix into a bowl" loading="lazy" width="1122" height="1402" />

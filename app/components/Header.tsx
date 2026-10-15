@@ -373,7 +373,7 @@ const FALLBACK_HEADER_MENU = {
       tags: [],
       title: 'Dates',
       type: 'HTTP',
-      url: '/collections/dates',
+      url: '/collections/dates-date-bites',
       items: [],
     },
     {
