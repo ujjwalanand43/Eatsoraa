@@ -13344,3 +13344,14 @@ button[name='decrease-quantity'] .button-icon, button[name='increase-quantity'] 
 @media (max-width: 900px) {
   .inquiry-intro-photo {max-height: 380px;}
 }
+
+/* Cart drawer — desktop "You may also like" column */
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) {padding: 18px 14px 24px; background: #f6f1ea;}
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) h4 {margin: 0 0 14px; font-size: 12px; letter-spacing: .08em; color: var(--brand-muted);}
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) .soraa-product-card {display: flex; flex-direction: column; margin: 0 0 14px; padding: 10px 10px 12px; background: #fff; border: 1px solid #ece2d6; border-radius: 16px; box-shadow: 0 6px 18px #482c220d; transition: transform .2s ease, box-shadow .2s ease;}
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) .soraa-product-card:hover {transform: translateY(-2px); box-shadow: 0 10px 24px #482c2218;}
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) .product-image-wrapper {aspect-ratio: 1 / 1; border-radius: 12px; background: #fbf7f1;}
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) .product-image-wrapper img {padding: 10px; object-fit: contain;}
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) .soraa-product-card h3 {font-size: 13px; line-height: 1.25; margin: 10px 0 4px; min-height: 2.5em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-align: left;}
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) .product-price {margin: 0 0 10px; font-size: 14px; text-align: left;}
+.overlay-cart .cart-drawer-recommendations:not(.cart-drawer-recommendations--inline) .add-cart-button {min-height: 36px; padding: 8px 10px; font-size: 12px;}

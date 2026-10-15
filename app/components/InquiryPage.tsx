@@ -41,7 +41,7 @@ function ContactForm() {
     <h2>Let’s talk snacks.</h2>
     <p>Questions, feedback or just want to say hey? Drop us a message. We’re all ears (and snacks).</p>
     <input type="hidden" name="kind" value="contact"/>
-    <div className="inquiry-honey" aria-hidden="true"><label>Leave blank<input name="website_check" tabIndex={-1} autoComplete="off"/></label></div>
+    <div className="inquiry-honey" aria-hidden="true" style={{display: 'none'}}><label>Leave blank<input name="website_check" tabIndex={-1} autoComplete="off"/></label></div>
     <div className="inquiry-fields">
       <label>Your Name<input name="contact[name]" autoComplete="name" required maxLength={120} placeholder="Your name"/></label>
       <label>Email Address<input name="contact[email]" type="email" autoComplete="email" required maxLength={254} placeholder="you@example.com"/></label>
@@ -70,7 +70,7 @@ function BulkForm() {
     <h2>Big orders. Bigger snack energy.</h2>
     <p>From office gifting to event snack drops, tell us what you’re planning and we’ll help you find the right fit.</p>
     <input type="hidden" name="kind" value="bulk"/>
-    <div className="inquiry-honey" aria-hidden="true"><label>Leave blank<input name="website_check" tabIndex={-1} autoComplete="off"/></label></div>
+    <div className="inquiry-honey" aria-hidden="true" style={{display: 'none'}}><label>Leave blank<input name="website_check" tabIndex={-1} autoComplete="off"/></label></div>
     <div className="inquiry-fields">
       <label>Full Name *<input name="contact[name]" autoComplete="name" required maxLength={120} placeholder="Your name"/></label>
       <label>Work Email *<input name="contact[email]" type="email" autoComplete="email" required maxLength={254} placeholder="name@company.com"/></label>

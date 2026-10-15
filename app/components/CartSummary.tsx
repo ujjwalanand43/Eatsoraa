@@ -91,7 +91,7 @@ export function ShippingProgress({subtotal}: {subtotal: number}) {
   const threshold = 1999;
   const next = tiers.find((tier) => subtotal < tier.amount);
   const remaining = next ? Math.ceil(next.amount - subtotal) : 0;
-  const progress = subtotal < 999 ? Math.max(0, subtotal / 999) * 16.667 : subtotal < 1499 ? 16.667 + (subtotal - 999) / 500 * 33.333 : Math.min(83.333, 50 + (subtotal - 1499) / 500 * 33.333);
+  const progress = subtotal >= threshold ? 100 : subtotal < 999 ? Math.max(0, subtotal / 999) * 16.667 : subtotal < 1499 ? 16.667 + (subtotal - 999) / 500 * 33.333 : Math.min(83.333, 50 + (subtotal - 1499) / 500 * 33.333);
   return (
     <div className="cart-shipping-progress">
       <strong>
