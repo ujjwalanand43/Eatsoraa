@@ -355,7 +355,7 @@ const FALLBACK_HEADER_MENU = {
       tags: [],
       title: 'Trail Mixes',
       type: 'HTTP',
-      url: '/collections/trail-mixes',
+      url: '/collections/seeds-superfoods',
       items: [],
     },
     {

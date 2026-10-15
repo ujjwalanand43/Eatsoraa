@@ -6,7 +6,7 @@ import {CATEGORIES} from '~/lib/categories';
 const moments = [
   {name: 'Work', headline: ['Less scrolling.', 'More snacking.'], cta: 'Shop desk-side favourites', handle: CATEGORIES.seeds.handle},
   {name: 'Gym', headline: ['Move a little.', 'Crunch a little.'], cta: 'Find your next snack', handle: CATEGORIES.nuts.handle},
-  {name: 'Travel', headline: ['Pack light.', 'Snack right.'], cta: 'Shop travel favourites', handle: 'trail-mixes'},
+  {name: 'Travel', headline: ['Pack light.', 'Snack right.'], cta: 'Shop travel favourites', handle: CATEGORIES.seeds.handle},
   {name: 'Chill', headline: ['Slow afternoons.', 'Good company.'], cta: 'Find your cosy favourite', handle: CATEGORIES.flavoured.handle},
 ];
 
@@ -68,7 +68,7 @@ export function HomeLifestyle() {
       </article>
       */}
       <LifestyleSlider />
-      <Link className="snack-life-photo snack-life-travel" to="/collections/trail-mixes">
+      <Link className="snack-life-photo snack-life-travel" to={`/collections/${CATEGORIES.seeds.handle}`}>
         <LifestyleScene index={2} />
         <div className="snack-life-overlay"><small>PACK A LITTLE GOODNESS</small><h3>Good snacks.<br />Great detours.</h3><div className="snack-life-tags"><span>Work breaks</span><span>Weekend escapes</span><span>Just because</span></div><span className="snack-life-shop-button">Shop Now</span></div>
       </Link>
