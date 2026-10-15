@@ -15,6 +15,7 @@ import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import usabilityStyles from '~/styles/usability.css?url';
+import investorStyles from '~/components/InvestorHubPage.css?url';
 import productRecommendationStyles from '~/components/ProductRecommendations.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
@@ -172,6 +173,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={tailwindCss}></link>
         <link rel="stylesheet" href={productRecommendationStyles}></link>
         <link rel="stylesheet" href={usabilityStyles}></link>
+        <link rel="stylesheet" href={investorStyles}></link>
         {FASTRR_ENABLED && <link rel="stylesheet" href={FASTRR_STYLE_HREF} />}
         <Meta />
         <Links />

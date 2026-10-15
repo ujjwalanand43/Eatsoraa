@@ -1,0 +1,86 @@
+.investor-hub {background: #fff8ec; color: #47291e; font-family: var(--font-body);}
+.investor-hub .ih-wrap {width: min(1280px, calc(100% - 80px)); margin-inline: auto;}
+.investor-hub .ih-section {padding-block: 64px;}
+.investor-hub h1, .investor-hub h2, .investor-hub h3 {font-family: var(--font-display); margin: 0;}
+.investor-hub h1, .investor-hub h2 {font-weight: 850; text-transform: uppercase; letter-spacing: -.045em; line-height: 1.02;}
+.investor-hub h1 {font-size: clamp(46px, 5.7vw, 80px);}
+.investor-hub h2 {font-size: clamp(32px, 3.8vw, 52px);}
+.investor-hub h1 span, .investor-hub h2 span {color: #FF5200;}
+.investor-hub p {font-size: 17px; line-height: 1.55; margin: 18px 0 0;}
+.investor-hub .ih-eyebrow {font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: #FF5200; margin: 0 0 14px;}
+.investor-hub .ih-hero {padding: 38px 0 48px; overflow: hidden;}
+.ih-hero-grid {display: grid; grid-template-columns: 1fr 1.1fr; align-items: center; gap: 30px;}
+.ih-hero-copy {position: relative; z-index: 1;}
+.ih-hero-copy > p:not(.ih-eyebrow) {max-width: 440px;}
+.ih-hero-image {width: 100%; height: 580px; object-fit: cover; object-position: 77% center; border-radius: 140px 24px 24px 24px;}
+.investor-hub .ih-button {display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 48px; padding: 13px 24px; margin-top: 24px; border-radius: 50px; background: #47291e; color: #fff8ec; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; transition: background .2s, transform .2s;}
+.investor-hub .ih-button:hover {background: #651c38; transform: translateY(-2px);}
+.ih-button span {font-size: 23px; line-height: 1;}
+.ih-heading-row {display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;}
+.ih-heading-row > p {max-width: 530px;}
+.ih-market {scroll-margin-top: 110px;}
+.ih-markets {display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px;}
+.ih-markets article {background: #ffffffa3; border: 1px solid #ecdcc8; border-radius: 16px; padding: 24px;}
+.investor-hub h3 {font-size: 16px; line-height: 1.25; font-weight: 750;}
+.ih-markets h3 {text-transform: uppercase; min-height: 40px;}
+.ih-markets strong {display: block; font-size: clamp(30px, 3vw, 42px); color: #FF5200; letter-spacing: -.04em; margin-top: 8px;}
+.ih-markets p {font-size: 13px; margin-top: 8px;}
+.ih-stat-line {height: 5px; background: #FF5200; border-radius: 6px; margin-top: 18px;}
+.investor-hub .ih-sources {font-size: 11px; color: #796252;}
+.ih-why {background: #29231f; color: #fff8ec;}
+.ih-points {display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 36px;}
+.ih-points article {padding: 0 24px; border-left: 1px solid #b7a48a80;}
+.ih-points article:first-child {padding-left: 0; border-left: 0;}
+.ih-points article:last-child {padding-right: 0;}
+.ih-number {display: block; margin-bottom: 14px; font-size: 17px; font-weight: 700; color: #FF5200;}
+.ih-points p {font-size: 15px; margin-top: 8px;}
+.ih-why h3 {text-transform: uppercase;}
+.ih-momentum {display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 60px;}
+.ih-momentum img {width: 100%; height: 280px; object-fit: cover; object-position: center 60%; border-radius: 20px;}
+.ih-distribution {background: #f5ead7;}
+.ih-distribution-grid {display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: center;}
+.ih-distribution h2 {font-size: clamp(30px, 3vw, 42px);}
+.ih-distribution p {font-size: 15px;}
+.ih-distribution .ih-points {margin: 0;}
+.ih-next {display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center;}
+.ih-roadmap {display: grid; grid-template-columns: repeat(3, 1fr);}
+.ih-roadmap article {position: relative; padding: 34px 20px 0 0; border-top: 1px solid #d9b69a;}
+.ih-roadmap article > span {position: absolute; top: -10px; left: 0; width: 19px; height: 19px; background: #FF5200; border-radius: 50%; border: 2px solid #fff8ec;}
+.ih-roadmap p {font-size: 14px; margin-top: 8px;}
+.ih-note {display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; background: #f5ead7;}
+.ih-note > img {width: 100%; height: 380px; object-fit: cover; object-position: center 45%;}
+.ih-note > div {padding: 40px clamp(24px, 5vw, 80px);}
+.investor-hub .ih-signature {font-size: 13px; text-transform: uppercase; color: #FF5200; font-weight: 700;}
+.ih-connect {background: #FF5200; color: #fff8ec;}
+.ih-connect .ih-eyebrow {color: #fff8ec;}
+.ih-connect h2 {font-size: clamp(34px, 4vw, 56px);}
+.investor-hub .ih-disclaimer {font-size: 11px; line-height: 1.5; padding-block: 18px; margin-block: 0; color: #796252;}
+@media (max-width: 900px) {
+  .investor-hub .ih-wrap {width: calc(100% - 40px);}
+  .ih-hero-image {height: 460px; border-top-left-radius: 80px;}
+  .ih-heading-row, .ih-momentum, .ih-next {gap: 28px;}
+  .ih-markets {grid-template-columns: repeat(2, 1fr);}
+  .ih-distribution-grid {grid-template-columns: 1fr; gap: 28px;}
+  .ih-points article {padding-inline: 16px;}
+}
+@media (max-width: 600px) {
+  .investor-hub .ih-section {padding-block: 40px;}
+  .ih-hero-grid, .ih-heading-row, .ih-momentum, .ih-next, .ih-note {grid-template-columns: 1fr;}
+  .investor-hub .ih-hero {padding-block: 28px;}
+  .investor-hub h1 {font-size: clamp(42px, 11vw, 64px);}
+  .ih-hero-image {height: 330px; border-radius: 24px;}
+  .ih-markets {gap: 10px; margin-top: 24px;}
+  .ih-markets article {padding: 18px 14px;}
+  .ih-markets h3 {font-size: 13px;}
+  .ih-points {grid-template-columns: repeat(2, 1fr); gap: 24px 0; margin-top: 28px;}
+  .ih-points article:nth-child(odd) {padding-left: 0; border-left: 0;}
+  .ih-points article:nth-child(even) {padding-right: 0;}
+  .ih-momentum img {height: 230px;}
+  .ih-roadmap {margin-top: 16px;}
+  .ih-roadmap h3 {font-size: 14px;}
+  .ih-roadmap p {font-size: 13px;}
+  .ih-note > img {height: 300px;}
+  .ih-note > div {padding: 32px 20px;}
+  .ih-connect .ih-heading-row {gap: 8px;}
+}
+@media (prefers-reduced-motion: reduce) {.investor-hub .ih-button {transition: none;}}

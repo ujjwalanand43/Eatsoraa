@@ -192,7 +192,9 @@ const investorSections = [
   },
 ];
 
-export function InvestorHubPage() {
+export {InvestorHubPage} from './InvestorHubPage';
+
+function LegacyInvestorHubPage() {
   return (
     <div className="brand-page investor-page">
       <section className="investor-hero">
