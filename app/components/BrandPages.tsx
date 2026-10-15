@@ -1,4 +1,5 @@
 import {Link} from 'react-router';
+import {useState} from 'react';
 export {AboutSoraaPage} from './AboutSoraaPage';
 
 const products = [
@@ -331,25 +332,54 @@ const factories = [
 ];
 
 export function FactoryLocatorPage() {
+  const [selected, setSelected] = useState(factories[0]);
+  const [locationsOpen, setLocationsOpen] = useState(true);
+  const query = encodeURIComponent(selected.address);
   return (
     <div className="brand-page utility-brand-page">
-      <section className="utility-page-hero">
+      <section className="factory-page-intro">
         <div className="brand-page-shell">
-          <p className="brand-page-kicker">WHERE SORAA IS MADE</p>
           <h1>Factory Locator</h1>
-          <p>Our manufacturing partners and their food-safety credentials.</p>
+          <p>Find our manufacturing partners and their locations.</p>
         </div>
       </section>
-      <section className="brand-page-shell factory-grid">
-        {factories.map((factory) => (
-          <article key={factory.code}>
-            <span>{factory.code}</span>
-            <h2>{factory.name}</h2>
-            <p>{factory.address}</p>
-            <small>FSSAI Licence No.</small>
-            <strong>{factory.license}</strong>
-          </article>
-        ))}
+      <section className="brand-page-shell factory-map-shell" aria-label="Factory locations map">
+        <div className="factory-map">
+          <iframe
+            title={`Factory map: ${selected.name}`}
+            src={`https://www.google.com/maps?q=${query}&output=embed`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+          <div className="factory-map-controls">
+            <button className="factory-locations-toggle" type="button" aria-expanded={locationsOpen} aria-controls="factory-locations" onClick={() => setLocationsOpen(!locationsOpen)}>
+              {locationsOpen ? 'Close locations ×' : 'Show locations +'}
+            </button>
+            {locationsOpen && (
+              <div className="factory-locations" id="factory-locations">
+                <h2>Our manufacturing partners</h2>
+                <p>Select a location to explore the map.</p>
+                <div className="factory-locations-list">
+                  {factories.map((factory) => (
+                    <button key={factory.code} type="button" aria-pressed={selected.code === factory.code} onClick={() => setSelected(factory)}>
+                      <span className="factory-location-code">{factory.code}</span>
+                      <span>
+                        <strong>{factory.name}</strong>
+                        <span className="factory-location-address">{factory.address}</span>
+                        <small>FSSAI Licence No. {factory.license}</small>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <p className="factory-map-caption">
+          <span aria-live="polite">Viewing: {selected.name}</span>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${query}`} target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
+        </p>
       </section>
     </div>
   );

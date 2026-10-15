@@ -65,27 +65,28 @@ export default function Blog() {
   const {articles} = blog;
 
   return (
-    <div className="blog soraa-journal">
+    <div className="blog soraa-journal journal-editorial">
       <header className="journal-header">
         <div>
-          <p>THE SORAA JOURNAL</p>
+          <p>GOOD READS. GREAT SNACK BREAKS.</p>
           <h1>
-            {blog.title}
+            A little food for thought
             <span>.</span>
           </h1>
           <p>
-            Fresh reads on mindful snacking, honest ingredients and everyday
-            wellness, selected by SORAA.
+            Ingredient stories, everyday inspiration and a little snack wisdom.
+            Grab your favourite bite and stay a while.
           </p>
         </div>
         <Link to="/collections/all">
-          Shop healthy snacks <span aria-hidden="true">↗</span>
+          Find your next favourite <span aria-hidden="true">↗</span>
         </Link>
       </header>
       <PaginatedResourceSection<ArticleItemFragment>
         connection={articles}
         ariaLabel={`${blog.title} articles`}
         resourcesClassName="journal-grid"
+        nextLabel="View more articles"
       >
         {({node: article, index}) => (
           <ArticleItem
@@ -131,7 +132,7 @@ function ArticleItem({
               alt={article.image.altText || article.title}
               data={article.image}
               loading={loading}
-              sizes="(min-width: 1000px) 42vw, (min-width: 680px) 50vw, 100vw"
+              sizes="(min-width: 1000px) 23vw, (min-width: 680px) 46vw, 92vw"
             />
           ) : (
             <span className="journal-card-placeholder" aria-hidden="true">
@@ -141,7 +142,7 @@ function ArticleItem({
         </div>
         <div className="journal-card-overlay" />
         <div className="journal-card-copy">
-          <p>{article.author?.name || 'SORAA EDIT'}</p>
+          <p>{publishedAt} · {article.author?.name || 'SORAA EDIT'}</p>
           <h2>{article.title}</h2>
           {excerpt && (
             <span>
@@ -150,9 +151,8 @@ function ArticleItem({
             </span>
           )}
           <footer>
-            <small>{publishedAt}</small>
             <b>
-              Read story <span aria-hidden="true">↗</span>
+              Read more <span aria-hidden="true">→</span>
             </b>
           </footer>
         </div>

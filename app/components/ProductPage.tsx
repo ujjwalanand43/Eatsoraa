@@ -278,7 +278,7 @@ export function ProductPage({
   const featuredReviews = reviews.slice(0, 5);
   const [reviewSlide, setReviewSlide] = useState(0);
   const [reviewPaused, setReviewPaused] = useState(false);
-  const [reviewLimit, setReviewLimit] = useState(4);
+  const reviewLimit = 4;
   const nutrition = nutritionRows(product.nutrition?.value);
   const highlights = strings(product.highlights?.value).slice(0, 4);
   const collection = product.collections.nodes.find(
@@ -709,15 +709,6 @@ export function ProductPage({
             </div>
           )}
         </div>
-        {reviews.length > reviewLimit && (
-          <button
-            className="pdp-review-load"
-            type="button"
-            onClick={() => setReviewLimit((limit) => limit + 4)}
-          >
-            Load more reviews
-          </button>
-        )}
       </section>
       <ProductWorld />
       <ProductFaq product={product} />

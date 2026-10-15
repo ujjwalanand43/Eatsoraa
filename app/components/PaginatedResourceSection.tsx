@@ -10,12 +10,14 @@ export function PaginatedResourceSection<NodesType>({
   ariaLabel,
   resourcesClassName,
   autoLoad = false,
+  nextLabel = 'Load more',
 }: {
   connection: React.ComponentProps<typeof Pagination<NodesType>>['connection'];
   children: React.FunctionComponent<{node: NodesType; index: number}>;
   ariaLabel?: string;
   resourcesClassName?: string;
   autoLoad?: boolean;
+  nextLabel?: string;
 }) {
   return (
     <Pagination connection={connection}>
@@ -52,7 +54,7 @@ export function PaginatedResourceSection<NodesType>({
                 'Loading...'
               ) : (
                 <span>
-                  Load more <span aria-hidden="true">↓</span>
+                  {nextLabel} <span aria-hidden="true">↓</span>
                 </span>
               )}
             </NextLink>

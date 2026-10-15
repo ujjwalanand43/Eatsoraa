@@ -364,7 +364,7 @@ const FALLBACK_HEADER_MENU = {
       tags: [],
       title: 'Dry Fruits',
       type: 'HTTP',
-      url: '/collections/dry-fruits',
+      url: '/collections/dates-date-bites',
       items: [],
     },
     {
@@ -391,7 +391,7 @@ const FALLBACK_HEADER_MENU = {
       tags: [],
       title: 'Spice Blends',
       type: 'HTTP',
-      url: '/collections/spice-blends',
+      url: '/collections/gourmet-spices',
       items: [],
     },
     {

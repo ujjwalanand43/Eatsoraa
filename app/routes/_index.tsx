@@ -1,3 +1,4 @@
+import {categoryPath} from '~/lib/categories';
 import {Await, Link, useLoaderData} from 'react-router';
 import {Suspense} from 'react';
 import {CategorySlider} from '~/components/CategorySlider';
@@ -26,12 +27,12 @@ import type {Route} from './+types/_index';
 export const meta: Route.MetaFunction = () => {
   return [
     {
-      title: 'SORAA — Good Snacks, Better Days',
+      title: 'SORAA - upgrade your daily snack game!',
     },
     {
       name: 'description',
       content:
-        'Premium nuts, dry fruits, seeds, trail mixes and healthy snacks for a healthier, happier you.',
+        'Tired of dull, tasteless munchies? SORAA brings you farm-fresh premium treats that hit different. Pure quality, zero boring bites. Time to SNACK SMARTER TODAY!',
     },
   ];
 };
@@ -91,7 +92,7 @@ export default function Homepage() {
         </div>
         <CategorySlider>
             <Link
-              to="/collections/flavored-nuts"
+              to={categoryPath('flavoured')}
               className="category-card category-card--swap"
               prefetch="intent"
             >
@@ -102,7 +103,7 @@ export default function Homepage() {
               <h3><span>Flavoured</span><span>Nuts &amp; Mixes</span></h3>
             </Link>
             <Link
-              to="/collections/seed-mixes"
+              to={categoryPath('seeds')}
               className="category-card category-card--swap category-card--seeds"
               prefetch="intent"
             >
@@ -112,28 +113,28 @@ export default function Homepage() {
               </span>
               <h3><span>Seeds &amp;</span><span>Superfoods</span></h3>
             </Link>
-            <Link to="/collections/dry-fruits" className="category-card category-card--swap category-card--nuts" prefetch="intent">
+            <Link to={categoryPath('nuts')} className="category-card category-card--swap category-card--nuts" prefetch="intent">
               <span className="category-swap-media">
                 <img className="category-swap-default" src="/categories/hover/nuts-pack.jpg" alt="Himalayan Pink Salted Pistachios" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/nuts-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
               </span>
               <h3><span>Nuts &amp;</span><span>Raisins</span></h3>
             </Link>
-            <Link to="/collections/spice-blends" className="category-card category-card--swap category-card--spices" prefetch="intent">
+            <Link to={categoryPath('spices')} className="category-card category-card--swap category-card--spices" prefetch="intent">
               <span className="category-swap-media">
                 <img className="category-swap-default" src="/categories/hover/spices-pack.jpg" alt="Royal Awadhi Biryani Masala" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/spices-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
               </span>
               <h3><span>Spices &amp;</span><span>Masalas</span></h3>
             </Link>
-            <Link to="/collections/combos-gift-boxes" className="category-card category-card--swap category-card--gifts" prefetch="intent">
+            <Link to={categoryPath('gifts')} className="category-card category-card--swap category-card--gifts" prefetch="intent">
               <span className="category-swap-media">
                 <img className="category-swap-default" src="/categories/hover/gifts-pack.jpg" alt="SORAA Gift of Love gift box" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/gifts-hover.png" alt="" aria-hidden="true" width="1000" height="708" loading="lazy" />
               </span>
               <h3><span>Bundles &amp;</span><span>Giftpacks</span></h3>
             </Link>
-            <Link to="/collections/dry-fruits" className="category-card category-card--swap category-card--dry-fruits" prefetch="intent">
+            <Link to={categoryPath('dryFruits')} className="category-card category-card--swap category-card--dry-fruits" prefetch="intent">
               <span className="category-swap-media">
                 <img className="category-swap-default" src="/categories/hover/dry-fruits-pack.jpg" alt="Premium Walnut Kernels" width="1000" height="1000" loading="lazy" />
                 <img className="category-swap-hover" src="/categories/hover/dry-fruits-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />

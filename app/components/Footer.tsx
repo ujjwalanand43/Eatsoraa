@@ -1,3 +1,4 @@
+import {categoryPath} from '~/lib/categories';
 import {Suspense} from 'react';
 import {BrandLogo} from './BrandLogo';
 import {FooterSocials} from './FooterSocials';
@@ -33,14 +34,14 @@ export function Footer({
               <div className="footer-links-grid">
                 <nav className="footer-help footer-shop" aria-label="Shop">
                   <h3>Shop</h3>
-                  <NavLink to="/collections/flavored-nuts">
+                  <NavLink to={categoryPath('flavoured')}>
                     Flavoured Nuts &amp; Mixes
                   </NavLink>
-                  <NavLink to="/collections/seed-mixes">Seeds &amp; Superfoods</NavLink>
-                  <NavLink to="/collections/dry-fruits">Nuts &amp; Raisins</NavLink>
-                  <NavLink to="/collections/spice-blends">Spices &amp; Masalas</NavLink>
-                  <NavLink to="/collections/combos-gift-boxes">Bundles &amp; Giftpacks</NavLink>
-                  <NavLink to="/collections/dry-fruits">Dry Fruits</NavLink>
+                  <NavLink to={categoryPath('seeds')}>Seeds &amp; Superfoods</NavLink>
+                  <NavLink to={categoryPath('nuts')}>Nuts &amp; Raisins</NavLink>
+                  <NavLink to={categoryPath('spices')}>Spices &amp; Masalas</NavLink>
+                  <NavLink to={categoryPath('gifts')}>Bundles &amp; Giftpacks</NavLink>
+                  <NavLink to={categoryPath('dryFruits')}>Dry Fruits</NavLink>
                 </nav>
                 <nav className="footer-help" aria-label="Information">
                   <h3>Info</h3>
@@ -66,8 +67,8 @@ export function Footer({
                   <NavLink to="/search">Search</NavLink>
                   <NavLink to="/pages/contact">Contact</NavLink>
                   <NavLink to="/pages/bulk-order">Bulk orders</NavLink>
-                  <NavLink to="/collections/all">Catalog</NavLink>
-                  <NavLink to="/pages/bulk-order">Gifting</NavLink>
+                  <a href="/soraa-catalog.pdf" download="SORAA-Catalog.pdf">Catalog</a>
+                  <a href="/soraa-gifting-brochure.pdf" download="SORAA-Gifting-Brochure.pdf">Gifting</a>
                 </nav>
               </div>
             </div>

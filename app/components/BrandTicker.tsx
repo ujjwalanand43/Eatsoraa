@@ -4,8 +4,8 @@ import {useState} from 'react';
 function Megaphone() {
   return (
     <svg viewBox="0 0 160 120" fill="none" aria-hidden="true">
-      <path d="M52 54 140 8 151 32 55 61Z" fill="#FE5100" />
-      <path d="m55 61 96-29 5 24-100 12Z" fill="#FE5100" />
+      <path d="M52 54 140 8 151 32 55 61Z" fill="#FF5200" />
+      <path d="m55 61 96-29 5 24-100 12Z" fill="#FF5200" />
       <path d="m56 68 100-12v24L55 75Z" fill="#ff905e" />
       <path d="m55 75 101 5-6 24-97-22Z" fill="#ffc4a1" />
       <path d="m53 82 97 22-10 14-88-29Z" fill="#ffe5d5" />

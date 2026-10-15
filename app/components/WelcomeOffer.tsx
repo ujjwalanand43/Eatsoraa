@@ -47,7 +47,7 @@ export function WelcomeOffer() {
     {step === 'reveal' && <div className="coupon-celebration" aria-hidden="true">
       {Array.from({length: 64}, (_, index) => <i key={index} style={{
         left: `${(index * 37) % 100}%`,
-        backgroundColor: ['#ff5900', '#ffd447', '#bd3e65', '#7248a5', '#63bba2', '#ffffff'][index % 6],
+        backgroundColor: ['#FF5200', '#ffd447', '#bd3e65', '#7248a5', '#63bba2', '#ffffff'][index % 6],
         animationDelay: `${(index % 13) * 0.09}s`,
         animationDuration: `${2.3 + (index % 7) * 0.19}s`,
       }} />)}

@@ -13,7 +13,7 @@ export function BulkSocialGallery() {
   const [paused, setPaused] = useState(false);
   return <section className="bulk-social" aria-labelledby="bulk-social-title">
     <header className="bulk-social-heading">
-      <h1 id="bulk-social-title">GET TO KNOW SORAA</h1>
+      <h2 id="bulk-social-title">GET TO KNOW SORAA</h2>
       <a href="https://www.instagram.com/eat_soraa/" target="_blank" rel="noreferrer">@eat_soraa</a>
     </header>
     <div className="bulk-social-window">

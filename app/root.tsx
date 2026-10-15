@@ -11,10 +11,10 @@ import {
   useRouteLoaderData,
 } from 'react-router';
 import type {Route} from './+types/root';
-import favicon from '~/assets/favicon.svg';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
+import usabilityStyles from '~/styles/usability.css?url';
 import productRecommendationStyles from '~/components/ProductRecommendations.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
@@ -77,7 +77,8 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+    {rel: 'icon', type: 'image/png', href: '/soraa-favicon.png'},
+    {rel: 'apple-touch-icon', href: '/soraa-favicon.png'},
   ];
 }
 
@@ -170,6 +171,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={appStyles}></link>
         <link rel="stylesheet" href={tailwindCss}></link>
         <link rel="stylesheet" href={productRecommendationStyles}></link>
+        <link rel="stylesheet" href={usabilityStyles}></link>
         {FASTRR_ENABLED && <link rel="stylesheet" href={FASTRR_STYLE_HREF} />}
         <Meta />
         <Links />

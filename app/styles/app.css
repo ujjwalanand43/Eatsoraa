@@ -1309,7 +1309,7 @@ button.reset:hover:not(:has(> *)) {
   border-color: var(--brand-orange);
   background: var(--brand-orange);
   color: #fff;
-  box-shadow: 0 10px 24px rgba(254, 81, 0, 0.2);
+  box-shadow: 0 10px 24px rgba(255, 82, 0, 0.2);
 }
 .better-showcase-content {
   display: grid;
@@ -1371,7 +1371,7 @@ button.reset:hover:not(:has(> *)) {
     37% 3%,
     45% 6%
   );
-  background: linear-gradient(145deg, #ffb38b, #fe5100);
+  background: linear-gradient(145deg, #ffb38b, #FF5200);
   filter: drop-shadow(0 18px 24px rgba(90, 45, 20, 0.15));
 }
 .better-burst::before {
@@ -1478,7 +1478,7 @@ button.reset:hover:not(:has(> *)) {
   font-size: 15px;
   font-weight: 850;
   text-decoration: none;
-  box-shadow: 0 12px 28px rgba(254, 81, 0, 0.2);
+  box-shadow: 0 12px 28px rgba(255, 82, 0, 0.2);
   transition: 180ms ease;
 }
 .better-benefits > a:hover {
@@ -2070,7 +2070,7 @@ button.reset:hover:not(:has(> *)) {
     #f2380d 100%
   );
   color: #fff;
-  box-shadow: 0 10px 24px rgba(254, 81, 0, 0.22);
+  box-shadow: 0 10px 24px rgba(255, 82, 0, 0.22);
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.02em;
@@ -3982,7 +3982,7 @@ button.reset:hover:not(:has(> *)) {
 
 /* Shared SORAA palette and spacing: orange, cocoa, cream. */
 :root {
-  --brand-orange: #fe5100;
+  --brand-orange: #FF5200;
   --brand-action: var(--brand-orange);
   --brand-ink: #482c22;
   --brand-muted: #766052;
@@ -7066,7 +7066,7 @@ body
   margin: 0;
   padding: 0;
   background:
-    radial-gradient(circle at 8% 4%, rgba(254, 81, 0, 0.07), transparent 22rem),
+    radial-gradient(circle at 8% 4%, rgba(255, 82, 0, 0.07), transparent 22rem),
     var(--brand-cream);
 }
 .collection,
@@ -7161,7 +7161,7 @@ body
 .product-item:hover,
 .product-item:focus-visible {
   transform: translateY(-5px);
-  border-color: rgba(254, 81, 0, 0.45);
+  border-color: rgba(255, 82, 0, 0.45);
   box-shadow: 0 18px 40px rgba(83, 48, 31, 0.11);
   text-decoration: none;
 }
@@ -8586,7 +8586,7 @@ body
 .soraa-product-card:hover .add-cart-button,
 .soraa-product-card:focus-within .add-cart-button {
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgb(254 81 0 / 20%);
+  box-shadow: 0 8px 18px rgb(255 82 0 / 20%);
 }
 
 .orange-button,
@@ -8886,7 +8886,7 @@ body
   border: 1px solid #f1caa8;
 }
 .pdp-review-cards article {
-  border: 1px solid rgb(254 81 0 / 10%);
+  border: 1px solid rgb(255 82 0 / 10%);
   box-shadow: 0 8px 24px rgb(111 55 20 / 7%);
 }
 .pdp-review-topics button {
@@ -9064,7 +9064,7 @@ body
 }
 .pdp-world-message {
   padding: 28px;
-  background: #ff5900;
+  background: #FF5200;
   color: white;
   display: flex;
   flex-direction: column;
@@ -9508,7 +9508,7 @@ button {
   background: var(--brand-orange);
   color: #fff;
   border-color: var(--brand-orange);
-  box-shadow: 0 5px 14px #ff5a0026;
+  box-shadow: 0 5px 14px #FF520026;
 }
 .soraa-home .collection-showcase .pdp-related-heading {
   align-items: center;
@@ -9558,7 +9558,7 @@ button {
   border: 0;
   color: #000;
   font-size: 22px;
-  box-shadow: 0 4px 12px #ff5a0020;
+  box-shadow: 0 4px 12px #FF520020;
 }
 
 
@@ -11284,7 +11284,7 @@ dialog.welcome-offer {
 .brand-page-closing {
   padding: clamp(100px, 15vw, 220px) var(--page-gutter);
   text-align: center;
-  background: #ff5200;
+  background: #FF5200;
   color: white;
 }
 .brand-page-closing h2 {
@@ -12642,13 +12642,13 @@ dialog.welcome-offer {
 .order-globe { margin: 48px auto; padding: clamp(28px, 5vw, 80px); max-width: 1600px; display: grid; grid-template-columns: 1fr 1.15fr; align-items: center; gap: 30px; overflow: hidden; border-radius: 32px; background: radial-gradient(ellipse at 80% 50%, #ffe0bc, transparent 65%), #f7edde; color: #4b2c22; }
 .order-globe-eyebrow { font: 700 11px var(--font-body); letter-spacing: .16em; }
 .order-globe-copy h2 { font-family: var(--font-display); font-size: clamp(32px, 3.7vw, 60px); font-weight: 700; line-height: 1.13; letter-spacing: -.045em; margin: 22px 0; }
-.order-globe-copy h2 span {color: #fe5100;}
+.order-globe-copy h2 span {color: #FF5200;}
 .order-globe-copy > p {max-width: 410px; font-size: 16px; line-height: 1.8;}
-.order-globe-cta {display: inline-flex; gap: 28px; align-items: center; margin-top: 24px; padding: 17px 25px; background: #fe5100; border-radius: 40px; color: #fff9ef; font-weight: 700; text-decoration: none;}
+.order-globe-cta {display: inline-flex; gap: 28px; align-items: center; margin-top: 24px; padding: 17px 25px; background: #FF5200; border-radius: 40px; color: #fff9ef; font-weight: 700; text-decoration: none;}
 .order-globe-locations {display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;}
 .order-globe-locations > span {display: grid; grid-template-columns: 8px auto; column-gap: 7px; align-items: center; padding: 9px 12px; border: 1px solid #dac5b1; border-radius: 12px; font-size: 11px; font-weight: 600;}
 .order-globe-locations small {grid-column: 2; opacity: .65; font-size: 9px; font-weight: 400;}
-.order-globe-locations i, .order-globe-caption i {width: 6px; height: 6px; background: #fe5100; border-radius: 50%;}
+.order-globe-locations i, .order-globe-caption i {width: 6px; height: 6px; background: #FF5200; border-radius: 50%;}
 .order-globe-note {display: block; max-width: 410px; margin-top: 15px; font-size: 11px; opacity: .7; line-height: 1.5;}
 .order-globe-visual {position: relative; width: 100%; aspect-ratio: 1; isolation: isolate;}
 .order-globe-visual canvas {display: block; width: 100%; height: 100%; position: relative; z-index: 1;}
@@ -13098,7 +13098,7 @@ dialog.welcome-offer {
 .bulk-social {padding: 64px 0 32px; background: #F6F2DE; overflow: hidden; text-align: center;}
 .soraa-home > section.bulk-social {padding: 64px 0 32px; background: #F6F2DE;}
 .bulk-social-heading {padding: 0 20px 42px;}
-.bulk-social-heading h1 {font-family: var(--font-display); font-size: clamp(36px, 6vw, 96px); line-height: 1.05; color: var(--brand-orange); margin: 0 0 20px;}
+.bulk-social-heading h2 {font-family: var(--font-display); font-size: clamp(36px, 6vw, 96px); line-height: 1.05; color: var(--brand-orange); margin: 0 0 20px;}
 .bulk-social-heading a {font-family: var(--font-display); font-size: clamp(24px, 3vw, 38px); color: #5B1A30; text-decoration: none;}
 .bulk-social-window {overflow: hidden;}
 .bulk-social-track {display: flex; width: max-content; animation: bulk-social-scroll 24s linear infinite;}
@@ -13160,7 +13160,7 @@ dialog.welcome-offer {
 .shop-catalog .store-page-header h1 { font-size: clamp(36px, 5vw, 68px); line-height: 1.05; margin: 8px 0 12px; font-weight: 800; text-transform: uppercase; }
 .shop-category-nav { display: flex; gap: 8px; overflow-x: auto; padding: 0 0 20px; margin-bottom: 8px; }
 .shop-category-nav a { display: flex; align-items: center; gap: 8px; flex: 1 0 auto; padding: 8px 12px; border-radius: 8px; background: #f1eadf; font-size: 12px; font-weight: 700; text-decoration: none; }
-.shop-category-nav a.active { background: #fe5100; color: white; }
+.shop-category-nav a.active { background: #FF5200; color: white; }
 .shop-category-nav img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
 .shop-catalog .products-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 16px; }
 .shop-product-slot { min-width: 0; --tile-tone: #f5b543; }
@@ -13174,7 +13174,7 @@ dialog.welcome-offer {
 .shop-catalog .product-item-copy { display: flex; flex: 1; flex-direction: column; padding: 12px 0 0; gap: 7px; }
 .shop-catalog .product-item h4 { font-size: 15px; line-height: 1.25; font-weight: 800; margin: 0; min-height: 38px; text-transform: uppercase; }
 .shop-catalog .product-item-price { font-size: 14px; font-weight: 600; }
-.shop-catalog .product-item-action { display: block; text-align: center; margin-top: auto; background: #fe5100; color: white; padding: 11px 12px; border-radius: 30px; font-size: 12px; font-weight: 800; }
+.shop-catalog .product-item-action { display: block; text-align: center; margin-top: auto; background: #FF5200; color: white; padding: 11px 12px; border-radius: 30px; font-size: 12px; font-weight: 800; }
 .shop-editorial-card { display: grid; grid-template-columns: 1fr 1fr; background: #f5bd43; border-radius: 16px; overflow: hidden; margin-top: 40px; }
 .shop-editorial-card > img { width: 100%; height: 350px; object-fit: cover; object-position: center 35%; }
 .shop-editorial-card > div { align-self: center; padding: 32px; }
@@ -13198,7 +13198,7 @@ dialog.welcome-offer {
 .shop-catalog .product-image-wrapper img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: normal; }
 .shop-catalog .related-card-panel { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 8px; padding: 10px 0 0; background: transparent; border: 0; box-shadow: none; }
 .shop-catalog .related-product-rating { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 22px; text-decoration: none; }
-.shop-catalog .related-product-rating > span { color: #fe5100; font-size: 20px; line-height: 1; letter-spacing: -2px; }
+.shop-catalog .related-product-rating > span { color: #FF5200; font-size: 20px; line-height: 1; letter-spacing: -2px; }
 .shop-catalog .related-product-rating small { font-size: 10px; color: #71594b; }
 .shop-catalog .related-card-panel h3 { display: block; text-align: left; text-wrap: wrap; font-size: 17px; font-weight: 800; line-height: 1.3; margin: 0; min-height: 45px; text-transform: uppercase; }
 .shop-catalog .related-card-price { display: none; }
@@ -13208,7 +13208,7 @@ dialog.welcome-offer {
 .shop-catalog .related-option-label { display: block; width: 100%; text-align: left; font-size: 12px; font-weight: 600; }
 .shop-catalog .related-purchase-options select { box-sizing: border-box; width: 100%; min-width: 0; min-height: 38px; padding: 6px 8px; border: 1px solid #d6ccc3; border-radius: 12px; background: white; color: #442c21; font: 11px var(--font-body); }
 .shop-catalog .related-card-panel > form { margin: 0; }
-.shop-catalog .add-cart-button { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; min-height: 42px; padding: 10px 8px; border-radius: 24px; background: #fe5100; color: white; border: 0; font: 700 12px var(--font-body); }
+.shop-catalog .add-cart-button { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; min-height: 42px; padding: 10px 8px; border-radius: 24px; background: #FF5200; color: white; border: 0; font: 700 12px var(--font-body); }
 .shop-catalog .add-cart-button:disabled { opacity: .55; cursor: not-allowed; }
 .shop-catalog .related-subscription-note { font-size: 10px; color: #71594b; }
 .shop-catalog .product-cart-status:empty { display: none; }
@@ -13227,9 +13227,9 @@ dialog.welcome-offer {
 .shop-load-more > span { font-size: 13px; color: #71594b; }
 .shop-grid-feature h2 { margin: 12px 0 20px; font-size: clamp(24px, 2.6vw, 42px); line-height: 1.12; font-weight: 800; }
 .shop-feature-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: #d44808; }
-.shop-grid-feature a { display: inline-block; padding: 11px 18px; border-radius: 24px; background: #fe5100; color: white; font-size: 12px; font-weight: 700; }
+.shop-grid-feature a { display: inline-block; padding: 11px 18px; border-radius: 24px; background: #FF5200; color: white; font-size: 12px; font-weight: 700; }
 .shop-grid-message { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 36px; }
-.shop-grid-message > svg { width: 64px; height: 64px; color: #fe5100; margin-bottom: 16px; }
+.shop-grid-message > svg { width: 64px; height: 64px; color: #FF5200; margin-bottom: 16px; }
 .shop-grid-message > p:not(.shop-feature-eyebrow) { max-width: 360px; font-size: 15px; line-height: 1.7; margin: 0 0 24px; }
 @media (max-width: 800px) {
   .shop-catalog .related-card-panel h3 { font-size: 14px; min-height: 55px; }

@@ -69,11 +69,11 @@ dialog.welcome-offer.snack-game {
 dialog.snack-game[open] { animation: soraaPopupEnter .45s ease forwards; }
 .game-content { animation: none; }
 .game-close { transform: rotate(4deg); transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
-.game-close:hover { background: #FE5100; color: white; transform: rotate(90deg) translate(2px, 2px) scale(1.05); box-shadow: 1px 1px 0 #2A2421; }
+.game-close:hover { background: #FF5200; color: white; transform: rotate(90deg) translate(2px, 2px) scale(1.05); box-shadow: 1px 1px 0 #2A2421; }
 .game-action { transition: transform .2s ease, box-shadow .2s ease; }
 .game-action:hover { transform: translate(3px, 3px) rotate(-1deg); box-shadow: 2px 2px 0 #2A2421; }
 .game-content input { border-color: #2A2421; box-shadow: none; transition: border-color .2s ease, box-shadow .2s ease; }
-.game-content input:focus { border-color: #FE5100; box-shadow: 4px 4px 0 #2A2421; }
+.game-content input:focus { border-color: #FF5200; box-shadow: 4px 4px 0 #2A2421; }
 .game-mini-cards > span { position: relative; display: grid; place-items: center; width: 64px; height: 76px; padding: 0; transform-origin: center bottom; animation: none; transform: rotate(-5deg); transition: box-shadow .25s ease; }
 .game-mini-cards > span:nth-child(2) { transform: translateY(-7px) rotate(4deg); }
 .game-mini-cards > span:nth-child(3) { transform: rotate(5deg); }
@@ -93,7 +93,7 @@ dialog.snack-game[open] { animation: soraaPopupEnter .45s ease forwards; }
 .game-code button { box-shadow: 3px 3px 0 #2A2421; transition: transform .15s ease, box-shadow .15s ease; }
 .game-code button:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #2A2421; }
 .game-decor { position: absolute; pointer-events: none; z-index: 3; }
-.game-decor--star { top: 18px; left: 22px; color: #FE5100; font-size: 34px; transform: rotate(12deg); }
+.game-decor--star { top: 18px; left: 22px; color: #FF5200; font-size: 34px; transform: rotate(12deg); }
 .game-decor--float { right: 32px; bottom: 25px; color: #BE4362; font-size: 25px; animation: soraaFloat 3s ease-in-out infinite; }
 .game-decor--circle { right: -25px; top: 80px; width: 70px; height: 70px; border-radius: 50%; background: #E33127; opacity: .9; }
 @media (max-width: 749px) {
@@ -128,27 +128,27 @@ dialog.snack-game[open] { animation: soraaPopupEnter .45s ease forwards; }
 
   0% {
     transform: scale(1);
-    box-shadow: 6px 6px 0 #2A2421, 0 0 0 rgba(254, 81, 0, 0);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 0 rgba(255, 82, 0, 0);
   }
 
   35% {
     transform: scale(1.16);
-    box-shadow: 6px 6px 0 #2A2421, 0 0 30px 8px rgba(254, 81, 0, 0.55);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 30px 8px rgba(255, 82, 0, 0.55);
   }
 
   60% {
     transform: scale(0.95);
-    box-shadow: 6px 6px 0 #2A2421, 0 0 12px 2px rgba(254, 81, 0, 0.25);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 12px 2px rgba(255, 82, 0, 0.25);
   }
 
   80% {
     transform: scale(1.07);
-    box-shadow: 6px 6px 0 #2A2421, 0 0 20px 5px rgba(254, 81, 0, 0.4);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 20px 5px rgba(255, 82, 0, 0.4);
   }
 
   100% {
     transform: scale(1);
-    box-shadow: 6px 6px 0 #2A2421, 0 0 0 rgba(254, 81, 0, 0);
+    box-shadow: 6px 6px 0 #2A2421, 0 0 0 rgba(255, 82, 0, 0);
   }
 
 }
@@ -156,27 +156,27 @@ dialog.snack-game[open] { animation: soraaPopupEnter .45s ease forwards; }
 
   0% {
     transform: scale(1);
-    box-shadow: 4px 4px 0 #2A2421, 0 0 0 rgba(254, 81, 0, 0);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 0 rgba(255, 82, 0, 0);
   }
 
   35% {
     transform: scale(1.2);
-    box-shadow: 4px 4px 0 #2A2421, 0 0 22px 6px rgba(254, 81, 0, 0.55);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 22px 6px rgba(255, 82, 0, 0.55);
   }
 
   60% {
     transform: scale(0.94);
-    box-shadow: 4px 4px 0 #2A2421, 0 0 8px 2px rgba(254, 81, 0, 0.25);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 8px 2px rgba(255, 82, 0, 0.25);
   }
 
   80% {
     transform: scale(1.1);
-    box-shadow: 4px 4px 0 #2A2421, 0 0 16px 4px rgba(254, 81, 0, 0.4);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 16px 4px rgba(255, 82, 0, 0.4);
   }
 
   100% {
     transform: scale(1);
-    box-shadow: 4px 4px 0 #2A2421, 0 0 0 rgba(254, 81, 0, 0);
+    box-shadow: 4px 4px 0 #2A2421, 0 0 0 rgba(255, 82, 0, 0);
   }
 
 }

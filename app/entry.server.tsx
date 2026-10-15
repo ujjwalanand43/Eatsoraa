@@ -27,7 +27,7 @@ export default async function handleRequest(
     scriptSrc: ["'self'", "https://cdn.shopify.com", ...FASTRR_HOSTS],
     styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.shopify.com", ...FASTRR_HOSTS],
     connectSrc: ["'self'", ...FASTRR_HOSTS],
-    frameSrc: ["'self'", ...FASTRR_HOSTS],
+    frameSrc: ["'self'", 'https://www.google.com', ...FASTRR_HOSTS],
     fontSrc: ["'self'", "data:", ...FASTRR_HOSTS],
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
