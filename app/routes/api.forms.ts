@@ -8,10 +8,12 @@ import type {Route} from './+types/api.forms';
  * Oxygen environment variables (Shopify admin → Hydrogen → Environments):
  *   ZEPTOMAIL_TOKEN     Send Mail token from ZeptoMail (without "Zoho-enczapikey")
  *   ZEPTOMAIL_FROM      Verified sender address, e.g. noreply@eatsoraa.com
- *   FORMS_NOTIFY_EMAIL  Where submissions go, e.g. we@eatsoraa.com
+ *   FORMS_NOTIFY_EMAIL  Where contact + newsletter submissions go, e.g. we@eatsoraa.com
+ *   BULK_NOTIFY_EMAIL   Optional. Where bulk order enquiries go (default below)
  *   ZEPTOMAIL_API_URL   Optional. Defaults to the endpoint shown in our ZeptoMail account;
  *                       use https://api.zeptomail.com/v1.1/email for the US DC.
  */
+const DEFAULT_BULK_EMAIL = 'Manisha@eatsoraa.com';
 const DEFAULT_API_URL = 'https://cpaas.zoho.in/v1.1/email';
 const KINDS = {
   contact: 'Contact form',
@@ -24,6 +26,7 @@ type FormsEnv = Env & {
   ZEPTOMAIL_TOKEN?: string;
   ZEPTOMAIL_FROM?: string;
   FORMS_NOTIFY_EMAIL?: string;
+  BULK_NOTIFY_EMAIL?: string;
   ZEPTOMAIL_API_URL?: string;
 };
 
@@ -65,6 +68,7 @@ export async function action({request, context}: Route.ActionArgs) {
     return data({ok: false, message: 'We could not send your message right now. Please email we@eatsoraa.com.'}, {status: 503});
   }
 
+  const notifyEmail = kind === 'bulk' ? env.BULK_NOTIFY_EMAIL || DEFAULT_BULK_EMAIL : env.FORMS_NOTIFY_EMAIL;
   const subject = `${KINDS[kind]}${name ? ` — ${name}` : ''}`;
   const htmlbody = `<h2 style="font-family:sans-serif">${escapeHtml(KINDS[kind])}</h2>
 <table cellpadding="8" style="border-collapse:collapse;font-family:sans-serif;font-size:14px">
@@ -83,7 +87,7 @@ ${rows.map(([label, value]) => `<tr><td style="border:1px solid #eee;font-weight
       },
       body: JSON.stringify({
         from: {address: env.ZEPTOMAIL_FROM, name: 'SORAA Website'},
-        to: [{email_address: {address: env.FORMS_NOTIFY_EMAIL, name: 'SORAA Team'}}],
+        to: [{email_address: {address: notifyEmail, name: 'SORAA Team'}}],
         reply_to: [{address: email, ...(name ? {name} : {})}],
         subject,
         htmlbody,
