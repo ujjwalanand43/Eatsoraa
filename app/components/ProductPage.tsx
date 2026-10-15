@@ -48,6 +48,15 @@ function nutritionRows(value?: string): Row[] {
       )
     : [];
 }
+// Hard-coded customers rotating in the small 'Verified' card near the price.
+// Entries without a name are skipped until one is filled in.
+const FEATURED_CUSTOMERS = [
+  {name: 'Kashish', image: '/reviews/featured-customer.jpg', rating: 5, text: 'Finally, snacks that taste as good as they look!'},
+  {name: 'Ankush Kumar Pathak', image: '/reviews/customer-2.jpg', rating: 5, text: 'The flavours are seriously addictive. Love the crunch!'},
+  {name: 'Manisha Singh', image: '/reviews/customer-3.jpg', rating: 5, text: 'My new go-to snack for every little craving.'},
+  {name: 'Ujjwal Anand', image: '/reviews/customer-4.jpg', rating: 5, text: 'Premium quality, bold flavours, and super fresh!'},
+].filter((customer) => customer.name.trim());
+
 function reviewRows(value?: string): Review[] {
   const parsed = json(value);
   return Array.isArray(parsed)
@@ -275,10 +284,17 @@ export function ProductPage({
 }) {
   const [tab, setTab] = useState(0);
   const reviews = reviewRows(product.reviews?.value);
-  const featuredReviews = reviews.slice(0, 5);
-  const [reviewSlide, setReviewSlide] = useState(0);
-  const [reviewPaused, setReviewPaused] = useState(false);
-  const reviewLimit = 4;
+  const reviewLimit = 10;
+  const [customerSlide, setCustomerSlide] = useState(0);
+  const [customerPaused, setCustomerPaused] = useState(false);
+  useEffect(() => {
+    if (FEATURED_CUSTOMERS.length < 2 || customerPaused) return;
+    const timer = window.setInterval(() => {
+      if (!document.hidden) setCustomerSlide((current) => (current + 1) % FEATURED_CUSTOMERS.length);
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [customerPaused]);
+  const featuredCustomer = FEATURED_CUSTOMERS[customerSlide % FEATURED_CUSTOMERS.length];
   const nutrition = nutritionRows(product.nutrition?.value);
   const highlights = strings(product.highlights?.value).slice(0, 4);
   const collection = product.collections.nodes.find(
@@ -293,19 +309,6 @@ export function ProductPage({
   const rating = reviews.length
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
     : null;
-  useEffect(() => {
-    if (featuredReviews.length < 2 || reviewPaused) return;
-    const timer = window.setInterval(() => {
-      if (!document.hidden) {
-        setReviewSlide((current) => (current + 1) % featuredReviews.length);
-      }
-    }, 4800);
-    return () => window.clearInterval(timer);
-  }, [featuredReviews.length, reviewPaused]);
-  useEffect(() => {
-    if (reviewSlide >= featuredReviews.length) setReviewSlide(0);
-  }, [reviewSlide, featuredReviews.length]);
-  const featuredReview = featuredReviews[reviewSlide];
   const savings = packSavings(productOptions, selectedVariant);
   const comparisonPrice = savings?.price || selectedVariant?.compareAtPrice;
   const compare = Number(comparisonPrice?.amount);
@@ -460,47 +463,38 @@ export function ProductPage({
               ))}
             </div>
           )}
-          {featuredReview && (
-            <div
-              className="pdp-review-slider"
-              aria-label="Verified customer reviews"
-              onMouseEnter={() => setReviewPaused(true)}
-              onMouseLeave={() => setReviewPaused(false)}
-              onFocusCapture={() => setReviewPaused(true)}
-              onBlurCapture={(event) => {
-                if (!event.currentTarget.contains(event.relatedTarget)) {
-                  setReviewPaused(false);
-                }
-              }}
-            >
-              <a className="pdp-review-peek" href="#customer-reviews">
-                <img
-                  className="pdp-review-photo"
-                  src={/an[ku]+sh/i.test(featuredReview.name) ? '/reviews/ankush.jpg' : '/hero-snack-better.jpg'}
-                  style={/an[ku]+sh/i.test(featuredReview.name) ? {objectPosition: '50% 32%'} : undefined}
-                  alt={/an[ku]+sh/i.test(featuredReview.name) ? featuredReview.name : 'SORAA snack moment'}
-                  width="58"
-                  height="58"
-                />
-                <span className="pdp-review-peek-copy">
-                  <span>
-                    <strong>{featuredReview.name}</strong>
-                    <b aria-label="Verified buyer">
-                      <svg viewBox="0 0 20 20" aria-hidden="true">
-                        <path d="m10 1.5 2.1 1.4 2.6-.1.7 2.5 2.1 1.5-.9 2.4.9 2.4-2.1 1.5-.7 2.5-2.6-.1L10 18.5l-2.1-1.4-2.6.1-.7-2.5-2.1-1.5.9-2.4-.9-2.4 2.1-1.5.7-2.5 2.6.1Z" />
-                        <path d="m6.8 10.1 2 2 4.4-4.5" />
-                      </svg>
-                      Verified
-                    </b>
-                    <i aria-label={`${featuredReview.rating} out of 5`}>
-                      {'★'.repeat(featuredReview.rating)}
-                    </i>
-                  </span>
-                  <small>{featuredReview.text}</small>
+          {featuredCustomer && <div
+            className="pdp-review-slider"
+            aria-label="Verified customers"
+            onMouseEnter={() => setCustomerPaused(true)}
+            onMouseLeave={() => setCustomerPaused(false)}
+          >
+            <a className="pdp-review-peek" href="#customer-reviews" key={featuredCustomer.name}>
+              <img
+                className="pdp-review-photo"
+                src={featuredCustomer.image}
+                alt={featuredCustomer.name}
+                width="58"
+                height="58"
+              />
+              <span className="pdp-review-peek-copy">
+                <span>
+                  <strong>{featuredCustomer.name}</strong>
+                  <b aria-label="Verified buyer">
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="m10 1.5 2.1 1.4 2.6-.1.7 2.5 2.1 1.5-.9 2.4.9 2.4-2.1 1.5-.7 2.5-2.6-.1L10 18.5l-2.1-1.4-2.6.1-.7-2.5-2.1-1.5.9-2.4-.9-2.4 2.1-1.5.7-2.5 2.6.1Z" />
+                      <path d="m6.8 10.1 2 2 4.4-4.5" />
+                    </svg>
+                    Verified
+                  </b>
+                  <i aria-label={`${featuredCustomer.rating} out of 5`}>
+                    {'★'.repeat(featuredCustomer.rating)}
+                  </i>
                 </span>
-              </a>
-            </div>
-          )}
+                <small>“{featuredCustomer.text}”</small>
+              </span>
+            </a>
+          </div>}
           <ProductPurchase
             options={productOptions}
             variant={selectedVariant}
@@ -659,56 +653,20 @@ export function ProductPage({
             <p className="pdp-muted">No reviews yet</p>
           )}
         </div>
-        <div className="pdp-review-cards">
-          {reviews.length ? (
-            reviews.slice(0, reviewLimit).map((review, index) => {
-              const reviewImage =
-                product.images.nodes[index % product.images.nodes.length] ||
-                selectedVariant?.image;
-              return (
-                <article key={`${review.name}-${review.text}`}>
-                  {reviewImage && (
-                    <Image
-                      className="pdp-review-card-image"
-                      data={reviewImage}
-                      alt={`${product.title} snack moment`}
-                      sizes="(min-width: 900px) 22vw, 75vw"
-                      loading="lazy"
-                    />
-                  )}
-                  <div className="pdp-review-copy">
-                    <p
-                      className="pdp-stars"
-                      aria-label={`${review.rating} out of 5`}
-                    >
-                      {'★'.repeat(Math.round(review.rating))}
-                      {'☆'.repeat(5 - Math.round(review.rating))}
-                    </p>
-                    <h3>{product.title}</h3>
-                    <p>“{review.text}”</p>
-                  </div>
-                  <div className="pdp-review-author">
-                    <strong>{review.name}</strong>
-                    {review.verified === true && (
-                      <small>
-                        <span aria-hidden="true">✓</span> Verified Buyer
-                      </small>
-                    )}
-                  </div>
-                  {typeof review.date === 'string' && (
-                    <time>{review.date}</time>
-                  )}
-                </article>
-              );
-            })
-          ) : (
+        {reviews.length ? (
+          <ReviewMarquee
+            reviews={reviews.slice(0, reviewLimit)}
+            productTitle={product.title}
+          />
+        ) : (
+          <div className="pdp-review-cards">
             <div className="pdp-review-empty">
               <Icon kind="heart" />
               <h3>Your next favourite snack?</h3>
               <p>Customer stories will appear here once published.</p>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </section>
       <ProductWorld />
       <ProductFaq product={product} />
@@ -758,6 +716,43 @@ export function ProductPage({
           </Await>
         </Suspense>
       </section>
+    </div>
+  );
+}
+
+
+/** Auto-scrolling strip of text-only reviews (pauses on hover/focus). */
+function ReviewMarquee({reviews, productTitle}: {reviews: Review[]; productTitle: string}) {
+  const scrolling = reviews.length >= 3;
+  const card = (review: Review, index: number, hidden = false) => (
+    <article className="pdp-quote-card" key={`${hidden ? 'b' : 'a'}-${index}`} aria-hidden={hidden || undefined}>
+      <span className="pdp-quote-mark" aria-hidden="true">“</span>
+      <p className="pdp-stars" aria-label={`${review.rating} out of 5`}>
+        {'★'.repeat(Math.round(review.rating))}
+        {'☆'.repeat(5 - Math.round(review.rating))}
+      </p>
+      <p className="pdp-quote-text">{review.text}</p>
+      <footer>
+        <span className="pdp-quote-avatar" aria-hidden="true">{review.name.trim().charAt(0).toUpperCase()}</span>
+        <span>
+          <strong>{review.name}</strong>
+          <small>
+            {review.verified === true ? <><span aria-hidden="true">✓</span> Verified Buyer · </> : null}
+            {productTitle}
+          </small>
+        </span>
+      </footer>
+    </article>
+  );
+  return (
+    <div className={`pdp-quote-marquee${scrolling ? ' is-scrolling' : ''}`}>
+      <div
+        className="pdp-quote-track"
+        style={{'--quote-duration': `${Math.max(24, reviews.length * 6)}s`} as React.CSSProperties}
+      >
+        {reviews.map((review, index) => card(review, index))}
+        {scrolling && reviews.map((review, index) => card(review, index, true))}
+      </div>
     </div>
   );
 }

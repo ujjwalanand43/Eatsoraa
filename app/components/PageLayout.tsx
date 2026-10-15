@@ -120,7 +120,7 @@ function CartDrawerRecommendations({inline = false}: {inline?: boolean}) {
   );
 }
 
-// Home-only UI behaviour; product-page cart handling stays unchanged.
+// Opens the cart drawer when a product is added from the home or product pages.
 function HomeCartAddTrigger() {
   const {pathname} = useLocation();
   const fetchers = useFetchers();
@@ -128,7 +128,7 @@ function HomeCartAddTrigger() {
   const pending = useRef(new Set<string>());
 
   useEffect(() => {
-    if (pathname !== '/') {
+    if (pathname !== '/' && !pathname.startsWith('/products/')) {
       pending.current.clear();
       return;
     }

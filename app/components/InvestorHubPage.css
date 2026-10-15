@@ -27,7 +27,7 @@
 .ih-markets p {font-size: 13px; margin-top: 8px;}
 .ih-stat-line {height: 5px; background: #FF5200; border-radius: 6px; margin-top: 18px;}
 .investor-hub .ih-sources {font-size: 11px; color: #796252;}
-.ih-why {background: #29231f; color: #fff8ec;}
+.ih-why {background: #29231f; color: #fff8ec; border-radius: 24px; overflow: hidden;}
 .ih-points {display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 36px;}
 .ih-points article {padding: 0 24px; border-left: 1px solid #b7a48a80;}
 .ih-points article:first-child {padding-left: 0; border-left: 0;}
@@ -84,3 +84,16 @@
   .ih-connect .ih-heading-row {gap: 8px;}
 }
 @media (prefers-reduced-motion: reduce) {.investor-hub .ih-button {transition: none;}}
+@media (max-width: 760px) { .ih-why {border-radius: 18px;} }
+/* Rounded corners for every block section on the page */
+.ih-distribution, .ih-note, .ih-connect {border-radius: 24px; overflow: hidden;}
+.ih-note, .ih-connect {margin-block: 24px;}
+@media (max-width: 760px) { .ih-distribution, .ih-note, .ih-connect {border-radius: 18px;} }
+/* Hero heading: keep the longest word ("POSSIBILITIES.") inside its column */
+.ih-hero-grid > * {min-width: 0;}
+.investor-hub .ih-hero h1 {font-size: clamp(40px, 4.2vw, 62px);}
+@media (max-width: 600px) { .investor-hub .ih-hero h1 {font-size: clamp(30px, 9vw, 56px);} }
+/* Note section: photo fills the whole left half, edge to edge */
+.investor-hub .ih-note {padding: 0; align-items: center;}
+.investor-hub .ih-note > img {display: block; height: 420px; min-height: 0; align-self: stretch; object-position: center 35%;}
+@media (max-width: 600px) { .investor-hub .ih-note > img {height: 300px; min-height: 0;} }

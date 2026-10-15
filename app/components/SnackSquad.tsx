@@ -14,7 +14,10 @@ export function SnackSquad({
 }) {
   const track = useRef<HTMLDivElement>(null);
   const scrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [position, setPosition] = useState(Math.min(2, products.length - 1));
+  // Start centred on the first product that has a review video.
+  const videoIndex = products.findIndex((product) => reviewVideos[product.handle]);
+  const startIndex = videoIndex >= 0 ? videoIndex : Math.min(2, products.length - 1);
+  const [position, setPosition] = useState(startIndex);
 
   const repeatedProducts =
     products.length > 1
@@ -53,7 +56,7 @@ export function SnackSquad({
 
 
   useEffect(() => {
-    const initial = Math.min(2, products.length - 1);
+    const initial = startIndex;
     const node = track.current;
     if (!node) return;
     let frame = 0;
@@ -75,11 +78,17 @@ export function SnackSquad({
       cancelAnimationFrame(frame);
       if (scrollTimer.current) clearTimeout(scrollTimer.current);
     };
-  }, [products.length]);
+  }, [products.length, startIndex]);
 
   useEffect(() => {
+    // Review videos autoplay muted on the centred card and pause elsewhere.
     track.current?.querySelectorAll('video').forEach((video) => {
-      if (video.dataset.index !== String(position)) video.pause();
+      if (video.dataset.index === String(position)) {
+        video.muted = true;
+        void video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
     });
   }, [position]);
 
@@ -129,7 +138,7 @@ export function SnackSquad({
           return (
             <article
               key={`${product.id}-${set}`}
-              className={`social-card${position === logicalIndex ? ' is-active' : ''}`}
+              className={`social-card${video ? ' social-card--video' : ''}${position === logicalIndex ? ' is-active' : ''}`}
               aria-label={`Review ${logicalIndex + 1}: ${product.title}`}
             >
               <div className="social-image">
@@ -137,20 +146,24 @@ export function SnackSquad({
                   <video
                     key={video.src}
                     data-index={logicalIndex}
-                    controls
+                    autoPlay
+                    muted
+                    loop
                     playsInline
-                    preload="none"
+                    preload="metadata"
                     poster={video.poster}
                     aria-label={`Customer review of ${product.title}`}
                   >
-                    <source src={video.src} />
-                    <track
-                      kind="captions"
-                      src={video.captions}
-                      srcLang="en"
-                      label="English"
-                      default
-                    />
+                    <source src={video.src} type="video/mp4" />
+                    {video.captions ? (
+                      <track
+                        kind="captions"
+                        src={video.captions}
+                        srcLang="en"
+                        label="English"
+                        default
+                      />
+                    ) : null}
                   </video>
                 ) : (
                   <div className="squad-video-empty">
