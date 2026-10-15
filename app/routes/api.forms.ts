@@ -1,37 +1,108 @@
 import {data} from 'react-router';
 import type {Route} from './+types/api.forms';
 
+/**
+ * Receives the Contact, Bulk Order and Newsletter forms and emails them to the
+ * SORAA team through Zoho ZeptoMail.
+ *
+ * Oxygen environment variables (Shopify admin → Hydrogen → Environments):
+ *   ZEPTOMAIL_TOKEN     Send Mail token from ZeptoMail (without "Zoho-enczapikey")
+ *   ZEPTOMAIL_FROM      Verified sender address, e.g. noreply@eatsoraa.com
+ *   FORMS_NOTIFY_EMAIL  Where submissions go, e.g. we@eatsoraa.com
+ *   ZEPTOMAIL_API_URL   Optional. Defaults to the endpoint shown in our ZeptoMail account;
+ *                       use https://api.zeptomail.com/v1.1/email for the US DC.
+ */
+const DEFAULT_API_URL = 'https://cpaas.zoho.in/v1.1/email';
+const KINDS = {
+  contact: 'Contact form',
+  bulk: 'Bulk order enquiry',
+  newsletter: 'Newsletter signup',
+} as const;
+type Kind = keyof typeof KINDS;
+
+type FormsEnv = Env & {
+  ZEPTOMAIL_TOKEN?: string;
+  ZEPTOMAIL_FROM?: string;
+  FORMS_NOTIFY_EMAIL?: string;
+  ZEPTOMAIL_API_URL?: string;
+};
+
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (char) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[char]!);
+
 export async function action({request, context}: Route.ActionArgs) {
-  if (request.method !== 'POST') return data({ok: false, message: 'Method not allowed.'}, {status: 405});
+  if (request.method !== 'POST') {
+    return data({ok: false, message: 'Method not allowed.'}, {status: 405});
+  }
   const form = await request.formData();
-  const text = (key: string, max = 1000) => String(form.get(key) || '').trim().slice(0, max);
-  if (text('website_check')) return data({ok: false, message: 'Please try again.'}, {status: 400});
-  const kind = text('kind', 20);
-  const email = text('email', 254);
-  if (!['contact', 'bulk', 'newsletter'].includes(kind) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  const text = (key: string, max = 1000) => String(form.get(key) ?? '').trim().slice(0, max);
+
+  // Honeypot: real people never fill this hidden field.
+  if (text('website_check')) return data({ok: true, message: 'Thanks!'});
+
+  const kind = text('kind', 20) as Kind;
+  const email = text('contact[email]', 254);
+  const name = text('contact[name]', 120);
+  if (!(kind in KINDS) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return data({ok: false, message: 'Please enter a valid email address.'}, {status: 400});
   }
-  const name = text('name', 120) || `${text('firstName', 60)} ${text('lastName', 60)}`.trim();
-  if (kind !== 'newsletter' && (!name || !text('message') || !text('topics'))) {
-    return data({ok: false, message: 'Please fill in your name, query topic and message.'}, {status: 400});
+  if (kind !== 'newsletter' && !name) {
+    return data({ok: false, message: 'Please enter your name.'}, {status: 400});
   }
-  const env = context.env as Env & {SORAA_FORM_WEBHOOK_URL?: string; SORAA_FORM_WEBHOOK_TOKEN?: string};
-  // A merchant-controlled receiver can forward enquiries and marketing consent
-  // to Shopify/Flow. Never expose its credentials to the browser.
-  if (!env.SORAA_FORM_WEBHOOK_URL) {
-    return data({ok: false, message: 'Online submissions are not available yet. Please contact we@eatsoraa.com.'}, {status: 503});
+
+  // Every "contact[Field label]" input becomes a row in the email.
+  const rows: [string, string][] = [];
+  for (const [key, value] of form.entries()) {
+    const match = /^contact\[(.+)\]$/.exec(key);
+    if (!match || typeof value !== 'string' || !value.trim()) continue;
+    const label = match[1] === 'body' ? 'Message' : match[1].charAt(0).toUpperCase() + match[1].slice(1);
+    rows.push([label.slice(0, 60), value.trim().slice(0, 2000)]);
   }
+
+  const env = context.env as FormsEnv;
+  if (!env.ZEPTOMAIL_TOKEN || !env.ZEPTOMAIL_FROM || !env.FORMS_NOTIFY_EMAIL) {
+    console.error('Forms: ZeptoMail environment variables are missing');
+    return data({ok: false, message: 'We could not send your message right now. Please email we@eatsoraa.com.'}, {status: 503});
+  }
+
+  const subject = `${KINDS[kind]}${name ? ` — ${name}` : ''}`;
+  const htmlbody = `<h2 style="font-family:sans-serif">${escapeHtml(KINDS[kind])}</h2>
+<table cellpadding="8" style="border-collapse:collapse;font-family:sans-serif;font-size:14px">
+${rows.map(([label, value]) => `<tr><td style="border:1px solid #eee;font-weight:600;vertical-align:top">${escapeHtml(label)}</td><td style="border:1px solid #eee;white-space:pre-wrap">${escapeHtml(value)}</td></tr>`).join('\n')}
+</table>
+<p style="font-family:sans-serif;color:#888;font-size:12px">Sent from ${escapeHtml(new URL(request.url).host)} on ${new Date().toISOString()}</p>`;
+
   try {
-    const url = new URL(env.SORAA_FORM_WEBHOOK_URL);
-    if (url.protocol !== 'https:') throw new Error('HTTPS required');
-    const response = await fetch(url, {
-      method: 'POST', redirect: 'error', signal: AbortSignal.timeout(10000),
-      headers: {'Content-Type': 'application/json', ...(env.SORAA_FORM_WEBHOOK_TOKEN ? {Authorization: `Bearer ${env.SORAA_FORM_WEBHOOK_TOKEN}`} : {})},
-      body: JSON.stringify({kind, email, name, phone: text('phone', 25) ? `${text('dialCode', 8)} ${text('phone', 25)}` : '', company: text('company', 160), topics: text('topics', 500), orderNumber: text('orderNumber', 80), city: text('city', 160), social: text('social', 250), message: text('message'), marketingConsent: kind === 'newsletter', submittedAt: new Date().toISOString()}),
+    const response = await fetch(env.ZEPTOMAIL_API_URL || DEFAULT_API_URL, {
+      method: 'POST',
+      signal: AbortSignal.timeout(10000),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Zoho-enczapikey ${env.ZEPTOMAIL_TOKEN.replace(/^Zoho-enczapikey\s+/i, '')}`,
+      },
+      body: JSON.stringify({
+        from: {address: env.ZEPTOMAIL_FROM, name: 'SORAA Website'},
+        to: [{email_address: {address: env.FORMS_NOTIFY_EMAIL, name: 'SORAA Team'}}],
+        reply_to: [{address: email, ...(name ? {name} : {})}],
+        subject,
+        htmlbody,
+      }),
     });
-    if (!response.ok) throw new Error('Receiver rejected submission');
-    return data({ok: true, message: kind === 'newsletter' ? 'Thanks for subscribing to SORAA!' : 'Query submitted! Thanks for reaching out.'});
+    if (!response.ok) {
+      console.error('Forms: ZeptoMail rejected the email', response.status, await response.text());
+      throw new Error('ZeptoMail error');
+    }
+    return data({
+      ok: true,
+      message:
+        kind === 'newsletter'
+          ? 'Thanks for subscribing to SORAA!'
+          : kind === 'bulk'
+            ? 'Thanks! Our team will get back to you with a custom quote soon.'
+            : 'Thanks for reaching out! We’ll get back to you soon.',
+    });
   } catch {
-    return data({ok: false, message: 'We could not send your request. Please try again or email we@eatsoraa.com.'}, {status: 502});
+    return data({ok: false, message: 'We could not send your message. Please try again or email we@eatsoraa.com.'}, {status: 502});
   }
 }
