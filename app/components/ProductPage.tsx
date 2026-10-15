@@ -11,7 +11,7 @@ import {ProductPurchase} from './ProductPurchase';
 import {packSavings} from '~/lib/packSavings';
 import {RelatedProductCard} from './RelatedProductCard';
 import {WishlistButton} from './WishlistButton';
-import {ProductWorld, ProductFaq} from './ProductExtras';
+import {ProductWorld} from './ProductExtras';
 
 type Row = {label: string; value: string};
 type Review = {
@@ -123,8 +123,14 @@ function Gallery({
       list.findIndex((item) => item?.url === image?.url) === index,
   );
   const [chosen, setChosen] = useState(0);
+  const [swipeIndex, setSwipeIndex] = useState(0);
+  const swipeTrack = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
-  useEffect(() => setChosen(0), [variant?.id]);
+  useEffect(() => {
+    setChosen(0);
+    setSwipeIndex(0);
+    swipeTrack.current?.scrollTo({left: 0});
+  }, [variant?.id]);
   const active = images[chosen] || images[0];
   const move = (step: number) =>
     setChosen((index) => (index + step + images.length) % images.length);
@@ -144,6 +150,45 @@ function Gallery({
               <Image data={image} alt="" sizes="80px" />
             </button>
           ))}
+        </div>
+      )}
+      {images.length > 0 && (
+        <div className="pdp-swipe" aria-label="Product photographs">
+          <div
+            className="pdp-swipe-track"
+            ref={swipeTrack}
+            onScroll={(event) => {
+              const node = event.currentTarget;
+              setSwipeIndex(Math.round(node.scrollLeft / Math.max(1, node.clientWidth)));
+            }}
+          >
+            {images.map((image, index) => (
+              <button
+                type="button"
+                key={`swipe-${image.id || image.url}`}
+                className="pdp-swipe-slide"
+                aria-label={`Enlarge product image ${index + 1}`}
+                onClick={() => {
+                  setChosen(index);
+                  dialog.current?.showModal();
+                }}
+              >
+                <Image
+                  data={image}
+                  alt={image.altText || product.title}
+                  sizes="100vw"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                />
+              </button>
+            ))}
+          </div>
+          {images.length > 1 && (
+            <div className="pdp-swipe-dots" aria-hidden="true">
+              {images.map((image, index) => (
+                <span key={`dot-${image.id || image.url}`} className={swipeIndex === index ? 'is-active' : ''} />
+              ))}
+            </div>
+          )}
         </div>
       )}
       <div className="pdp-photo">
@@ -669,7 +714,7 @@ export function ProductPage({
         )}
       </section>
       <ProductWorld />
-      <ProductFaq product={product} />
+      {/* Product FAQs are temporarily hidden site-wide. */}
       <section className="pdp-related collection-showcase pdp-recommendation-cards" aria-label="Recommended products">
         <div className="pdp-related-heading">
           <div>

@@ -97,3 +97,9 @@
 .investor-hub .ih-note {padding: 0; align-items: center;}
 .investor-hub .ih-note > img {display: block; height: 420px; min-height: 0; align-self: stretch; object-position: center 35%;}
 @media (max-width: 600px) { .investor-hub .ih-note > img {height: 300px; min-height: 0;} }
+/* "Why SORAA" block in brand beige instead of near-black */
+.ih-why {background: #f3e2cc; color: #47291e;}
+.ih-why h2 {color: #47291e;}
+.ih-why h3 {color: #47291e;}
+.ih-why p {color: #5c3a2c;}
+.ih-why .ih-points article {border-left-color: #d9b69a;}

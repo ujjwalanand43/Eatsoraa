@@ -1,3 +1,4 @@
+import {BtnArrow} from '~/components/BtnArrow';
 import {ButtonIcon} from './ButtonIcon';
 import {useRef, useState} from 'react';
 import {Link} from 'react-router';
@@ -34,7 +35,7 @@ export function HomeDiscovery({
                 <span>YOUR FAVOURITE</span><br />SNACK APPS.
               </h2>
               <Link className="orange-button" to="/collections/all">
-                SHOP SORAA <span aria-hidden="true">↗</span>
+                SHOP SORAA <BtnArrow />
               </Link>
               <svg className="home-find-arrow" viewBox="0 0 180 100" fill="none" aria-hidden="true"><path d="M8 88C50 10 112 8 164 42M151 12l17 32-36 8" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </div>

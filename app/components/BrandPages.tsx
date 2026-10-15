@@ -1,3 +1,4 @@
+import {BtnArrow} from '~/components/BtnArrow';
 import {Link} from 'react-router';
 import {useState} from 'react';
 export {AboutSoraaPage} from './AboutSoraaPage';
@@ -380,69 +381,15 @@ export function FactoryLocatorPage() {
         </div>
         <p className="factory-map-caption">
           <span aria-live="polite">Viewing: {selected.name}</span>
-          <a href={`https://www.google.com/maps/search/?api=1&query=${query}`} target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${query}`} target="_blank" rel="noopener noreferrer">Open in Google Maps <BtnArrow /></a>
         </p>
       </section>
     </div>
   );
 }
 
-const labProducts = [
-  ['5-in-1 Roasted Super Seed Mix', 'Seed Mix'],
-  ['7-in-1 Superfood Trail Mix', 'Trail Mix'],
-  ['Antioxidant Berry Blast Mix', 'Trail Mix'],
-  ['Artisanal Kadak Chai Masala', 'Chai Masala'],
-  ['Authentic Chettinad Meat Masala', 'Meat Masala'],
-  ['Cheese & Jalapeno Cashews', 'Flavoured Cashews'],
-  ['Date Bites', 'Date Snacks'],
-  ['Date Bites Jar', 'Date Snacks'],
-  ['Espresso Almond & Date Energy Mix', 'Energy Mix'],
-  ['Himalayan Pink Salt Roasted Pistachios', 'Flavoured Pistachios'],
-  ['Jumbo Medjool Dates', 'Medjool Dates'],
-  ['Lakadong Turmeric Powder', 'Turmeric Powder'],
-  ['Morning Energy Breakfast Mix', 'Breakfast Mix'],
-  ['Peri-Peri Roasted Cashews', 'Flavoured Cashews'],
-  ['Premium Afghan Anjeer (Figs)', 'Dried Figs'],
-  ['Premium Walnut Kernels (Akhrot)', 'Walnut Kernels'],
-  ['Premium Kalmi Fard Dates', 'Dates'],
-  ['Roasted & Salted Pumpkin Seeds', 'Roasted Seeds'],
-  ['Royal Awadhi Biryani Masala', 'Biryani Masala'],
-  ['Seedless Long Green Raisins', 'Raisins'],
-  ['Smoked BBQ Almonds', 'Flavoured Almonds'],
-  ['Southern Pepper & Sea Salt Cashews', 'Flavoured Cashews'],
-  ['Spicy Peri-Peri Party Mix', 'Party Mix'],
-];
 
-export function LabReportsPage() {
-  return (
-    <div className="brand-page utility-brand-page">
-      <section className="utility-page-hero utility-page-hero-green">
-        <div className="brand-page-shell">
-          <p className="brand-page-kicker">TRANSPARENCY YOU CAN TRUST</p>
-          <h1>Lab Reports</h1>
-          <p>
-            Every listed product is independently tested for quality, safety and
-            transparency. Reports will appear here as they are published.
-          </p>
-        </div>
-      </section>
-      <section className="brand-page-shell lab-report-list">
-        <div className="lab-report-row lab-report-head">
-          <span>Product name</span>
-          <span>Category</span>
-          <span>Lab report</span>
-        </div>
-        {labProducts.map(([name, category]) => (
-          <div className="lab-report-row" key={name}>
-            <strong>{name}</strong>
-            <span>{category}</span>
-            <span className="report-pending">Coming soon</span>
-          </div>
-        ))}
-      </section>
-    </div>
-  );
-}
+export {LabReportsPage} from './LabReportsPage';
 
 const partnershipTypes = [
   'Retail partnerships',

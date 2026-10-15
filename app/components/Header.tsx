@@ -125,18 +125,6 @@ function HeaderCtas({
         <SearchIcon />
       </button>
 
-      <NavLink
-        prefetch="intent"
-        to="/account"
-        className="header-icon-btn"
-        aria-label="Account"
-      >
-        <Suspense fallback={<AccountIcon />}>
-          <Await resolve={isLoggedIn} errorElement={<AccountIcon />}>
-            {() => <AccountIcon />}
-          </Await>
-        </Suspense>
-      </NavLink>
 
       <NavLink
         prefetch="intent"

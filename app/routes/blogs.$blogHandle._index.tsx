@@ -1,3 +1,4 @@
+import {BtnArrow} from '~/components/BtnArrow';
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/blogs.$blogHandle._index';
 import {Image, getPaginationVariables} from '@shopify/hydrogen';
@@ -79,7 +80,7 @@ export default function Blog() {
           </p>
         </div>
         <Link to="/collections/all">
-          Find your next favourite <span aria-hidden="true">↗</span>
+          Find your next favourite <BtnArrow />
         </Link>
       </header>
       <PaginatedResourceSection<ArticleItemFragment>

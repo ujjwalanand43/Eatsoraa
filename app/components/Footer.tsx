@@ -63,7 +63,6 @@ export function Footer({
                 </nav>
                 <nav className="footer-help" aria-label="Help">
                   <h3>Help</h3>
-                  <NavLink to="/search">Search</NavLink>
                   <NavLink to="/pages/contact">Contact</NavLink>
                   <NavLink to="/pages/bulk-order">Bulk orders</NavLink>
                   <a href="/soraa-catalog.pdf" download="SORAA-Catalog.pdf">Catalog</a>

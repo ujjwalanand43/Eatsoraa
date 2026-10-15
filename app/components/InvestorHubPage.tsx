@@ -1,3 +1,4 @@
+import {BtnArrow} from '~/components/BtnArrow';
 import {Link} from 'react-router';
 
 const markets = [
@@ -45,7 +46,7 @@ export function InvestorHubPage() {
           <p className="ih-eyebrow">Investor Hub</p>
           <h1>Good snacks.<br /><span>Bigger possibilities.</span></h1>
           <p>We’re building the next generation of snacking — with bold flavours, premium ingredients and a brand made for the way India lives today.</p>
-          <a className="ih-button" href="#investor-opportunity">Explore the opportunity <span aria-hidden="true">↗</span></a>
+          <a className="ih-button" href="#investor-opportunity">Explore the opportunity <BtnArrow /></a>
         </div>
         <img className="ih-hero-image" src="/investor-hub.png" alt="SORAA nuts and snack mixes arranged on stone display blocks" fetchPriority="high" width="2066" height="761" />
       </div>
@@ -74,7 +75,7 @@ export function InvestorHubPage() {
 
     <section className="ih-note"><img src="/feel-good/social-date-bites.jpg" alt="SORAA date bites shared in everyday moments" loading="lazy" width="1200" height="1500" /><div><p className="ih-eyebrow">06. A note from SORAA</p><h2>Better snacks<br />shouldn’t be <span>boring.</span></h2><p>We are bringing together quality ingredients, exciting flavours, modern design and real-life convenience. We are just getting started.</p><p className="ih-signature">— Team SORAA</p></div></section>
 
-    <section className="ih-connect ih-section"><div className="ih-wrap ih-heading-row"><div><p className="ih-eyebrow">07. Let’s build what’s next</p><h2>Partner with a<br />brighter tomorrow.</h2></div><div><p>Interested in SORAA’s growth journey? We’re open to conversations around strategic opportunities, retail partnerships and the future of snacking.</p><Link className="ih-button" to="/pages/contact">Connect with Team SORAA <span aria-hidden="true">↗</span></Link></div></div></section>
+    <section className="ih-connect ih-section"><div className="ih-wrap ih-heading-row"><div><p className="ih-eyebrow">07. Let’s build what’s next</p><h2>Partner with a<br />brighter tomorrow.</h2></div><div><p>Interested in SORAA’s growth journey? We’re open to conversations around strategic opportunities, retail partnerships and the future of snacking.</p><Link className="ih-button" to="/pages/contact">Connect with Team SORAA <BtnArrow /></Link></div></div></section>
     <p className="ih-wrap ih-disclaimer">For general information only. This page does not constitute an offer to sell or a solicitation to buy securities. Market figures are third-party estimates.</p>
   </div>;
 }
