@@ -9,10 +9,9 @@
 export const CATEGORIES = {
   flavoured: {handle: 'flavored-nuts', tag: 'flavourednuts', title: 'Flavoured Nuts & Mixes'},
   seeds: {handle: 'seeds-superfoods', tag: 'seedssuperfoods', title: 'Seeds & Superfoods'},
-  nuts: {handle: 'roasted-nuts', tag: 'roastednuts', title: 'Nuts & Raisins'},
+  nuts: {handle: 'roasted-nuts', tag: 'roastednuts', title: 'Nuts & Raisins'}, // also matches tag datebites (dry fruits),
   spices: {handle: 'gourmet-spices', tag: 'gourmetspices', title: 'Spices & Masalas'},
   gifts: {handle: 'combos-gift-boxes', tag: 'giftboxes', title: 'Bundles & Giftpacks'},
-  dryFruits: {handle: 'dates-date-bites', tag: 'datebites', title: 'Dry Fruits'},
 } as const;
 
 export const categoryPath = (key: keyof typeof CATEGORIES) =>

@@ -7,7 +7,6 @@ const categories = [
   [CATEGORIES.nuts.handle, CATEGORIES.nuts.title, 'nuts-pack.jpg'],
   [CATEGORIES.spices.handle, CATEGORIES.spices.title, 'spices-pack.jpg'],
   [CATEGORIES.gifts.handle, CATEGORIES.gifts.title, 'gifts-pack.jpg'],
-  [CATEGORIES.dryFruits.handle, CATEGORIES.dryFruits.title, 'dry-fruits-pack.jpg'],
 ] as const;
 
 export function ShopCollectionNav() {

@@ -41,7 +41,6 @@ export function Footer({
                   <NavLink to={categoryPath('nuts')}>Nuts &amp; Raisins</NavLink>
                   <NavLink to={categoryPath('spices')}>Spices &amp; Masalas</NavLink>
                   <NavLink to={categoryPath('gifts')}>Bundles &amp; Giftpacks</NavLink>
-                  <NavLink to={categoryPath('dryFruits')}>Dry Fruits</NavLink>
                 </nav>
                 <nav className="footer-help" aria-label="Information">
                   <h3>Info</h3>

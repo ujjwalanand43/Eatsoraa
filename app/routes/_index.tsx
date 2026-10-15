@@ -134,13 +134,6 @@ export default function Homepage() {
               </span>
               <h3><span>Bundles &amp;</span><span>Giftpacks</span></h3>
             </Link>
-            <Link to={categoryPath('dryFruits')} className="category-card category-card--swap category-card--dry-fruits" prefetch="intent">
-              <span className="category-swap-media">
-                <img className="category-swap-default" src="/categories/hover/dry-fruits-pack.jpg" alt="Premium Walnut Kernels" width="1000" height="1000" loading="lazy" />
-                <img className="category-swap-hover" src="/categories/hover/dry-fruits-bowl.jpg" alt="" aria-hidden="true" width="1000" height="1000" loading="lazy" />
-              </span>
-              <h3><span>Dry</span><span>Fruits</span></h3>
-            </Link>
         </CategorySlider>
       </section>
 
