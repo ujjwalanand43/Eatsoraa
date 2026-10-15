@@ -16,6 +16,7 @@ export function InquiryPage({bulk = false}: {bulk?: boolean}) {
     </header>}
     <div className="inquiry-card">
       {bulk ? <div className="inquiry-intro">
+        <img className="inquiry-intro-photo" src="/commercial-portrait.webp" alt="SORAA Date Bites tins stacked beside a smiling woman" width="1122" height="1402" loading="lazy" />
         <p className="inquiry-kicker">{bulk ? 'BULK ORDERS & PARTNERSHIPS' : 'CONTACT US'}</p>
         <h1>{bulk ? 'More snacks.' : "Let’s get"}<br/><span>{bulk ? 'Bigger plans.' : 'in touch.'}</span></h1>
         <p>{bulk ? 'Planning a bulk order, stocking SORAA or gifting your team? Tell us what you have in mind.' : 'Have a question about your order or our snacks? Tell us a little more and we’ll help.'}</p>
@@ -61,7 +62,6 @@ function ContactForm() {
 const planOptions = ['Corporate Gifting', 'Bulk Snack Orders', 'Events & Celebrations', 'Custom Hampers'];
 const quantityOptions = ['25 – 50', '50 – 100', '100 – 250', '250 – 500', '500 – 1,000', '1,000+'];
 const budgetOptions = ['Under ₹500', '₹500 – ₹1,000', '₹1,000 – ₹2,000', '₹2,000 – ₹5,000', '₹5,000+', 'Not sure yet'];
-const brandingOptions = ['Yes, logo / branded packaging', 'No, standard SORAA packaging', 'Not sure yet'];
 
 function BulkForm() {
   const fetcher = useFetcher<FormResult>();
@@ -81,7 +81,6 @@ function BulkForm() {
       <label>Budget Per Hamper<select name="contact[Budget per hamper]" defaultValue=""><option value="" disabled>Select budget</option>{budgetOptions.map(option=><option key={option}>{option}</option>)}</select></label>
       <label>Delivery City *<input name="contact[Delivery city]" autoComplete="address-level2" required maxLength={160} placeholder="e.g. Delhi NCR"/></label>
       <label>Expected Delivery Date<input name="contact[Expected delivery date]" type="date"/></label>
-      <fieldset className="inquiry-wide inquiry-radios"><legend>Need custom branding?</legend>{brandingOptions.map((option, index)=><label key={option}><input type="radio" name="contact[Custom branding]" value={option} defaultChecked={index === brandingOptions.length - 1}/><span>{option}</span></label>)}</fieldset>
       <label className="inquiry-wide">Anything else we should know?<textarea name="contact[body]" maxLength={1000} rows={4} placeholder="Tell us about your event, gifting needs or special requests..."/></label>
     </div>
     <button className="inquiry-submit" type="submit" disabled={fetcher.state !== 'idle'}>{fetcher.state !== 'idle' ? 'Sending…' : 'Request a Custom Quote →'}</button>

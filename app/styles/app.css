@@ -13337,3 +13337,10 @@ button[name='decrease-quantity'] .button-icon, button[name='increase-quantity'] 
 .inquiry-radios label {display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 400; cursor: pointer;}
 .inquiry-fields .inquiry-radios input {width: 20px; height: 20px; min-height: 20px; flex: 0 0 20px; margin: 0; padding: 0; border-radius: 50%; accent-color: var(--brand-ink);}
 .inquiry-bulk-form .inquiry-fields input[type="date"] {color: var(--brand-muted);}
+
+/* Bulk order — photo on top of the left panel, text below */
+.inquiry-bulk .inquiry-intro {justify-content: flex-start;}
+.inquiry-intro-photo {display: block; width: 100%; aspect-ratio: 4 / 5; max-height: 460px; object-fit: cover; object-position: center top; border-radius: 20px; background: #e8561c;}
+@media (max-width: 900px) {
+  .inquiry-intro-photo {max-height: 380px;}
+}
