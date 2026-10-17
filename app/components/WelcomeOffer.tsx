@@ -58,7 +58,7 @@ export function WelcomeOffer() {
     <button className="game-close" type="button" aria-label="Close welcome popup" onClick={() => dialog.current?.close()}><ButtonIcon name="close" /></button>
     <div className="game-layout">
       <div className="game-art">
-        <img src="/feel-good/popup-breakfast.webp" alt="Woman pouring SORAA Breakfast Mix into a bowl" width="1080" height="1350" />
+        <img src="/feel-good/popup-breakfast.jpg" alt="Woman pouring SORAA Breakfast Mix into a bowl" width="1080" height="1350" />
         <span className="game-sticker">GOOD SNACKS<br />GOOD MOOD</span>
       </div>
       <div className="game-content" key={step}>

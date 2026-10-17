@@ -13,7 +13,7 @@ import type {Route} from './+types/api.forms';
  *   ZEPTOMAIL_API_URL   Optional. Defaults to the endpoint shown in our ZeptoMail account;
  *                       use https://api.zeptomail.com/v1.1/email for the US DC.
  */
-const DEFAULT_BULK_EMAIL = 'Manisha@eatsoraa.com';
+const DEFAULT_BULK_EMAIL = 'we@eatsoraa.com';
 const DEFAULT_API_URL = 'https://cpaas.zoho.in/v1.1/email';
 const KINDS = {
   contact: 'Contact form',
