@@ -177,6 +177,24 @@ export function Layout({children}: {children?: React.ReactNode}) {
         {FASTRR_ENABLED && <link rel="stylesheet" href={FASTRR_STYLE_HREF} />}
         <Meta />
         <Links />
+        {/* Google Analytics 4 */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-B3CHB5JDKM"
+          nonce={nonce}
+        />
+        <script nonce={nonce}>
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  analytics_storage: 'denied',
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied'
+});
+gtag('js', new Date());
+gtag('config', 'G-B3CHB5JDKM');`}
+        </script>
       </head>
       <body id="top">
         {/* Shiprocket Checkout (Fastrr): seller domain + loader script */}

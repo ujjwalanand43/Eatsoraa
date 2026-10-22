@@ -22,11 +22,30 @@ export default async function handleRequest(
 ) {
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     // COBE embeds its world land mask as a PNG data URL.
-    imgSrc: ["'self'", "data:", "https://cdn.shopify.com", "https://shopify.com", ...FASTRR_HOSTS],
+    imgSrc: [
+      "'self'",
+      'data:',
+      'https://cdn.shopify.com',
+      'https://shopify.com',
+      'https://www.googletagmanager.com',
+      'https://*.google-analytics.com',
+      ...FASTRR_HOSTS,
+    ],
     // Shiprocket Checkout (Fastrr) script, styles, API calls and checkout frame.
-    scriptSrc: ["'self'", "https://cdn.shopify.com", ...FASTRR_HOSTS],
+    scriptSrc: [
+      "'self'",
+      'https://cdn.shopify.com',
+      'https://www.googletagmanager.com',
+      ...FASTRR_HOSTS,
+    ],
     styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.shopify.com", ...FASTRR_HOSTS],
-    connectSrc: ["'self'", ...FASTRR_HOSTS],
+    connectSrc: [
+      "'self'",
+      'https://www.googletagmanager.com',
+      'https://*.google-analytics.com',
+      'https://*.google.com',
+      ...FASTRR_HOSTS,
+    ],
     frameSrc: ["'self'", 'https://www.google.com', ...FASTRR_HOSTS],
     fontSrc: ["'self'", "data:", ...FASTRR_HOSTS],
     shop: {

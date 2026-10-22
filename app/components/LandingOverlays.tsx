@@ -8,6 +8,18 @@ import type {HomeProductsQuery} from 'storefrontapi.generated';
 type Product = HomeProductsQuery['products']['nodes'][number];
 
 const COOKIE_KEY = 'soraa-cookie-choice';
+
+function updateGoogleAnalyticsConsent(accepted: boolean) {
+  const gtag = (window as typeof window & {gtag?: (...args: unknown[]) => void})
+    .gtag;
+
+  gtag?.('consent', 'update', {
+    analytics_storage: accepted ? 'granted' : 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+  });
+}
 const fallbackProducts = [
   {handle: 'morning-energy-breakfast-mix', title: 'Morning Energy Breakfast Mix', featuredImage: {url: '/feel-good/breakfast-mixes.png', altText: 'Morning Energy Breakfast Mix'}},
   {handle: 'date-bites', title: 'Date Bites', featuredImage: {url: '/feel-good/dates-date-bites.png', altText: 'SORAA Date Bites'}},
@@ -50,7 +62,9 @@ function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setVisible(!window.localStorage.getItem(COOKIE_KEY));
+    const choice = window.localStorage.getItem(COOKIE_KEY);
+    if (choice === 'accepted') updateGoogleAnalyticsConsent(true);
+    setVisible(!choice);
   }, []);
 
   const saveChoice = (accepted: boolean) => {
@@ -63,6 +77,7 @@ function CookieConsent() {
     customerPrivacy?.setTrackingConsent(consent, (result) => {
       if (result?.error) console.error('Unable to save cookie consent', result.error);
     });
+    updateGoogleAnalyticsConsent(accepted);
     window.localStorage.setItem(COOKIE_KEY, accepted ? 'accepted' : 'necessary');
     setVisible(false);
   };
