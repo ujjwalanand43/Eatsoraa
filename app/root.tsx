@@ -20,6 +20,8 @@ import productRecommendationStyles from '~/components/ProductRecommendations.css
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
 import {CommerceMotion} from './components/CommerceMotion';
+import {MetaPixel} from './components/MetaPixel';
+import {CookieConsent} from './components/LandingOverlays';
 import {
   FASTRR_ENABLED,
   FASTRR_SCRIPT_SRC,
@@ -225,6 +227,8 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
+      <MetaPixel />
+      <CookieConsent />
       <CommerceMotion />
       <PageLayout {...data}>
         <Outlet />

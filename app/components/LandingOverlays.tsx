@@ -4,10 +4,11 @@ import {createPortal} from 'react-dom';
 import {useAnalytics} from '@shopify/hydrogen';
 import {Link} from 'react-router';
 import type {HomeProductsQuery} from 'storefrontapi.generated';
+import {COOKIE_CHOICE_EVENT, COOKIE_CHOICE_KEY} from '~/lib/metaPixel';
 
 type Product = HomeProductsQuery['products']['nodes'][number];
 
-const COOKIE_KEY = 'soraa-cookie-choice';
+const COOKIE_KEY = COOKIE_CHOICE_KEY;
 
 function updateGoogleAnalyticsConsent(accepted: boolean) {
   const gtag = (window as typeof window & {gtag?: (...args: unknown[]) => void})
@@ -57,7 +58,7 @@ function nextRandom(max: number, previous: number) {
   return next;
 }
 
-function CookieConsent() {
+export function CookieConsent() {
   const {customerPrivacy} = useAnalytics();
   const [visible, setVisible] = useState(false);
 
@@ -79,12 +80,13 @@ function CookieConsent() {
     });
     updateGoogleAnalyticsConsent(accepted);
     window.localStorage.setItem(COOKIE_KEY, accepted ? 'accepted' : 'necessary');
+    window.dispatchEvent(new Event(COOKIE_CHOICE_EVENT));
     setVisible(false);
   };
 
   if (!visible) return null;
 
-  return (
+  return createPortal(
     <div role="region" className="cookie-consent" aria-label="Cookie preferences">
       <button
         className="cookie-consent-close"
@@ -98,7 +100,7 @@ function CookieConsent() {
       <div>
         <strong>A better browsing bite.</strong>
         <p>
-          We use cookies to understand visits and improve your SORAA experience.{' '}
+          We use cookies to understand visits, measure ads and improve your SORAA experience.{' '}
           <Link to="/pages/privacy-policy">Privacy policy</Link>
         </p>
         <div className="cookie-consent-actions">
@@ -110,7 +112,8 @@ function CookieConsent() {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -205,7 +208,6 @@ export function LandingOverlays({products}: {products: Product[]}) {
   if (!mounted) return null;
   return createPortal(
     <>
-      <CookieConsent />
       <ProductPulse products={products} />
     </>,
     document.body,

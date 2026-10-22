@@ -4,6 +4,7 @@ import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
 import {useFetcher} from 'react-router';
 import {startFastrrCheckout, toNumericId} from '~/lib/fastrr';
+import {trackMetaEvent} from '~/lib/metaPixel';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
@@ -135,6 +136,17 @@ function CartCheckoutActions({
   // below navigates to the normal Shopify checkout.
   function openFastrr(event: React.MouseEvent<HTMLAnchorElement>) {
     const lines = cart?.lines?.nodes ?? [];
+    trackMetaEvent('InitiateCheckout', {
+      content_ids: lines.map((line) => toNumericId(line.merchandise.id)),
+      content_type: 'product',
+      contents: lines.map((line) => ({
+        id: toNumericId(line.merchandise.id),
+        quantity: line.quantity,
+      })),
+      num_items: cart?.totalQuantity,
+      value: Number(cart?.cost?.totalAmount?.amount || 0),
+      currency: cart?.cost?.totalAmount?.currencyCode,
+    });
     // Fastrr's buyDirect cannot carry subscription (selling plan) lines.
     const hasSubscription = lines.some(
       (line) =>

@@ -389,6 +389,67 @@ export type FooterQuery = {
   >;
 };
 
+export type HomeReviewProductQueryVariables = StorefrontAPI.Exact<{
+  handle: StorefrontAPI.Scalars['String']['input'];
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type HomeReviewProductQuery = {
+  product?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+        Pick<
+          StorefrontAPI.ProductVariant,
+          'id' | 'availableForSale' | 'title'
+        > & {
+          selectedOptions: Array<
+            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+          >;
+          image?: StorefrontAPI.Maybe<
+            Pick<
+              StorefrontAPI.Image,
+              'id' | 'url' | 'altText' | 'width' | 'height'
+            >
+          >;
+          product: Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title'>;
+          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+        }
+      >;
+      priceRange: {
+        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      };
+      featuredImage?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+      >;
+    }
+  >;
+};
+
+export type HomeReviewProductFieldsFragment = Pick<
+  StorefrontAPI.Product,
+  'id' | 'title' | 'handle'
+> & {
+  selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.ProductVariant, 'id' | 'availableForSale' | 'title'> & {
+      selectedOptions: Array<
+        Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+      >;
+      image?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+      >;
+      product: Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title'>;
+      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+    }
+  >;
+  priceRange: {
+    minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+  };
+  featuredImage?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+  >;
+};
+
 export type HomeProductsQueryVariables = StorefrontAPI.Exact<{
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
@@ -431,6 +492,30 @@ export type HomeProductsQuery = {
       }
     >;
   };
+};
+
+export type HomeProductCardFieldsFragment = Pick<
+  StorefrontAPI.Product,
+  'id' | 'title' | 'handle'
+> & {
+  selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.ProductVariant, 'id' | 'availableForSale' | 'title'> & {
+      selectedOptions: Array<
+        Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+      >;
+      image?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+      >;
+      product: Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title'>;
+      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+    }
+  >;
+  priceRange: {
+    minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+  };
+  featuredImage?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+  >;
 };
 
 export type HomeCollectionsQueryVariables = StorefrontAPI.Exact<{
@@ -1697,7 +1782,11 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n\n  query HomeProducts(\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n\n    products(\n      first: 8\n      sortKey: BEST_SELLING\n    ) {\n\n      nodes {\n\n        id\n\n        title\n\n        handle\n\n        selectedOrFirstAvailableVariant {\n          id\n          availableForSale\n          title\n          selectedOptions { name value }\n          image { id url altText width height }\n          product { id handle title }\n          price { amount currencyCode }\n        }\n\n        priceRange {\n          minVariantPrice {\n            amount\n            currencyCode\n          }\n        }\n\n        featuredImage {\n          id\n          url\n          altText\n          width\n          height\n        }\n\n      }\n\n    }\n\n  }\n\n': {
+  '#graphql\n  query HomeReviewProduct(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...HomeReviewProductFields\n    }\n  }\n  fragment HomeReviewProductFields on Product {\n    id\n    title\n    handle\n    selectedOrFirstAvailableVariant {\n      id\n      availableForSale\n      title\n      selectedOptions { name value }\n      image { id url altText width height }\n      product { id handle title }\n      price { amount currencyCode }\n    }\n    priceRange { minVariantPrice { amount currencyCode } }\n    featuredImage { id url altText width height }\n  }\n': {
+    return: HomeReviewProductQuery;
+    variables: HomeReviewProductQueryVariables;
+  };
+  '#graphql\n\n  query HomeProducts(\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n\n    products(\n      first: 8\n      sortKey: BEST_SELLING\n    ) {\n\n      nodes {\n        ...HomeProductCardFields\n      }\n\n    }\n\n  }\n\n  fragment HomeProductCardFields on Product {\n\n        id\n\n        title\n\n        handle\n\n        selectedOrFirstAvailableVariant {\n          id\n          availableForSale\n          title\n          selectedOptions { name value }\n          image { id url altText width height }\n          product { id handle title }\n          price { amount currencyCode }\n        }\n\n        priceRange {\n          minVariantPrice {\n            amount\n            currencyCode\n          }\n        }\n\n        featuredImage {\n          id\n          url\n          altText\n          width\n          height\n        }\n\n      }\n': {
     return: HomeProductsQuery;
     variables: HomeProductsQueryVariables;
   };

@@ -12,6 +12,7 @@ import {useAside} from './Aside';
 import {packSavings} from '~/lib/packSavings';
 import {startFastrrCheckout, toNumericId} from '~/lib/fastrr';
 import {SUBSCRIPTIONS_ENABLED} from '~/lib/features';
+import {trackMetaEvent} from '~/lib/metaPixel';
 
 type Result = {
   cart?: {id: string; checkoutUrl: string};
@@ -332,6 +333,16 @@ export function ProductPurchase({
                   !variant?.availableForSale || fetcher.state !== 'idle'
                 }
                 onClick={(event) => {
+                  if (variant) {
+                    trackMetaEvent('InitiateCheckout', {
+                      content_ids: [toNumericId(variant.id)],
+                      content_type: 'product',
+                      contents: [{id: toNumericId(variant.id), quantity}],
+                      num_items: quantity,
+                      value: Number(variant.price.amount) * quantity,
+                      currency: variant.price.currencyCode,
+                    });
+                  }
                   // Shiprocket Checkout (Fastrr); falls back to the cart
                   // form submit + Shopify checkout if it is not available.
                   if (
